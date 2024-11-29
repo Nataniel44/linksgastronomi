@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint"
   },
-  "dependencies": {
+  "dependencies": {    
+    "firebase": "11.0.2",
+    "framer-motion": "11.11.17",
     "react": "19.0.0-rc-66855b96-20241106",
     "react-dom": "19.0.0-rc-66855b96-20241106",
     "next": "15.0.3"
