@@ -1,5 +1,5 @@
 
-const Modal = ({ isOpen, closeModal, children }) => {
+export const Modal = ({ isOpen, closeModal, children }) => {
     if (!isOpen) return null; // Si el modal no está abierto, no renderiza nada
 
     return (
@@ -23,4 +23,3 @@ const Modal = ({ isOpen, closeModal, children }) => {
     );
 };
 
-export default Modal;
