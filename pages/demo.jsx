@@ -202,7 +202,7 @@ export default function Demo() {
             </button>
           ))}
         </div>
-        <h4 className="text-center text-3xl uppercase">productos</h4>
+        <h4 className="text-start px-4 underline text-3xl uppercase">productos</h4>
 
         <Modal isOpen={isProductModalOpen} closeModal={() => setIsProductModalOpen(false)}>
           {selectedProduct && (
@@ -221,7 +221,7 @@ export default function Demo() {
           )}
         </Modal>
 
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 min-h-36">
           {filteredProducts.map((product, index) => (
             <div
               key={index}
@@ -248,7 +248,7 @@ export default function Demo() {
             </div>
           ))}
         </div>
-        <h4 className="text-center text-3xl uppercase">destacados</h4>
+        <h4 className="text-start px-4 text-3xl underline uppercase">destacados</h4>
         <ProductCarousel products={products} addToCart={addToCart} />
 
         <Footer />
