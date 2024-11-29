@@ -19,10 +19,10 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'  # Usa la versión LTS recomendada, o ajusta según tus necesidades.
+          node-version: '18'  # Usa una versión compatible, 18 es LTS y compatible con Next.js
 
       - name: Install dependencies
-        run: npm install --legacy-peer-deps  # Usa --legacy-peer-deps si tienes conflictos de dependencias
+        run: npm install --legacy-peer-deps  # Si necesitas forzar la instalación de dependencias
 
-      - name: Build and test
+      - name: Build the project
         run: npm run build
