@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./local.css";
 import { ProductCarousel } from "@/app/components/ProductCarousel";
 import { Header } from "@/app/components/Header";
-import Modal from "../app/components/modal";
+import { Modal } from "@/app/components/modal";
 import Cart from "@/app/components/Cart";
 import Footer from "@/app/components/Footer";
 
