@@ -29,13 +29,17 @@ const Cart = ({ cartItems, updateCart, clearCart, handleOrder, isFormValid }) =>
                         {isOpen ? "▼" : "▲"}
                     </button>
                     <button
-                        onClick={handleOrder}
+                        onClick={() => {
+                            handleOrder(); // Ejecutar la acción de compra
+                            toggleCart();  // Cerrar el carrito
+                        }}
                         disabled={cartItems.length === 0}
                         className={`bg-green-400 text-black border border-green-700 rounded-full hover:bg-green-400 transition-all duration-300 flex justify-center items-center ${cartItems.length > 0 ? "" : "opacity-50 cursor-not-allowed"
                             }`}
                     >
                         Comprar
                     </button>
+
                 </div>
                 {cartItems.length === 0 ? (
                     <div className="text-center text-gray-400">El carrito está vacío.</div>

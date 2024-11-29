@@ -9,6 +9,8 @@ import Footer from "@/app/components/Footer";
 export default function Demo() {
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal para horarios
   const [isFormModalOpen, setIsFormModalOpen] = useState(false); // Modal para el formulario
+  const [isProductModalOpen, setIsProductModalOpen] = useState(false); // Modal para detalles del producto
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const [cart, setCart] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("comida_rapida");
   const [formData, setFormData] = useState({
@@ -90,7 +92,10 @@ export default function Demo() {
       );
     }
   };
-
+  const handleViewMore = (product) => {
+    setSelectedProduct(product);
+    setIsProductModalOpen(true);
+  };
   const clearCart = () => setCart([]);
 
   return (
@@ -185,7 +190,7 @@ export default function Demo() {
           </button>
         </form>
       </Modal>
-      <main className="py-5 flex flex-col gap-5">
+      <main className="pt-5 flex flex-col gap-5 h-full">
         <div className="flex gap-1 justify-center flex-wrap">
           {categories.map((category) => (
             <button
@@ -197,7 +202,55 @@ export default function Demo() {
             </button>
           ))}
         </div>
-        <ProductCarousel products={filteredProducts} addToCart={addToCart} />
+        <h4 className="text-center text-3xl uppercase">productos</h4>
+
+        <Modal isOpen={isProductModalOpen} closeModal={() => setIsProductModalOpen(false)}>
+          {selectedProduct && (
+            <div className="p-4">
+              <h2 className="text-xl font-bold mb-2">{selectedProduct.name}</h2>
+              <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-64 object-cover mb-4" />
+              <p>{selectedProduct.description}</p>
+              <p className="text-lg font-bold mt-2">Precio: ${selectedProduct.price}</p>
+              <button
+                onClick={() => addToCart(selectedProduct)}
+                className="bg-yellow-400 text-white px-4 py-2 rounded hover:bg-yellow-500 mt-4"
+              >
+                Agregar al carrito
+              </button>
+            </div>
+          )}
+        </Modal>
+
+        <div className="flex flex-col gap-2">
+          {filteredProducts.map((product, index) => (
+            <div
+              key={index}
+              className="flex justify-between items-center border p-2 rounded bg-gray-50 hover:bg-gray-100"
+            >
+              <div>
+                <h3 className="text-sm font-semibold">{product.name}</h3>
+                <p className="text-sm text-gray-600">Precio: ${product.price}</p>
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => addToCart(product)}
+                  className="bg-green-400 text-white px-2 py-1 rounded hover:bg-green-500 text-sm"
+                >
+                  Agregar
+                </button>
+                <button
+                  onClick={() => handleViewMore(product)}
+                  className="bg-blue-400 text-white px-2 py-1 rounded hover:bg-blue-500 text-sm"
+                >
+                  Ver Más
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+        <h4 className="text-center text-3xl uppercase">destacados</h4>
+        <ProductCarousel products={products} addToCart={addToCart} />
+
         <Footer />
       </main>
       <Cart
