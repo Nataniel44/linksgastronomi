@@ -20,10 +20,10 @@ export default function Demo() {
   });
 
   const products = [
-    { name: "Hamburguesa", category: "comida_rapida", description: "Hamburguesa con queso y carne.", price: 8000, image: "/burger.png" },
-    { name: "Pizza", category: "comida_rapida", description: "Pizza con ingredientes frescos.", price: 9000, image: "/burger.png" },
-    { name: "Pasta", category: "comida_rapida", description: "Pasta con salsa de tomate.", price: 7500, image: "/burger.png" },
-    { name: "Helado", category: "postres", description: "Helado artesanal de chocolate.", price: 4000, image: "/burger.png" },
+    { name: "Hamburguesa", category: "comida_rapida", description: "Hamburguesa con queso y carne.", price: 8000, image: "./burger.png" },
+    { name: "Pizza", category: "comida_rapida", description: "Pizza con ingredientes frescos.", price: 9000, image: "./burger.png" },
+    { name: "Pasta", category: "comida_rapida", description: "Pasta con salsa de tomate.", price: 7500, image: "./burger.png" },
+    { name: "Helado", category: "postres", description: "Helado artesanal de chocolate.", price: 4000, image: "./burger.png" },
   ];
 
   const categories = [
