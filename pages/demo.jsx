@@ -99,7 +99,7 @@ export default function Demo() {
       <Modal isOpen={isModalOpen} closeModal={() => setIsModalOpen(false)}>
         <h2 className="text-3xl font-semibold text-center mb-4 text-black">Horarios de Apertura y Cierre</h2>
         <table className="min-w-full table-auto border-collapse border border-gray-300 rounded-lg shadow-md">
-          <thead className="bg-gray-100">
+          <thead className="bg-gray-200">
             <tr>
               <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Día</th>
               <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Apertura</th>
@@ -126,6 +126,7 @@ export default function Demo() {
               </tr>
             ))}
           </tbody>
+          <h2>hola</h2>
         </table>
       </Modal>
       <Modal isOpen={isFormModalOpen} closeModal={() => setIsFormModalOpen(false)}>
