@@ -3,17 +3,17 @@ import { Button } from "./components/Button";
 export default function Home() {
   return (
     <>
-      <div className="flex flex-col items-center justify-cente uppercase py-10 gap-3">
+      <div className="flex flex-col items-center justify-cente uppercase py-10 gap-5">
         <div className="flex flex-col justify-center items-center">
 
           <h1 className="text-4xl md:text-7xl font-extrabold dark:text-white ">Gastro<span className="text-yellow-400">link</span> </h1>
-          <p className="dark:text-gray-300 text-lg text-center text-balance md:text-md text-xs max-w-xl px-10">
+          <p className="dark:text-gray-300 text-sm text-center text-balance md:text-md text-xs max-w-xl px-10">
             Regístrate y gestiona el menú de tu negocio fácilmente. <br />
           </p>
         </div>
         <Button />
 
-        <h3 className="text-xl text-center text-balance">
+        <h3 className="text-xs text-center text-balance">
           Publica tu menú y compártelo con tus clientes
           mediante un <span className="text-yellow-300"> enlace personalizado</span>.
         </h3>

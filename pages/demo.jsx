@@ -101,8 +101,9 @@ export default function Demo() {
   return (
     <div className="bg-white max-w-screen-md mx-auto">
       <Header openModal={() => setIsModalOpen(true)} />
+
       <Modal isOpen={isModalOpen} closeModal={() => setIsModalOpen(false)}>
-        <h2 className="text-3xl font-semibold text-center mb-4 text-black">Horarios de Apertura y Cierre</h2>
+        <h2 className="text-2xl font-semibold text-center mb-4 text-black">Horarios de Apertura y Cierre</h2>
         <table className="min-w-full table-auto border-collapse border border-gray-300 rounded-lg shadow-md">
           <thead className="bg-gray-200">
             <tr>
@@ -131,7 +132,7 @@ export default function Demo() {
               </tr>
             ))}
           </tbody>
-          <h2>hola</h2>
+
         </table>
       </Modal>
       <Modal isOpen={isFormModalOpen} closeModal={() => setIsFormModalOpen(false)}>
@@ -190,19 +191,24 @@ export default function Demo() {
           </button>
         </form>
       </Modal>
-      <main className="pt-5 flex flex-col gap-5 h-full">
-        <div className="flex gap-1 justify-center flex-wrap">
-          {categories.map((category) => (
-            <button
-              key={category.id}
-              onClick={() => setSelectedCategory(category.id)}
-              className={`px-4 py-2 rounded-full ${selectedCategory === category.id ? "bg-yellow-400 text-white" : "bg-yellow-300 hover:bg-yellow-400"}`}
-            >
-              {category.label}
-            </button>
-          ))}
+      <main className=" flex flex-col gap-8 h-full">
+        <div className="flex flex-col gap-2 pt-8">
+
+          <span className=" text-center text-black font-bold text-xl uppercase">categorías</span>
+          <div className="flex gap-2 justify-center items-center flex-wrap">
+
+            {categories.map((category) => (
+              <button
+                key={category.id}
+                onClick={() => setSelectedCategory(category.id)}
+                className={`px-2 py-1 rounded-full  ${selectedCategory === category.id ? "bg-yellow-300  text-white" : "bg-yellow-300 hover:bg-yellow-400"}`}
+              >
+                {category.label}
+              </button>
+            ))}
+          </div>
         </div>
-        <h4 className="text-start px-4 underline text-3xl uppercase">productos</h4>
+        <h4 className="text-start px-4 text-yellow-400 font-bold text-3xl uppercase">productos</h4>
 
         <Modal isOpen={isProductModalOpen} closeModal={() => setIsProductModalOpen(false)}>
           {selectedProduct && (
@@ -221,14 +227,14 @@ export default function Demo() {
           )}
         </Modal>
 
-        <div className="flex flex-col gap-2 min-h-36">
+        <div className="flex flex-col gap-2 min-h-36 w-11/12 mx-auto">
           {filteredProducts.map((product, index) => (
             <div
               key={index}
               className="flex justify-between items-center border p-2 rounded bg-gray-50 hover:bg-gray-100"
             >
               <div>
-                <h3 className="text-sm font-semibold">{product.name}</h3>
+                <h3 className="text-lg font-semibold">{product.name}</h3>
                 <p className="text-sm text-gray-600">Precio: ${product.price}</p>
               </div>
               <div className="flex gap-2">
@@ -248,7 +254,7 @@ export default function Demo() {
             </div>
           ))}
         </div>
-        <h4 className="text-start px-4 text-3xl underline uppercase">destacados</h4>
+        <h4 className="text-start px-4 text-3xl font-bold text-yellow-400 uppercase">destacados</h4>
         <ProductCarousel products={products} addToCart={addToCart} />
 
         <Footer />

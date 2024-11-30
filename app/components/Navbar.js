@@ -10,13 +10,13 @@ export default function Navbar() {
   const toggleMenu = () => setIsOpen(!isOpen);
 
   return (
-    <nav className="backdrop-blur-md dark:bg-white/10 rounded-full mx-3 md:mx-0 border border-white/20 sticky top-3 dark:text-white p-4 z-50 shadow-lg">
+    <nav className="backdrop-blur-md dark:bg-white/10 rounded-full mx-3 md:mx-0 border border-white/20 sticky top-3 dark:text-white px-4 py-2 z-50 shadow-lg">
       <div className="container mx-auto flex justify-between items-center">
         <Link href="/" className="text-lg font-bold uppercase hover:text-gray-300 transition duration-300">
-        <span className="from-yellow-400 text-2xl via-yellow-300 to-yellow-300 block  bg-clip-text text-transparent bg-gradient-to-br"> GL</span>
+          <span className="from-yellow-400 text-2xl via-yellow-300 to-yellow-100 block  bg-clip-text text-transparent bg-gradient-to-tr"> GL</span>
         </Link>
         <div className="md:hidden flex justify-center items-center">
-          {/* Botón para abrir/cerrar menú en móvil */}
+
           <button
             onClick={toggleMenu}
             className="focus:outline-none hover:text-gray-300 transition duration-300"
@@ -65,9 +65,8 @@ export default function Navbar() {
               transition: { duration: 0.3 },
             },
           }}
-          className={`${
-            isOpen ? "block" : "hidden"
-          } md:flex md:gap-3 gap-5 justify-center items-center absolute flex flex-col  md:flex-row md:static top-20 left-0 right-0 bg-neutral-800/95  py-5 md:p-0   rounded-lg shadow-none overflow-hidden md:overflow-visible  md:bg-transparent`}
+          className={`${isOpen ? "block" : "hidden"
+            } md:flex md:gap-3 gap-5 justify-center items-center absolute flex flex-col  md:flex-row md:static top-20 left-0 right-0 bg-neutral-800/95  py-5 md:p-0   rounded-lg shadow-none overflow-hidden md:overflow-visible  md:bg-transparent`}
         >
           <Link
             href="/"

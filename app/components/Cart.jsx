@@ -6,6 +6,7 @@ const Cart = ({ cartItems, updateCart, clearCart, handleOrder, isFormValid }) =>
     const totalPrice = cartItems.reduce((acc, item) => acc + item.price * (item.quantity || 1), 0);
 
     const toggleCart = () => setIsOpen(!isOpen);
+    const toggleCartProsses = () => setIsOpen(false);
 
     const handleQuantityChange = (item, quantity) => {
         const newQuantity = Math.max(1, quantity); // Evitar que sea menor que 1
@@ -31,7 +32,7 @@ const Cart = ({ cartItems, updateCart, clearCart, handleOrder, isFormValid }) =>
                     <button
                         onClick={() => {
                             handleOrder(); // Ejecutar la acción de compra
-                            toggleCart();  // Cerrar el carrito
+                            toggleCartProsses();  // Cerrar el carrito
                         }}
                         disabled={cartItems.length === 0}
                         className={`bg-green-400 text-black border border-green-700 rounded-full hover:bg-green-400 transition-all duration-300 flex justify-center items-center ${cartItems.length > 0 ? "" : "opacity-50 cursor-not-allowed"
