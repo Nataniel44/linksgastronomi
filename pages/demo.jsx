@@ -191,7 +191,7 @@ export default function Demo() {
           </button>
         </form>
       </Modal>
-      <main className=" flex flex-col gap-8 h-full">
+      <main className=" flex flex-col gap-5 h-full">
         <div className="flex flex-col gap-2 pt-8">
 
           <span className=" text-center text-black font-bold text-xl uppercase">categorías</span>
@@ -254,7 +254,7 @@ export default function Demo() {
             </div>
           ))}
         </div>
-        <h4 className="text-start px-4 text-3xl font-bold text-yellow-400 uppercase">destacados</h4>
+        <h4 className="text-start px-4 text-3xl font-bold text-yellow-400 uppercase mt-3">destacados</h4>
         <ProductCarousel products={products} addToCart={addToCart} />
 
         <Footer />
