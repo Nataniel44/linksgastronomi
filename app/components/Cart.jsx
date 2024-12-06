@@ -16,6 +16,17 @@ const Cart = ({ cartItems, updateCart, clearCart, handleOrder, isFormValid, isOp
         updateCart(item, newQuantity);
     };
 
+    const handleBuy = () => {
+        if (isOpen) {
+            // Si el carrito está abierto, cerrar el carrito después de la compra
+            handleOrder();  // Ejecutar la acción de compra
+            toggleCart();   // Cerrar el carrito después de la compra
+        } else {
+            // Si el carrito está cerrado, proceder con la compra sin abrir el carrito
+            handleOrder();  // Ejecutar la acción de compra
+        }
+    };
+
     return (
         <div>
             <div
@@ -32,11 +43,8 @@ const Cart = ({ cartItems, updateCart, clearCart, handleOrder, isFormValid, isOp
                         {isOpen ? "▼" : "▲"}
                     </button>
                     <button
-                        onClick={() => {
-                            handleOrder(); // Ejecutar la acción de compra
-                            toggleCart();  // Cerrar el carrito
-                        }}
-                        disabled={cartItems.length === 0}
+                        onClick={handleBuy}
+                        disabled={cartItems.length === 0} // Asegurarse de que solo esté habilitado si el carrito tiene artículos
                         className={`bg-green-400 text-black border border-green-700 rounded-full hover:bg-green-400 transition-all duration-300 flex justify-center items-center ${cartItems.length > 0 ? "" : "opacity-50 cursor-not-allowed"}`}
                     >
                         Comprar
@@ -49,7 +57,6 @@ const Cart = ({ cartItems, updateCart, clearCart, handleOrder, isFormValid, isOp
                         <div>
                             <h3 className="font-bold text-xl mb-4">Carrito</h3>
                             <div className={`overflow-y-auto ${isExpanded ? 'max-h-[80vh]' : 'max-h-[20vh]'}`}>
-                                {/* El contenedor del carrito tendrá un max-height variable */}
                                 <ul className="mb-4">
                                     {cartItems.map((item, index) => (
                                         <li key={index} className="flex justify-between items-center py-2 border-b border-gray-600">
@@ -86,12 +93,11 @@ const Cart = ({ cartItems, updateCart, clearCart, handleOrder, isFormValid, isOp
                                 </ul>
                             </div>
 
-                            {/* Botón para alternar el estado de expansión */}
                             <button
                                 onClick={toggleExpand}
                                 className="text-blue-500 underline mt-2"
                             >
-                                {isExpanded ? "Ver Menos" : "Ver Todo"} {/* Cambia el texto según el estado */}
+                                {isExpanded ? "Ver Menos" : "Ver Todo"}
                             </button>
 
                             <div className="flex justify-between items-center mt-4">
