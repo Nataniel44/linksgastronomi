@@ -168,7 +168,7 @@ export default function Demo() {
             </table>
           </div>
         </div>
-      </Modal>
+      </Modal >
 
       <Modal isOpen={isFormModalOpen} closeModal={() => setIsFormModalOpen(false)}>
         <div className=" flex items-center justify-center bg-black bg-opacity-50 z-50">

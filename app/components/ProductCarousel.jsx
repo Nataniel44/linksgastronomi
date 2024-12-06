@@ -21,7 +21,7 @@ export const ProductCarousel = ({ products, addToCart }) => {
     }
 
     return (
-        <div className="relative overflow-hidden">
+        <div onClick={() => handleViewMore(product)} className="relative overflow-hidden">
             {/* Botón izquierdo */}
             <button
                 onClick={() => scrollCarousel("left")}
