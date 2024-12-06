@@ -378,7 +378,7 @@ export default function Demo() {
 
         <div className="flex flex-col gap-2 min-h-36 w-11/12 mx-auto">
           {filteredProducts.map((product, index) => (
-            <button
+            <div
               key={index}
               className="flex justify-between items-center border p-2 rounded bg-gray-50 hover:bg-gray-100"
             >
@@ -389,7 +389,7 @@ export default function Demo() {
               <div className="flex gap-2">
                 <button
                   onClick={() => addToCart(product)}
-                  className="bg-green-400  text-white px-2 py-1 rounded hover:bg-green-500 text-sm"
+                  className="bg-green-400 text-white px-2 py-1 rounded hover:bg-green-500 text-sm"
                 >
                   Agregar
                 </button>
@@ -400,7 +400,7 @@ export default function Demo() {
                   Ver Más
                 </button>
               </div>
-            </button>
+            </div>
           ))}
         </div>
         <h4 className="text-start px-4 text-3xl font-bold text-yellow-400 uppercase mt-3">destacados</h4>
