@@ -173,7 +173,7 @@ export default function Demo() {
       <Modal isOpen={isFormModalOpen} closeModal={() => setIsFormModalOpen(false)}>
         <div className=" flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div
-            className="relative p-6 bg-white rounded-lg shadow-lg w-full max-w-xl max-h-[80vh] overflow-y-auto"
+            className="relative px-6 py-10 bg-white rounded-lg shadow-lg w-full max-w-xl max-h-[80vh] overflow-y-auto"
           >
             {/* Sombra indicativa de scroll */}
             <div className=" fixed bottom-0 left-0 w-full h-8 bg-gradient-to-t from-black/45 to-transparent pointer-events-none"></div>

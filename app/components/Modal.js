@@ -3,8 +3,8 @@ export const Modal = ({ isOpen, closeModal, children }) => {
     if (!isOpen) return null; // Si el modal no está abierto, no renderiza nada
 
     return (
-        <div
-            className="fixed inset-0 p-3  bg-gray-800 bg-opacity-50 flex justify-center items-center z-50 "
+        <dialog
+            className="fixed inset-0 h-full w-full p-3  bg-gray-800 bg-opacity-50 flex justify-center items-center z-50 "
             onClick={closeModal}
         >
             <div
@@ -19,7 +19,7 @@ export const Modal = ({ isOpen, closeModal, children }) => {
                 </button>
                 {children}
             </div>
-        </div>
+        </dialog>
     );
 };
 
