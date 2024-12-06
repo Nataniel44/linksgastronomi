@@ -4,15 +4,15 @@ export const Modal = ({ isOpen, closeModal, children }) => {
 
     return (
         <div
-            className="fixed inset-0 p-3 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50"
+            className="fixed inset-0 p-3  bg-gray-800 bg-opacity-50 flex justify-center items-center z-50 "
             onClick={closeModal}
         >
             <div
-                className="bg-white p-6 rounded-lg w-96 max-w-full relative"
+                className="bg-black/80  backdrop-blur-sm border-black border  overflow-hidden rounded-lg max-w-full relative"
                 onClick={(e) => e.stopPropagation()} // Evita el cierre al hacer clic dentro del modal
             >
                 <button
-                    className="absolute top-2 right-2 text-lg font-bold text-gray-500 hover:text-gray-800"
+                    className="absolute top-2 right-2 text-lg font-bold text-white hover:text-gray-800"
                     onClick={closeModal}
                 >
                     X

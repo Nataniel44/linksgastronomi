@@ -1,4 +1,5 @@
 import { useState } from "react";
+import ShoppingCartIcon from "./ShoppingCartIcon ";
 
 const Cart = ({ cartItems, updateCart, clearCart, handleOrder, isFormValid }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -25,8 +26,9 @@ const Cart = ({ cartItems, updateCart, clearCart, handleOrder, isFormValid }) =>
                     </div>
                     <button
                         onClick={toggleCart}
-                        className="bg-white text-black border rounded-full shadow-lg transition-all duration-300 flex justify-center items-center"
+                        className="bg-white text-black border rounded-full flex  gap-1 ps-3 shadow-lg transition-all duration-300 flex justify-center items-center"
                     >
+                        <ShoppingCartIcon size={18} color="#555" />
                         {isOpen ? "▼" : "▲"}
                     </button>
                     <button
