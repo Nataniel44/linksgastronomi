@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 import "./local.css";
 import { ProductCarousel } from "@/app/components/ProductCarousel";
@@ -8,6 +8,8 @@ import Cart from "@/app/components/Cart";
 import Footer from "@/app/components/Footer";
 
 export default function Demo() {
+
+
   const [cartItems, setCartItems] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal para horarios
@@ -55,6 +57,11 @@ export default function Demo() {
     { id: "mariscos", label: "Mariscos" },
   ];
 
+  useEffect(() => {
+    if (isFormModalOpen && totalPrice === 0) {
+      setIsFormModalOpen(false);
+    }
+  }, [totalPrice, isFormModalOpen]);
 
   const addToCart = (product) => {
     const existingProduct = cart.find((item) => item.name === product.name);
@@ -123,6 +130,7 @@ export default function Demo() {
   };
   const clearCart = () => setCart([]);
   const phoneRef = useRef(null);
+
   return (
     <div className="bg-white max-w-screen-md mx-auto">
       <Header openModal={() => setIsModalOpen(true)} />
@@ -170,6 +178,7 @@ export default function Demo() {
         </div>
       </Modal >
 
+
       <Modal isOpen={isFormModalOpen} closeModal={() => setIsFormModalOpen(false)}>
         <div className=" flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div
@@ -194,8 +203,14 @@ export default function Demo() {
                   onChange={handleFormChange}
                   placeholder=" "
                   className="peer w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-yellow-400 focus:outline-none"
+                  required // Asegura que el campo sea evaluado como válido
                 />
-                <label className="absolute left-3 top-3 text-gray-400 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-yellow-500">
+                <label
+                  className="absolute left-3 top-3 text-gray-400 text-sm transition-all 
+              peer-placeholder-shown:top-3 peer-placeholder-shown:text-gray-400 
+              peer-focus:top-0 peer-focus:text-xs peer-focus:text-yellow-500
+              peer-valid:top-0 peer-valid:text-xs peer-valid:text-yellow-500"
+                >
                   Nombre
                 </label>
               </div>
@@ -227,7 +242,10 @@ export default function Demo() {
                     placeholder=" "
                     className="peer w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-yellow-400 focus:outline-none"
                   />
-                  <label className="absolute left-3 top-3 text-gray-400 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-yellow-500">
+                  <label className="absolute left-3 top-3 text-gray-400 text-sm transition-all 
+              peer-placeholder-shown:top-3 peer-placeholder-shown:text-gray-400 
+              peer-focus:top-0 peer-focus:text-xs peer-focus:text-yellow-500
+              peer-valid:top-0 peer-valid:text-xs peer-valid:text-yellow-500">
                     Dirección (entre calles)
                   </label>
                 </div>
@@ -268,7 +286,10 @@ export default function Demo() {
                   placeholder=" "
                   className="peer w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-yellow-400 focus:outline-none"
                 />
-                <label className="absolute left-3 top-3 text-gray-400 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-yellow-500">
+                <label className="absolute left-3 top-3 text-gray-400 text-sm transition-all 
+              peer-placeholder-shown:top-3 peer-placeholder-shown:text-gray-400 
+              peer-focus:top-0 peer-focus:text-xs peer-focus:text-yellow-500
+              peer-valid:top-0 peer-valid:text-xs peer-valid:text-yellow-500">
                   Teléfono
                 </label>
               </div>
@@ -317,7 +338,7 @@ export default function Demo() {
           <span className=" text-center text-black font-bold text-xl uppercase">categorías</span>
           <div className="relative">
             {/* Contenedor deslizante horizontal */}
-            <div className="flex overflow-x-auto scroll-smooth scrollbar-hide gap-4 px-4">
+            <div className="flex overflow-x-auto scroll-smooth scrollbar-hide gap-4 px-4 pb-4">
               {categories.map((category) => (
                 <button
                   key={category.id}
@@ -406,6 +427,9 @@ export default function Demo() {
         <h4 className="text-start px-4 text-3xl font-bold text-yellow-400 uppercase mt-3">destacados</h4>
         <ProductCarousel products={products} addToCart={addToCart} />
 
+        <div className="w-full flex justify-center items-center p-3">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7389.603747075606!2d-55.117974516509804!3d-27.486953236546334!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94f8f54706b1b501%3A0x2a4796c88edb4c9!2sOber%C3%A1%2C%20Misiones!5e1!3m2!1ses-419!2sar!4v1733663283050!5m2!1ses-419!2sar" width="600" height="450" Style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
         <Footer />
       </main>
       <Cart
