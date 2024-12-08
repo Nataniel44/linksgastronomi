@@ -426,8 +426,9 @@ export default function Demo() {
         </div>
         <h4 className="text-start px-4 text-3xl font-bold text-yellow-400 uppercase mt-3">destacados</h4>
         <ProductCarousel products={products} addToCart={addToCart} />
-
+        <h4 className="text-start px-4 text-3xl font-bold text-yellow-400 uppercase mt-3">UBICACIÓN</h4>
         <div className="w-full flex justify-center items-center p-3">
+
           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7389.603747075606!2d-55.117974516509804!3d-27.486953236546334!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94f8f54706b1b501%3A0x2a4796c88edb4c9!2sOber%C3%A1%2C%20Misiones!5e1!3m2!1ses-419!2sar!4v1733663283050!5m2!1ses-419!2sar" width="600" height="450" Style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
         <Footer />
