@@ -39,13 +39,13 @@ export const ProductCarousel = ({ products, addToCart }) => {
             </button>
 
             {/* Degradados laterales */}
-            <div className="absolute left-0 top-0 h-full w-16 bg-gradient-to-r from-white via-white/90 to-transparent pointer-events-none z-10" />
-            <div className="absolute right-0 top-0 h-full w-16 bg-gradient-to-l from-white via-white/90 to-transparent pointer-events-none z-10" />
+            <div className="absolute left-0 top-0 h-full w-16 bg-gradient-to-r from-white via-white/75 to-transparent pointer-events-none z-10" />
+            <div className="absolute right-0 top-0 h-full w-16 bg-gradient-to-l from-white via-white/75 to-transparent pointer-events-none z-10" />
 
             {/* Contenedor principal */}
             <div
                 id="carousel-container"
-                className="flex gap-3 overflow-x-auto scroll-snap-x scrollbar-hide px-10 pb-3"
+                className="flex gap-10 overflow-x-auto scroll-snap-x scrollbar-hide px-10 pb-3"
             >
                 {products.map((product, index) => (
                     <div

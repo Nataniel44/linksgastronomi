@@ -12,7 +12,7 @@ export const Modal = ({ isOpen, closeModal, children }) => {
                 onClick={(e) => e.stopPropagation()} // Evita el cierre al hacer clic dentro del modal
             >
                 <button
-                    className="absolute top-2 right-2 text-lg font-bold text-black hover:text-gray-800"
+                    className="absolute top-2 right-2 text-lg font-bold text-black hover:text-gray-800 z-50"
                     onClick={closeModal}
                 >
                     X

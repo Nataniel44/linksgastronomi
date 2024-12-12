@@ -10,13 +10,14 @@ import Footer from "@/app/components/Footer";
 export default function Demo() {
 
 
-  const [cartItems, setCartItems] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal para horarios
   const [isFormModalOpen, setIsFormModalOpen] = useState(false); // Modal para el formulario
   const [isProductModalOpen, setIsProductModalOpen] = useState(false); // Modal para detalles del producto
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [cart, setCart] = useState([]);
+  const [showNotification, setShowNotification] = useState(false);
+
   const [selectedCategory, setSelectedCategory] = useState("comida_rapida");
   const [formData, setFormData] = useState({
     name: "",
@@ -56,6 +57,7 @@ export default function Demo() {
     { id: "bebidas", label: "Bebidas" },
     { id: "mariscos", label: "Mariscos" },
   ];
+  const [notification, setNotification] = useState("");
 
   useEffect(() => {
     if (isFormModalOpen && totalPrice === 0) {
@@ -76,6 +78,9 @@ export default function Demo() {
     } else {
       setCart([...cart, { ...product, quantity: 1 }]);
     }
+    setNotification(`¡${product.name} añadido al carrito!`);
+    setShowNotification(true);
+    setTimeout(() => setShowNotification(false), 3000); // Ocultar después de 3 segundos
   };
 
   const removeFromCart = (product) => setCart(cart.filter((item) => item !== product));
@@ -134,6 +139,12 @@ export default function Demo() {
   return (
     <div className="bg-white max-w-screen-md mx-auto">
       <Header openModal={() => setIsModalOpen(true)} />
+      <div
+        className={`fixed top-3  right-3 px-4 py-2 z-50 transition-opacity duration-500 ease-in-out bg-green-400 text-white rounded-lg ${showNotification ? "opacity-100" : "opacity-0"
+          }`}
+      >
+        {notification} <button onClick={toggleCart} className="text-blue-500 underline ">Ver carrito.</button>
+      </div>
 
       <Modal isOpen={isModalOpen} closeModal={() => setIsModalOpen(false)}>
         <div className="p-6 bg-white rounded-lg shadow-lg w-full max-w-lg">
@@ -333,9 +344,12 @@ export default function Demo() {
 
 
       <main className=" flex flex-col gap-5 h-full">
-        <div className="flex flex-col gap-2 pt-8">
+        <div className="flex flex-col gap-5 pt-8">
+          <div className="flex flex-col">
 
-          <span className=" text-center text-black font-bold text-xl uppercase">categorías</span>
+            <span className=" text-center text-black font-bold text-xl uppercase">categorías</span>
+            <span className=" text-center text-black font-base text-sm ">Seleccione su categoria favorita.</span>
+          </div>
           <div className="relative">
             {/* Contenedor deslizante horizontal */}
             <div className="flex overflow-x-auto scroll-smooth scrollbar-hide gap-4 px-4 pb-4">
@@ -427,7 +441,7 @@ export default function Demo() {
         <h4 className="text-start px-4 text-3xl font-bold text-yellow-400 uppercase mt-3">destacados</h4>
         <ProductCarousel products={products} addToCart={addToCart} />
         <h4 className="text-start px-4 text-3xl font-bold text-yellow-400 uppercase mt-3">UBICACIÓN</h4>
-        <div className="w-full flex justify-center items-center p-3">
+        <div className="w-full flex justify-center items-center px-3">
 
           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7389.603747075606!2d-55.117974516509804!3d-27.486953236546334!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94f8f54706b1b501%3A0x2a4796c88edb4c9!2sOber%C3%A1%2C%20Misiones!5e1!3m2!1ses-419!2sar!4v1733663283050!5m2!1ses-419!2sar" width="600" height="450" Style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
