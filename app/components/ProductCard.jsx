@@ -1,5 +1,5 @@
 export const ProductCard = ({ product, addToCart }) => (
-  <div className=" w-32 h-full  justify-between  text-center   rounded-lg flex flex-col items-center text-balance">
+  <div openModal={() => setIsModalOpen(true)} className=" w-32 h-full  justify-between  text-center   rounded-lg flex flex-col items-center text-balance">
     <img className="w-32 h-32 object-cover  rounded-t-lg shadow-md" src={product.image} alt={product.name} />
 
     <h2 className="text-md font-extrabold black leading-5 uppercase text-center">

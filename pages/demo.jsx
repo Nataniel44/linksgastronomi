@@ -32,17 +32,17 @@ export default function Demo() {
     { name: "Pizza", category: "comida_rapida", description: "Pizza con ingredientes frescos.", price: 9000, image: "./pizza.png" },
     { name: "Empanadas", category: "comida_rapida", description: "Empanadas de carne picada cuchillo", price: 7500, image: "./empanadas.webp" },
     { name: "Helado", category: "postres", description: "Helado artesanal de chocolate.", price: 4000, image: "./helado.jpg" },
-    { name: "Tacos", category: "comida_mexicana", description: "Tacos de pollo con salsa especial.", price: 6500, image: "./tacos.jpg" },
+    { name: "Tacos", category: "comida_mexicana", description: "Tacos de pollo con salsa especial.", price: 6500, image: "./tacos.jfif" },
     { name: "Ensalada César", category: "saludables", description: "Ensalada César con pollo y aderezo especial.", price: 7000, image: "./ensalada_cesar.jpg" },
-    { name: "Sushi", category: "japonesa", description: "Sushi de salmón fresco.", price: 15000, image: "./sushi.jpg" },
-    { name: "Brownie", category: "postres", description: "Brownie de chocolate con nueces.", price: 4500, image: "./brownie.jpg" },
+    { name: "Sushi", category: "japonesa", description: "Sushi de salmón fresco.", price: 15000, image: "./sushi.jfif" },
+    { name: "Brownie", category: "postres", description: "Brownie de chocolate con nueces.", price: 4500, image: "./brownie.webp" },
     { name: "Pollo Asado", category: "parrilla", description: "Pollo asado a la parrilla con especias.", price: 12000, image: "./pollo_asado.jpg" },
     { name: "Arepas", category: "comida_latina", description: "Arepas rellenas de queso y carne mechada.", price: 5000, image: "./arepas.jpg" },
-    { name: "Café Latte", category: "bebidas", description: "Café con leche y espuma cremosa.", price: 3000, image: "./cafe_latte.jpg" },
-    { name: "Limonada", category: "bebidas", description: "Limonada fresca con hierbabuena.", price: 2500, image: "./limonada.jpg" },
-    { name: "Tarta de Manzana", category: "postres", description: "Tarta de manzana con un toque de canela.", price: 5000, image: "./tarta_manzana.jpg" },
-    { name: "Ceviche", category: "mariscos", description: "Ceviche de pescado con limón y cilantro.", price: 11000, image: "./ceviche.jpg" },
-    { name: "Costillas BBQ", category: "parrilla", description: "Costillas de cerdo con salsa BBQ.", price: 18000, image: "./costillas_bbq.jpg" },
+    { name: "Café Latte", category: "bebidas", description: "Café con leche y espuma cremosa.", price: 3000, image: "./cafe_latte.jfif" },
+    { name: "Limonada", category: "bebidas", description: "Limonada fresca con hierbabuena.", price: 2500, image: "./limonada.jpeg" },
+    { name: "Tarta de Manzana", category: "postres", description: "Tarta de manzana con un toque de canela.", price: 5000, image: "./tarta_manzana.jfif" },
+    { name: "Ceviche", category: "mariscos", description: "Ceviche de pescado con limón y cilantro.", price: 11000, image: "./ceviche.jfif" },
+    { name: "Costillas BBQ", category: "parrilla", description: "Costillas de cerdo con salsa BBQ.", price: 18000, image: "./costillas_bbq.jpeg" },
   ];
 
 
@@ -443,7 +443,7 @@ export default function Demo() {
         <h4 className="text-start px-4 text-3xl font-bold text-yellow-400 uppercase mt-3">UBICACIÓN</h4>
         <div className="w-full flex justify-center items-center px-3">
 
-          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7389.603747075606!2d-55.117974516509804!3d-27.486953236546334!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94f8f54706b1b501%3A0x2a4796c88edb4c9!2sOber%C3%A1%2C%20Misiones!5e1!3m2!1ses-419!2sar!4v1733663283050!5m2!1ses-419!2sar" width="600" height="450" Style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7389.603747075606!2d-55.117974516509804!3d-27.486953236546334!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94f8f54706b1b501%3A0x2a4796c88edb4c9!2sOber%C3%A1%2C%20Misiones!5e1!3m2!1ses-419!2sar!4v1733663283050!5m2!1ses-419!2sar" width="600" height="450" loading="lazy"></iframe>
         </div>
         <Footer />
       </main>

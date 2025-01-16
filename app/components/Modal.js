@@ -8,7 +8,7 @@ export const Modal = ({ isOpen, closeModal, children }) => {
             onClick={closeModal}
         >
             <div
-                className="bg-black/80  backdrop-blur-sm border-black border  overflow-hidden rounded-lg max-w-full relative"
+                className="bg-black/80  backdrop-blur-sm border-black overflow-hidden rounded-lg max-w-full relative"
                 onClick={(e) => e.stopPropagation()} // Evita el cierre al hacer clic dentro del modal
             >
                 <button
