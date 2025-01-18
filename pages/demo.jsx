@@ -191,20 +191,20 @@ export default function Demo() {
 
 
       <Modal isOpen={isFormModalOpen} closeModal={() => setIsFormModalOpen(false)}>
-        <div className=" flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div className=" flex items-center justify-center z-50 bg-white/35  backdrop-blur-md">
           <div
-            className="relative px-6 py-10 bg-white rounded-lg shadow-lg w-full max-w-xl max-h-[80vh] overflow-y-auto"
+            className="relative px-6 py-10  rounded-lg shadow-lg w-full max-w-xl max-h-[80vh] overflow-y-auto"
           >
             {/* Sombra indicativa de scroll */}
             <div className=" fixed bottom-0 left-0 w-full h-8 bg-gradient-to-t from-black/45 to-transparent pointer-events-none"></div>
 
             {/* Título */}
-            <h2 className="text-2xl font-bold mb-6 text-yellow-400 uppercase text-center">
+            <h2 className="text-2xl font-bold mb-6 text-black uppercase text-center">
               Detalles del Pedido
             </h2>
 
             {/* Formulario */}
-            <form className="flex flex-col gap-6">
+            <form className="flex flex-col gap-6 text-black">
               {/* Nombre */}
               <div className="relative">
                 <input
@@ -217,8 +217,8 @@ export default function Demo() {
                   required // Asegura que el campo sea evaluado como válido
                 />
                 <label
-                  className="absolute left-3 top-3 text-gray-400 text-sm transition-all 
-              peer-placeholder-shown:top-3 peer-placeholder-shown:text-gray-400 
+                  className="absolute left-3 top-3 text-black/85 text-base transition-all 
+              peer-placeholder-shown:top-3 peer-placeholder-shown:text-black/85 
               peer-focus:top-0 peer-focus:text-xs peer-focus:text-yellow-500
               peer-valid:top-0 peer-valid:text-xs peer-valid:text-yellow-500"
                 >
@@ -237,11 +237,29 @@ export default function Demo() {
                   <option value="delivery">Delivery</option>
                   <option value="retiro">Retiro en el lugar</option>
                 </select>
-                <label className="absolute left-3 top-0 text-gray-400 text-xs transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-yellow-500">
+                <label className="absolute left-3 top-0 text-black/85 text-xs transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-black/85 peer-focus:top-0 peer-focus:text-xs peer-focus:text-yellow-500">
                   Método de Entrega
                 </label>
               </div>
-
+              {/* Dirección (si es delivery) */}
+              {formData.deliveryMethod === "Retiro en el lugar" && (
+                <div className="relative">
+                  <input
+                    type="text"
+                    name="address"
+                    value={formData.address}
+                    onChange={handleFormChange}
+                    placeholder=" "
+                    className="peer w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-yellow-400 focus:outline-none"
+                  />
+                  <label className="absolute left-3 top-3 text-black/85 text-base transition-all 
+              peer-placeholder-shown:top-3 peer-placeholder-shown:text-black/85 
+              peer-focus:top-0 peer-focus:text-xs peer-focus:text-yellow-500
+              peer-valid:top-0 peer-valid:text-xs peer-valid:black">
+                    Dirección (entre calles)
+                  </label>
+                </div>
+              )}
               {/* Dirección (si es delivery) */}
               {formData.deliveryMethod === "delivery" && (
                 <div className="relative">
@@ -253,10 +271,10 @@ export default function Demo() {
                     placeholder=" "
                     className="peer w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-yellow-400 focus:outline-none"
                   />
-                  <label className="absolute left-3 top-3 text-gray-400 text-sm transition-all 
-              peer-placeholder-shown:top-3 peer-placeholder-shown:text-gray-400 
+                  <label className="absolute left-3 top-3 text-black/85 text-base transition-all 
+              peer-placeholder-shown:top-3 peer-placeholder-shown:text-black/85 
               peer-focus:top-0 peer-focus:text-xs peer-focus:text-yellow-500
-              peer-valid:top-0 peer-valid:text-xs peer-valid:text-yellow-500">
+              peer-valid:top-0 peer-valid:text-xs peer-valid:black">
                     Dirección (entre calles)
                   </label>
                 </div>
@@ -273,14 +291,17 @@ export default function Demo() {
                   <option value="efectivo">Efectivo</option>
                   <option value="transferencia">Transferencia</option>
                 </select>
-                <label className="absolute left-3 top-0 text-gray-400 text-xs transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-yellow-500">
+                <label className="absolute left-3 top-0 text-black/85 text-xs transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-black/85 peer-focus:top-0 peer-focus:text-xs peer-focus:text-yellow-500">
                   Método de Pago
                 </label>
               </div>
               {formData.paymentMethod === "transferencia" && (
-                <span className="text-sm text-gray-500">
-                  ⓘ La información de la cuenta bancaria se enviará por mensaje.
-                </span>
+                <div className=" flex ">
+
+                  <span className="text-sm ">
+                    ⓘ La información de la cuenta bancaria se enviará por mensaje.
+                  </span>
+                </div>
               )}
 
               {/* Teléfono */}
@@ -297,10 +318,10 @@ export default function Demo() {
                   placeholder=" "
                   className="peer w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-yellow-400 focus:outline-none"
                 />
-                <label className="absolute left-3 top-3 text-gray-400 text-sm transition-all 
-              peer-placeholder-shown:top-3 peer-placeholder-shown:text-gray-400 
+                <label className="absolute left-3 top-3 text-black/85 text-base transition-all 
+              peer-placeholder-shown:top-3 peer-placeholder-shown:text-black/85 
               peer-focus:top-0 peer-focus:text-xs peer-focus:text-yellow-500
-              peer-valid:top-0 peer-valid:text-xs peer-valid:text-yellow-500">
+              peer-valid:top-0 peer-valid:text-xs peer-valid:black">
                   Teléfono
                 </label>
               </div>
@@ -309,7 +330,7 @@ export default function Demo() {
               <button
                 type="button"
                 onClick={handleOrder}
-                className="bg-yellow-400 text-white text-lg py-3 rounded-md hover:bg-yellow-500 transition-colors"
+                className=" bg-green-300 px-4 py-2 rounded-full hover:border-yellow-400 hover:text-black hover:bg-yellow-300 border-gray-400 border-2  shadow-lg transition-colors"
               >
                 Enviar Pedido
               </button>
@@ -350,16 +371,16 @@ export default function Demo() {
             <span className=" text-center text-black font-bold text-xl uppercase">categorías</span>
             <span className=" text-center text-black font-base text-sm ">Seleccione su categoria favorita.</span>
           </div>
-          <div className="relative">
+          <div className="relative ">
             {/* Contenedor deslizante horizontal */}
             <div className="flex overflow-x-auto scroll-smooth scrollbar-hide gap-4 px-4 pb-4">
               {categories.map((category) => (
                 <button
                   key={category.id}
                   onClick={() => setSelectedCategory(category.id)}
-                  className={`px-4 py-2 rounded-full whitespace-nowrap border-2 transition-all duration-300 ${selectedCategory === category.id
-                    ? "bg-yellow-300 text-white border-yellow-400 shadow-lg"
-                    : "bg-white text-gray-700 border-gray-300 hover:border-yellow-300 hover:bg-yellow-100"
+                  className={`px-4 py-2 rounded-full whitespace-nowrap border-2 transition-all duration-300  ${selectedCategory === category.id
+                    ? "bg-yellow-300 text-black border-yellow-400 shadow-lg"
+                    : "bg-white text-gray-600 border-gray-400 hover:border-yellow-300 hover:bg-yellow-100"
                     }`}
                 >
                   {category.label}
@@ -383,28 +404,32 @@ export default function Demo() {
                 alt={selectedProduct.name}
                 className="w-48 h-48 object-cover rounded-lg shadow-md"
               />
+              <div className="flex flex-col gap-3">
 
-              {/* Título */}
-              <h2 className="text-3xl font-extrabold text-yellow-400 uppercase text-center">
-                {selectedProduct.name}
-              </h2>
+                {/* Título */}
+                <h2 className="text-3xl font-extrabold text-yellow-400 uppercase text-start">
+                  {selectedProduct.name}
+                </h2>
 
-              {/* Descripción */}
-              <p className="text-sm text-gray-700 text-center bg-gray-100 rounded-lg px-4 py-3 shadow-inner">
-                {selectedProduct.description}
-              </p>
-
-              {/* Información de Precio y Botón */}
-              <div className="flex flex-col items-center gap-4 w-full">
-                <p className="text-lg font-bold text-gray-800">
-                  <span className="text-yellow-500">Precio:</span> ${selectedProduct.price}
+                {/* Descripción */}
+                <p className="text-sm text-gray-700 text-start bg-gray-100 rounded-lgshadow-inner">
+                  {selectedProduct.description}
                 </p>
-                <button
-                  onClick={() => addToCart(selectedProduct)}
-                  className="w-full max-w-xs bg-yellow-400 text-white px-4 py-2 rounded-full hover:bg-yellow-500 transition-all duration-300"
-                >
-                  Agregar al carrito
-                </button>
+
+                {/* Información de Precio y Botón */}
+                <div className="flex flex-col items-enf gap-4 w-full">
+                  <p className="text-lg font-bold text-gray-800">
+                    <span className="text-yellow-500">Precio:</span> ${selectedProduct.price}
+                  </p>
+
+                  <button
+                    onClick={() => addToCart(selectedProduct)}
+                    className="   text-gray-600 px-4 py-2 rounded-full hover:border-yellow-400 hover:text-black hover:bg-yellow-300 border-gray-400 border-2    shadow-lg"
+                  >
+                    Agregar al carrito
+                  </button>
+
+                </div>
               </div>
             </div>
           )}
