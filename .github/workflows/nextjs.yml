@@ -1,0 +1,28 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'  # Usa una versión compatible, 18 es LTS y compatible con Next.js
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps  # Si necesitas forzar la instalación de dependencias
+
+      - name: Build the project
+        run: npm run build
