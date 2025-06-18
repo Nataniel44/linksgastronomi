@@ -31,10 +31,9 @@ export default function Demo() {
     { name: "Hamburguesa cheese", category: "burgers", description: "Hamburguesa con queso cheddar, carne y aderezos.", price: 3000, image: "./cheese.jpeg" },
     { name: "Hamburguesa classic", category: "burgers", description: "Hamburguesa con queso barra, carne, huevo, lechuga, tómate y aderezos.", price: 4000, image: "./class.jpeg" },
     { name: "Hamburguesa top one", category: "burgers", description: "Hamburguesa con queso cheddar, cebolla caramelizada, huevo, lechuga, tómate y aderezos.", price: 4500, image: "./topone.jpeg" },
-    { name: "Hamburguesa hulk", category: "burgers", description: "Hamburguesa con queso cheddar x2, carne x2, huevo x2, cebolla caramelizada x2 y salsa BBQ.", price: 5000, image: "./hulk.jpeg" },
+    { name: "Hamburguesa argenta", category: "burgers", description: "Hamburguesa con queso provoleta, huevo, salsa criolla, chimichurri y aderezos.", price: 4500, image: "./argen.jpeg" },
+    { name: "Hamburguesa hulk", category: "burgers", description: "Hamburguesa con queso cheddar x2, carne x2, huevo x2, cebolla caramelizada x2 y salsa BBQ.", price: 5500, image: "./hulk.jpeg" },
     { name: "Papas fritas con cheddar", category: "snacks", description: "Papas fritas chips, salsa de queso cheddar, cebollita de verdeo, cebolla morada.", price: 3500, image: "./papas.jpeg" },
-
-
   ];
 
 
@@ -127,7 +126,7 @@ export default function Demo() {
       <div className=" bg-white max-w-screen-md mx-auto">
 
         <div
-          className={`fixed mx-auto top-0 px-4 py-2 z-50 transition-opacity duration-500 ease-in-out bg-green-400 text-white  ${showNotification ? "opacity-100" : "opacity-0"
+          className={`fixed mx-auto inset-auto px-4 py-2 z-50 transition-opacity duration-500 ease-in-out bg-green-400 text-white  ${showNotification ? "opacity-100" : "opacity-0"
             }`}
         >
           {notification} <button onClick={toggleCart} className="text-blue-500 underline ">Ver carrito.</button>
@@ -177,7 +176,7 @@ export default function Demo() {
         <Modal isOpen={isFormModalOpen} closeModal={() => setIsFormModalOpen(false)}>
           <div className=" flex items-center justify-center z-40 ">
             <div
-              className="fixed z-40 top-0 left-0 w-full p-5  bg-white rounded-lg shadow-lg  max-w-xl h-full
+              className="fixed z-40 inset-auto w-full p-5  bg-white rounded-lg shadow-lg  max-w-xl h-full
                overflow-y-auto"
             >
               {/* Sombra indicativa de scroll */}

@@ -1,14 +1,15 @@
+import Image from "next/image";
 import React from "react";
 
 export const ProductGrid = ({ products, addToCart }) => {
-    return (
-        <section className="grid grid-cols-1 sm:grid-cols-2 gap-4 px-4">
-            {products.map((product, index) => (
-                <div
+  return (
+    <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 p-8 mx-auto max-w-screen-xl">
+      {products.map((product, index) => (
+        <div
                     key={index}
                     className="border rounded-lg shadow-md p-4 flex flex-col items-center"
                 >
-                    <img
+                    <Image
                         src={product.image}
                         alt={product.name}
                         className="w-32 h-32 object-cover mb-4"
@@ -23,7 +24,7 @@ export const ProductGrid = ({ products, addToCart }) => {
                         Agregar al Carrito
                     </button>
                 </div>
-            ))}
-        </section>
-    );
+      ))}
+    </section>
+  );
 };
