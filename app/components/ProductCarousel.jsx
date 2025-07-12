@@ -64,34 +64,51 @@ export const ProductCarousel = ({ products, addToCart }) => {
             >
 
                 {selectedProduct && (
-                    <div
-                        className="flex flex-col items-center gap-4 p-4 bg-white rounded-2xl shadow-lg w-full max-w-[480px] bg-transparent transition duration-300"
-                        style={{ viewTransitionName: "modal"}}
+              <div className="flex flex-col items-center gap-4 p-6 bg-white rounded-2xl shadow-2xl w-full max-w-md animate-fade-in border border-yellow-100 relative">
+                {/* Botón de cerrar */}
+                <button
+                  onClick={() => setIsProductModalOpen(false)}
+                  className="absolute top-3 right-3 text-gray-400 hover:text-yellow-500 bg-gray-100 hover:bg-yellow-100 rounded-full w-9 h-9 flex items-center justify-center shadow focus:outline-none focus:ring-2 focus:ring-yellow-200 z-10 transition"
+                  aria-label="Cerrar"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+                <Image
+                  width="192"
+                  height="192"
+                  src={selectedProduct.image}
+                  alt={selectedProduct.name}
+                  className="w-36 h-36 sm:w-48 sm:h-48 object-cover rounded-xl shadow-lg border-4 border-yellow-100 mb-2"
+                />
+                <div className="flex flex-col gap-3 text-black w-full">
+                  <h2 className="text-2xl sm:text-4xl font-extrabold text-yellow-500 uppercase text-center drop-shadow-sm tracking-wide">
+                    {selectedProduct.name}
+                  </h2>
+                  <p className="text-xs sm:text-base text-gray-700 text-start bg-yellow-50 rounded-xl p-3 sm:p-5 shadow-inner border border-yellow-100">
+                    {selectedProduct.description}
+                  </p>
+                  <div className="flex flex-col items-end gap-3 w-full mt-2">
+                    <p className="text-lg sm:text-xl font-bold text-gray-800 flex items-center gap-2">
+                      <span className="text-yellow-500 text-xl sm:text-2xl">${selectedProduct.price}</span>
+                      <span className="text-xs sm:text-sm text-gray-500 font-normal">ARS</span>
+                    </p>
+                    <button
+                      onClick={() => addToCart(selectedProduct)}
+                      className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-white px-6 py-2 rounded-full font-bold shadow-lg text-base sm:text-lg hover:scale-105 hover:from-yellow-500 hover:to-yellow-400 transition-all border-2 border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-200"
                     >
-                        <div className="w-full max-w-[144px] h-full">
-                            <Image
-                                src={selectedProduct.image} 
-                                alt={selectedProduct.name}
-                                width={144}
-                                height={144}
-                                className="w-full h-full object-cover rounded-lg shadow-md"
-                                style={{ viewTransitionName: `product-${selectedProduct.id}` }} />
-                        </div>
-                        <div className="flex flex-col gap-4 text-black w-full ">
-                            <h2 className="text-2xl font-extrabold text-yellow-500 uppercase text-start">{selectedProduct.name}</h2>
-                            <p className="text-base text-gray-700 text-start bg-gray-100 rounded-lg shadow-inner p-4">{selectedProduct.description}</p>
-                            <div className="flex flex-col items-center gap-4 w-full ">
-                                <p className="text-4xl font-bold text-gray-800 ">
-                                    <span className="text-yellow-500 ">Precio:</span> ${selectedProduct.price}
-                                </p>
-                                <button onClick={() => addToCart(selectedProduct)} className="text-gray-600 px-6 py-3 rounded-full hover:border-yellow-400 hover:text-black hover:bg-yellow-300 border-gray-400 border-2 shadow-lg font-bold text-lg transition duration-300">
-                                        Agregar al carrito
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                )}
+                      <svg className="inline-block w-5 h-5 mr-2 -mt-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4" />
+                        <circle cx="9" cy="21" r="1" />
+                        <circle cx="20" cy="21" r="1" />
+                      </svg>
+                      Agregar al carrito
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
             </Modal>
         </div>
     );

@@ -12,7 +12,6 @@ export default function RootLayout({ children }) {
       <body
         className={` dark:text-black dark:bg-white max-w-screen-md mx-auto`}
       >
-
         <Navbar />
         {children}
         <Footer />

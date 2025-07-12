@@ -1,68 +1,213 @@
+import { useState } from "react";
 import Image from "next/image";
 
-const scrollToPedidos = () => {
-  const pedidosSection = document.getElementById("pedidos");
-  if (pedidosSection) {
-    pedidosSection.scrollIntoView({ behavior: "smooth" });
-  }
-};
-export const Header = ({ openmodal }) => (
-  <>
-    <header className="relative text-black text-center flex gap-5 items-center justify-center flex-col min-h-96 z-10 py-28">
-      {/* Contenedor de la imagen de fondo con degradado */}
-      <div className="absolute inset-0 w-full h-full z-[-10]">
-        <Image
-          width={1920}
-          height="1080"
-          src="./class.jpeg"
-          className="w-full h-full object-cover object-[50%_80%] opacity-80"
-          alt="Fondo"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-white to-transparent"></div>
-      </div>   
+export const Header = ({ openmodal }) => {
+  const [modalType, setModalType] = useState(null);
+  const qrUrl = "/qr.png"; // Cambia esto por la ruta real de tu QR en /public
+  const qrShareUrl =
+    typeof window !== "undefined" ? window.location.origin + qrUrl : qrUrl;
 
-      <div className="flex flex-col gap-5 rounded-lg">
-        <h1
-          translate="no"
-          lang="es"
-          className="uppercase text-6xl sm:text-6xl md:text-7xl font-black text-black leading-none"
-        >
-          TOP ONE <br /> <span className="">BURGERS</span>
-        </h1>
 
-        <span className="text-md md:text-md font-thin uppercase text-black">
-          ¡Bienvenidos a nuestro menú!
-        </span>
-      </div>
-      <div className="flex flex-col sm:flex-row gap-5">
 
-        <button
-          onClick={scrollToPedidos}
-          className="bg-black text-white px-4 font-bold py-2 uppercase rounded-full hover:bg-blue-700 transition"
-        >
-          ¡ Haz tu pedido !
-        </button>
-      
-        <button
-          onClick={openmodal}
-          className="flex justify-center items-center gap-3 uppercase  hover:bg-green-500/65 hover:text-opacity-50 group-hover:text-opacity-50 bg-green-400/65 rounded-full px-4 py-2 font-light border-green-700/50 border text-black"
-        >
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 200 200"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            id="pedidos"
+  const scrollToPedidos = () => {
+    const pedidosSection = document.getElementById("pedidos");
+    if (pedidosSection) {
+      pedidosSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  return (
+    <>
+      <header className="relative text-black text-center flex flex-col items-center justify-center min-h-96 z-10 py-5">
+        {/* Fondo de imagen y degradado */}
+        <div className="absolute inset-0 w-full h-full z-[-10]">
+          <Image
+            width={1920}
+            height="1080"
+            src="./class.jpeg"
+            className="w-full h-full object-cover object-[50%_80%] opacity-80"
+            alt="Fondo"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-white to-transparent"></div>
+        </div>
+        <div className="flex flex-col gap-5 rounded-lg">
+          <h1
+            translate="no"
+            lang="es"
+            className="uppercase text-5xl sm:text-6xl md:text-7xl font-bold F text-black leading-9 tracking-tight mb-5"
           >
-            <circle cx="100" cy="100" r="90" stroke="#333" strokeWidth="10" fill="none" />
-            <line x1="100" y1="100" x2="100" y2="50" stroke="#333" strokeWidth="8" strokeLinecap="round" />
-            <line x1="100" y1="100" x2="140" y2="120" stroke="#333" strokeWidth="8" strokeLinecap="round" />
-            <circle cx="100" cy="100" r="5" fill="#333" />
-          </svg>
-          <span className="font-bold"> Ver horarios</span>
-        </button>
-      </div>
-    </header>
-  </>
-);
+            TOP ONE <br /> <span className=" font-black underline underline-offset-8 decoration-yellow-400 ">BURGERS</span>
+          </h1>
+
+     
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 w-full max-w-xs sm:max-w-2xl mt-6 px-2 ">
+
+          {/* Redes sociales */}
+          <button
+            className="flex flex-col items-center justify-center gap-1 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-xl shadow transition-all text-sm w-full min-h-[56px]"
+            onClick={() => setModalType("redes")}
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+            >
+              <rect x="2" y="2" width="20" height="20" rx="5" />
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+              <line x1="17.5" y1="6.5" x2="17.5" y2="6.5" />
+            </svg>
+            <span>Redes</span>
+          </button>
+
+          {/* Info/ayuda modal */}
+          <button
+            className="flex flex-col items-center justify-center gap-1 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 rounded-xl shadow transition-all text-sm w-full min-h-[56px]"
+            onClick={() => setModalType("info")}
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 16v-4M12 8h.01" />
+            </svg>
+            <span>¿Cómo funciona?</span>
+          </button>
+
+          {/* Ver menú (ahora el último) */}
+          <button
+            className="flex flex-col items-center justify-center gap-1 bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-2 rounded-xl shadow transition-all text-sm w-full min-h-[56px]"
+            onClick={scrollToPedidos}
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+            <span>Ver menú</span>
+          </button>
+        </div>
+      </header>
+      {/* Modal dinámico */}
+      {modalType && (
+        <div
+          className="fixed inset-0 flex items-center justify-center z-50 "
+          onClick={() => setModalType(null)}
+        >
+          <div className="absolute inset-0 bg-black opacity-50" />
+          <div
+            className="bg-white flex flex-col items-center justify-center rounded-xl shadow-xl p-6 max-w-md mx-auto z-10 relative min-w-80"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setModalType(null)}
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 bg-gray-100 rounded-full p-1 shadow"
+              aria-label="Cerrar"
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+            {modalType === "info" && (
+              <>
+                <h2 className="text-2xl font-bold text-green-600 mb-2">
+                  ¿Cómo funciona?
+                </h2>
+                <ol className="text-gray-700 text-left mb-4 list-decimal pl-5 space-y-2">
+                  <li>Explora el menú y elige tus productos favoritos.</li>
+                  <li>Agrega productos al carrito y revisa tu pedido.</li>
+                  <li>Haz tu pedido y recíbelo en tu mesa o domicilio.</li>
+                </ol>
+                <a
+                  href="https://wa.me/5491123456789"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-green-500 hover:bg-green-600 text-white px-5 py-2 rounded-full font-bold shadow transition flex items-center gap-2 mt-2"
+                >
+                  <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                    <path fill="#25D366" d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7 .9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z" />
+                  </svg>
+                  Consultar por WhatsApp
+                </a>
+              </>
+            )}
+            {modalType === "redes" && (
+              <>
+                <h2 className="text-2xl font-bold text-blue-600 mb-2">
+                  Nuestras redes
+                </h2>
+                <div className="flex flex-col gap-3 w-full mt-2">
+                  <a
+                    href="https://www.instagram.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 bg-pink-100 hover:bg-pink-200 text-pink-600 font-bold px-4 py-2 rounded-lg transition"
+                  >
+                    <svg
+                      className="w-6 h-6"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5zm5.25.75a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                    </svg>
+                    Instagram
+                  </a>
+                  <a
+                    href="https://wa.me/5491123456789"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 bg-green-100 hover:bg-green-200 text-green-700 font-bold px-4 py-2 rounded-lg transition"
+                  >
+                    <svg className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                      <path fill="#25D366" d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7 .9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z" />
+                    </svg>
+                    WhatsApp
+                  </a>
+                  <a
+                    href="https://facebook.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 bg-blue-100 hover:bg-blue-200 text-blue-700 font-bold px-4 py-2 rounded-lg transition"
+                  >
+                    <svg
+                      className="w-6 h-6"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M22.675 0h-21.35C.595 0 0 .592 0 1.326v21.348C0 23.408.595 24 1.325 24h11.495v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.797.143v3.24l-1.918.001c-1.504 0-1.797.715-1.797 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116C23.406 24 24 23.408 24 22.674V1.326C24 .592 23.406 0 22.675 0z" />
+                    </svg>
+                    Facebook
+                  </a>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
