@@ -28,7 +28,7 @@ export default function Home() {
           <h2 className="text-xl  text-balance md:text-3xl font-semibold text-yellow-500 text-center mt-2">
             Menús Digitales y Apps para Gastronomía
           </h2>
-          <a
+          <Link
             href="/demo"
             className="relative group bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-400 text-white font-extrabold px-10 py-4 rounded-full shadow-xl text-xs md:text-sm transition hover:scale-105 border-0 focus:outline-none focus:ring-4 focus:ring-yellow-200 overflow-hidden"
             style={{ letterSpacing: '0.04em' }}
@@ -38,7 +38,7 @@ export default function Home() {
               <svg className="w-6 h-6 animate-bounce " fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
               Ver carta de Top One Burgers
             </span>
-          </a>
+          </Link>
         
         </div>
         <div>
