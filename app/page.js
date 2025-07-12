@@ -1,5 +1,5 @@
 import BentoGrid from "./components/BentoGrid";
-import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -28,6 +28,7 @@ export default function Home() {
           <h2 className="text-xl  text-balance md:text-3xl font-semibold text-yellow-500 text-center mt-2">
             Menús Digitales y Apps para Gastronomía
           </h2>
+          
           <Link
             href="/demo"
             className="relative group bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-400 text-white font-extrabold px-10 py-4 rounded-full shadow-xl text-xs md:text-sm transition hover:scale-105 border-0 focus:outline-none focus:ring-4 focus:ring-yellow-200 overflow-hidden"
