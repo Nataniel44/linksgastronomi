@@ -18,12 +18,12 @@ export default function Home() {
           <ellipse cx="700" cy="500" rx="90" ry="60" fill="#fbbf24" fillOpacity="0.18" filter="url(#blurfondo)" />
         </svg>
       </div>
-      <section className="w-full max-w-4xl mx-auto py-20 px-4 flex flex-col items-center gap-10">
-        <div className="flex flex-col items-center gap-4">
+      <section className="w-full max-w-4xl mx-auto py-14 px-4 flex flex-col items-center gap-10">
+        <div className="flex flex-col items-center gap-4 mt-10">
   
           <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900  text-center drop-shadow-xl tracking-tight">
-            Gastro
-            <span className="text-yellow-500">Link</span>
+            Click
+            <span className="text-yellow-500">Cito</span>
           </h1>
           <h2 className="text-xl  text-balance md:text-3xl font-semibold text-yellow-500 text-center mt-2">
             Menús Digitales y Apps para Gastronomía
@@ -40,7 +40,14 @@ export default function Home() {
               Ver carta de Top One Burgers
             </span>
           </Link>
-        
+       
+          <Link href="#contacto" className="text-green-500 hover:underline"> 
+          Contáctanos para más info
+          <svg className="w-6 h-6 inline-block ml-2" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5  l7 7-7 7" />
+          </svg>  
+          </Link>
+     
         </div>
         <div>
             <p className="text-lg md:text-xl pb-5 text-balance text-gray-700 text-center max-w-2xl mt-2">
@@ -64,7 +71,7 @@ export default function Home() {
           </a>
         </div>
       </section>
-      <section id="servicios" className=" w-full max-w-5xl mx-auto py-14 px-4">
+      <section id="servicios" className=" w-full max-w-5xl mx-auto px-4">
         <h2 className="text-3xl font-bold text-yellow-600 mb-8 text-center tracking-wide drop-shadow">
           ¿Qué ofrecemos?
         </h2>

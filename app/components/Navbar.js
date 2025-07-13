@@ -32,9 +32,9 @@ export default function Navbar() {
       <div className="container mx-auto flex justify-center w-full items-center p-3">
         <div className="z-50  flex items-center w-full justify-between">
           {/* Logo */ }
-          <Link href="/" className="text-lg font-bold">
-            <div className="text-center bg-white/40 w- text-white border rounded-full flex justify-center items-center w-16 h-16">
-          <span className=' text-3xl text-black font-black'>GL</span>
+          <Link href="/" className="text-sm font-bold">
+            <div className="text-center  bg-white/40 font-extrabold leading-4 text-black flex flex-col justify-center items-center  border rounded-full  w-20 h-20 ">
+           <span className=' border rounded-full flex flex-col justify-center items-center  w-16 h-16'><span>Click</span> <span className='font-normal italic'>Cito</span> </span> 
             </div>
           </Link>        
           {/* Mobile Menu Button */ }

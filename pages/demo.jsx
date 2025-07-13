@@ -192,12 +192,12 @@ export default function Demo() {
         className="ml-2 sm:ml-4 text-gray-400 hover:text-gray-700 text-2xl sm:text-3xl font-bold bg-gray-100 rounded-full w-8 sm:w-10 h-8 sm:h-10 flex items-center justify-center shadow focus:outline-none focus:ring-2 focus:ring-yellow-200"
         aria-label="Cerrar"
         >
-        ×
+        X
         </button>
         </div>
         <div className="relative flex-1 flex flex-col min-h-0">
         <form className="flex-1 flex flex-col gap-4 sm:gap-5 text-black overflow-y-auto px-4 sm:px-6 pb-6 sm:pb-8 pt-2 sm:pt-4 min-h-0" style={{ maxHeight: '100%' }}>
-        <div className="relative">
+        <div className="relative ">
           <input
           type="text"
           name="name"
@@ -207,7 +207,7 @@ export default function Demo() {
           className="peer w-full p-2 sm:p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:outline-none text-base sm:text-lg bg-gray-50"
           required
           />
-          <label className="absolute left-4 top-1 text-gray-500 text-xs transition-all peer-focus:top-0 peer-focus:text-xs peer-focus:text-yellow-500">
+          <label className="absolute left-4 top-0 text-gray-500 text-xs transition-all peer-focus:top-0 peer-focus:text-xs peer-focus:text-yellow-500">
           Nombre
           </label>
         </div>
@@ -221,7 +221,7 @@ export default function Demo() {
           <option value="delivery">Delivery</option>
           <option value="retiro">Retiro en el lugar</option>
           </select>
-          <label className="absolute left-4 top-1 text-gray-500 text-xs transition-all peer-focus:top-0 peer-focus:text-xs peer-focus:text-yellow-500">
+          <label className="absolute left-4 top-0 text-gray-500 text-xs transition-all peer-focus:top-0 peer-focus:text-xs peer-focus:text-yellow-500">
           Método de Entrega
           </label>
         </div>
@@ -235,7 +235,7 @@ export default function Demo() {
           placeholder="Dirección (entre calles)"
           className="peer w-full p-2 sm:p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:outline-none text-base sm:text-lg bg-gray-50"
           />
-          <label className="absolute left-4 top-1 text-gray-500 text-xs transition-all peer-focus:top-0 peer-focus:text-xs peer-focus:text-yellow-500">
+          <label className="absolute left-4 top-0 text-gray-500 text-xs transition-all peer-focus:top-0 peer-focus:text-xs peer-focus:text-yellow-500">
           Dirección
           </label>
           </div>
@@ -245,12 +245,12 @@ export default function Demo() {
           name="paymentMethod"
           value={formData.paymentMethod}
           onChange={handleFormChange}
-          className="w-full p-2 sm:p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:outline-none text-base sm:text-lg bg-gray-50"
+          className="w-full p-2 sm:p-4 border border-gray-300 rounded-lg focus:ring-2  focus:ring-yellow-400 focus:outline-none text-base sm:text-lg bg-gray-50"
           >
           <option value="efectivo">Efectivo</option>
           <option value="transferencia">Transferencia</option>
           </select>
-          <label className="absolute left-4 top-1 text-gray-500 text-xs transition-all peer-focus:top-0 peer-focus:text-xs peer-focus:text-yellow-500">
+          <label className="absolute left-4 top-0 text-gray-500 text-xs transition-all peer-focus:top-0 peer-focus:text-xs peer-focus:text-yellow-500 " >
           Método de Pago
           </label>
         </div>
@@ -271,7 +271,7 @@ export default function Demo() {
           placeholder="Teléfono"
           className="peer w-full p-2 sm:p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:outline-none text-base sm:text-lg bg-gray-50"
           />
-          <label className="absolute left-4 top-1 text-gray-500 text-xs transition-all peer-focus:top-0 peer-focus:text-xs peer-focus:text-yellow-500">
+          <label className="absolute left-4 top-0 text-gray-500 text-xs transition-all peer-focus:top-0 peer-focus:text-xs peer-focus:text-yellow-500">
           Teléfono
           </label>
         </div>
