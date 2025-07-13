@@ -192,7 +192,7 @@ export default function Demo() {
         className="ml-2 sm:ml-4 text-gray-400 hover:text-gray-700 text-2xl sm:text-3xl font-bold bg-gray-100 rounded-full w-8 sm:w-10 h-8 sm:h-10 flex items-center justify-center shadow focus:outline-none focus:ring-2 focus:ring-yellow-200"
         aria-label="Cerrar"
         >
-        X
+        
         </button>
         </div>
         <div className="relative flex-1 flex flex-col min-h-0">
@@ -434,9 +434,11 @@ export default function Demo() {
       />
 
       {/* Botón flotante elegante para abrir el carrito */}
+      <div className="fixed bottom-0 right-0 z-50 p-4 sm:p-6">
+
       <button
       onClick={() => setIsCartOpen(true)}
-      className="fixed z-40 bottom-4 sm:bottom-6 right-4 sm:right-6 bg-white border-2 border-yellow-400 text-black hover:bg-yellow-300/80 rounded-full shadow-2xl w-14 h-14 sm:w-16 sm:h-16 flex flex-col items-center justify-center text-xl sm:text-2xl font-extrabold transition-all group"
+      className="   bg-white border-2 border-yellow-400 text-black hover:bg-yellow-300/80 rounded-full shadow-2xl w-14 h-14 sm:w-16 sm:h-16 flex flex-col items-center justify-center text-xl sm:text-2xl font-extrabold transition-all group"
       aria-label="Abrir carrito"
       >
       <svg className="w-6 h-6 sm:w-7 sm:h-7 mb-1 text-yellow-500 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -449,6 +451,7 @@ export default function Demo() {
         <span className="absolute -top-2 -right-2 bg-green-500 text-white rounded-full px-2 py-1 text-xs font-bold shadow">{cart.length}</span>
       )}
       </button>
+      </div>
       </div>
       </>
     );
