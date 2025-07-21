@@ -7,7 +7,37 @@ import Cart from "@/app/components/Cart";
 import Image from 'next/image'
 import "./local.css"; // Asegúrate de que este archivo exista y tenga los estilos necesarios
 export default function Demo() {
- 
+ const handleLocation = async () => {
+  if (!navigator.geolocation) {
+    alert("La geolocalización no está disponible en tu navegador.");
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    async (position) => {
+      const { latitude, longitude } = position.coords;
+
+      // Llamada a Nominatim (OpenStreetMap)
+      try {
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`
+        );
+        const data = await response.json();
+        const address = data.display_name;
+
+        handleFormChange({ target: { name: 'address', value: address } });
+      } catch (error) {
+        console.error("Error al obtener dirección:", error);
+        alert("No se pudo obtener la dirección.");
+      }
+    },
+    (error) => {
+      console.error(error);
+      alert("No se pudo acceder a tu ubicación.");
+    }
+  );
+};
+
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal para horarios
   const [isFormModalOpen, setIsFormModalOpen] = useState(false); // Modal para el formulario
@@ -192,11 +222,39 @@ export default function Demo() {
         className="ml-2 sm:ml-4 text-gray-400 hover:text-gray-700 text-2xl sm:text-3xl font-bold bg-gray-100 rounded-full w-8 sm:w-10 h-8 sm:h-10 flex items-center justify-center shadow focus:outline-none focus:ring-2 focus:ring-yellow-200"
         aria-label="Cerrar"
         >
-        
+        X
         </button>
         </div>
         <div className="relative flex-1 flex flex-col min-h-0">
         <form className="flex-1 flex flex-col gap-4 sm:gap-5 text-black overflow-y-auto px-4 sm:px-6 pb-6 sm:pb-8 pt-2 sm:pt-4 min-h-0" style={{ maxHeight: '100%' }}>
+          <div className="flex flex-col gap-1">
+
+       
+            <label className="text-sm font-semibold text-gray-700 mb-1">Método de entrega</label>
+                <div className="flex gap-3">
+                  
+                  
+  <button
+    type="button"
+    onClick={() => handleFormChange({ target: { name: 'deliveryMethod', value: 'delivery' } })}
+    className={`flex-1 py-3 rounded-full font-bold transition-all text-sm sm:text-base
+      ${formData.deliveryMethod === 'delivery'
+        ? 'bg-yellow-500 text-white shadow-lg'
+        : 'bg-white border border-yellow-400 text-yellow-600 hover:bg-yellow-50'}`}
+  >
+    Delivery
+  </button>
+  <button
+    type="button"
+    onClick={() => handleFormChange({ target: { name: 'deliveryMethod', value: 'retiro' } })}
+    className={`flex-1 py-3 rounded-full font-bold transition-all text-sm sm:text-base
+      ${formData.deliveryMethod === 'retiro'
+        ? 'bg-yellow-500 text-white shadow-lg'
+        : 'bg-white border border-yellow-400 text-yellow-600 hover:bg-yellow-50'}`}
+  >
+    Retiro en el lugar
+  </button>
+</div>   </div>
         <div className="relative ">
           <input
           type="text"
@@ -211,49 +269,59 @@ export default function Demo() {
           Nombre
           </label>
         </div>
-        <div className="relative">
-          <select
-          name="deliveryMethod"
-          value={formData.deliveryMethod}
-          onChange={handleFormChange}
-          className="w-full p-3 sm:p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:outline-none text-base sm:text-lg bg-gray-50"
-          >
-          <option value="delivery">Delivery</option>
-          <option value="retiro">Retiro en el lugar</option>
-          </select>
-          <label className="absolute left-4 top-0 text-gray-500 text-xs transition-all peer-focus:top-0 peer-focus:text-xs peer-focus:text-yellow-500">
-          Método de Entrega
-          </label>
-        </div>
-        {(formData.deliveryMethod === "delivery" || formData.deliveryMethod === "Retiro en el lugar") && (
-          <div className="relative">
-          <input
-          type="text"
-          name="address"
-          value={formData.address}
-          onChange={handleFormChange}
-          placeholder="Dirección (entre calles)"
-          className="peer w-full p-3 sm:p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:outline-none text-base sm:text-lg bg-gray-50"
-          />
-          <label className="absolute left-4 top-0 text-gray-500 text-xs transition-all peer-focus:top-0 peer-focus:text-xs peer-focus:text-yellow-500">
-          Dirección
-          </label>
-          </div>
-        )}
-        <div className="relative">
-          <select
-          name="paymentMethod"
-          value={formData.paymentMethod}
-          onChange={handleFormChange}
-          className="w-full p-3 sm:p-4 border border-gray-300 rounded-lg focus:ring-2  focus:ring-yellow-400 focus:outline-none text-base sm:text-lg bg-gray-50"
-          >
-          <option value="efectivo">Efectivo</option>
-          <option value="transferencia">Transferencia</option>
-          </select>
-          <label className="absolute left-4 top-0 text-gray-500 text-xs transition-all peer-focus:top-0 peer-focus:text-xs peer-focus:text-yellow-500 " >
-          Método de Pago
-          </label>
-        </div>
+
+
+    {formData.deliveryMethod === "delivery" && (
+  <div className="relative">
+    <input
+      type="text"
+      name="address"
+      value={formData.address}
+      onChange={handleFormChange}
+      placeholder="Dirección (entre calles)"
+      className="peer w-full p-3 sm:p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:outline-none text-base sm:text-lg bg-gray-50"
+    />
+    <label className="absolute left-4 top-0 text-gray-500 text-xs transition-all peer-focus:top-0 peer-focus:text-xs peer-focus:text-yellow-500">
+      Dirección
+    </label>
+    <button
+      type="button"
+      onClick={handleLocation}
+      className="absolute right-3 top-3 text-xs sm:text-sm text-yellow-600 underline hover:text-yellow-700"
+    >
+      Usar mi ubicación
+    </button>
+  </div>
+)}
+
+      <div className="flex flex-col gap-1">
+  <label className="text-sm font-semibold text-gray-700 mb-1">Método de Pago</label>
+  <div className="flex gap-3">
+    <button
+      type="button"
+      onClick={() => handleFormChange({ target: { name: 'paymentMethod', value: 'efectivo' } })}
+      className={`flex-1 py-3 rounded-full font-bold transition-all text-sm sm:text-base ${
+        formData.paymentMethod === 'efectivo'
+          ? 'bg-yellow-500 text-white shadow-lg'
+          : 'bg-white border border-yellow-400 text-yellow-600 hover:bg-yellow-50'
+      }`}
+    >
+      Efectivo
+    </button>
+    <button
+      type="button"
+      onClick={() => handleFormChange({ target: { name: 'paymentMethod', value: 'transferencia' } })}
+      className={`flex-1 py-3 rounded-full font-bold transition-all text-sm sm:text-base ${
+        formData.paymentMethod === 'transferencia'
+          ? 'bg-yellow-500 text-white shadow-lg'
+          : 'bg-white border border-yellow-400 text-yellow-600 hover:bg-yellow-50'
+      }`}
+    >
+      Transferencia
+    </button>
+  </div>
+</div>
+
         {formData.paymentMethod === "transferencia" && (
           <div className="flex items-center bg-gray-50 rounded-lg p-2 sm:p-3 border border-gray-200">
           <span className="text-xs sm:text-sm text-gray-600">
@@ -275,6 +343,7 @@ export default function Demo() {
           Teléfono
           </label>
         </div>
+        
         <div className="flex flex-col md:flex-row gap-3 sm:gap-4 mt-2">
           <button
           type="button"
