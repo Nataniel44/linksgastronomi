@@ -25,12 +25,12 @@ const Cart = ({ cartItems, updateCart, clearCart, handleOrder, isFormValid, isOp
         <div>
             {/* Overlay para fondo difuminado */}
             <div
-                className={`fixed inset-0 z-40 bg-black/40 transition-opacity duration-500 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+                className={`fixed inset-0 z-50 bg-black/40 transition-opacity duration-500 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
                 onClick={toggleCart}
             />
             {/* Carrito flotante */}
             <aside
-                className={`fixed z-50 right-0 top-0 h-full w-full sm:w-[400px] bg-white shadow-2xl border-l border-yellow-300 flex flex-col transition-transform duration-500 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
+                className={`fixed z-[100] right-0 top-0 h-full w-full sm:w-[400px] bg-white shadow-2xl border-l border-yellow-300 flex flex-col transition-transform duration-500 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
                 aria-label="Carrito de compras"
             >
                 {/* Header */}

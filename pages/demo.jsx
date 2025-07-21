@@ -204,7 +204,7 @@ export default function Demo() {
           value={formData.name}
           onChange={handleFormChange}
           placeholder="Nombre y Apellido"
-          className="peer w-full p-2 sm:p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:outline-none text-base sm:text-lg bg-gray-50"
+          className="peer w-full p-3 sm:p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:outline-none text-base sm:text-lg bg-gray-50"
           required
           />
           <label className="absolute left-4 top-0 text-gray-500 text-xs transition-all peer-focus:top-0 peer-focus:text-xs peer-focus:text-yellow-500">
@@ -216,7 +216,7 @@ export default function Demo() {
           name="deliveryMethod"
           value={formData.deliveryMethod}
           onChange={handleFormChange}
-          className="w-full p-2 sm:p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:outline-none text-base sm:text-lg bg-gray-50"
+          className="w-full p-3 sm:p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:outline-none text-base sm:text-lg bg-gray-50"
           >
           <option value="delivery">Delivery</option>
           <option value="retiro">Retiro en el lugar</option>
@@ -233,7 +233,7 @@ export default function Demo() {
           value={formData.address}
           onChange={handleFormChange}
           placeholder="Dirección (entre calles)"
-          className="peer w-full p-2 sm:p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:outline-none text-base sm:text-lg bg-gray-50"
+          className="peer w-full p-3 sm:p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:outline-none text-base sm:text-lg bg-gray-50"
           />
           <label className="absolute left-4 top-0 text-gray-500 text-xs transition-all peer-focus:top-0 peer-focus:text-xs peer-focus:text-yellow-500">
           Dirección
@@ -245,7 +245,7 @@ export default function Demo() {
           name="paymentMethod"
           value={formData.paymentMethod}
           onChange={handleFormChange}
-          className="w-full p-2 sm:p-4 border border-gray-300 rounded-lg focus:ring-2  focus:ring-yellow-400 focus:outline-none text-base sm:text-lg bg-gray-50"
+          className="w-full p-3 sm:p-4 border border-gray-300 rounded-lg focus:ring-2  focus:ring-yellow-400 focus:outline-none text-base sm:text-lg bg-gray-50"
           >
           <option value="efectivo">Efectivo</option>
           <option value="transferencia">Transferencia</option>
@@ -269,7 +269,7 @@ export default function Demo() {
           value={formData.phone}
           onChange={handleFormChange}
           placeholder="Teléfono"
-          className="peer w-full p-2 sm:p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:outline-none text-base sm:text-lg bg-gray-50"
+          className="peer w-full p-3 sm:p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:outline-none text-base sm:text-lg bg-gray-50"
           />
           <label className="absolute left-4 top-0 text-gray-500 text-xs transition-all peer-focus:top-0 peer-focus:text-xs peer-focus:text-yellow-500">
           Teléfono
@@ -436,21 +436,34 @@ export default function Demo() {
       {/* Botón flotante elegante para abrir el carrito */}
       <div className="fixed bottom-0 right-0 z-50 p-4 sm:p-6">
 
-      <button
-      onClick={() => setIsCartOpen(true)}
-      className="   bg-white border-2 border-yellow-400 text-black hover:bg-yellow-300/80 rounded-full shadow-2xl w-14 h-14 sm:w-16 sm:h-16 flex flex-col items-center justify-center text-xl sm:text-2xl font-extrabold transition-all group"
-      aria-label="Abrir carrito"
-      >
-      <svg className="w-6 h-6 sm:w-7 sm:h-7 mb-1 text-yellow-500 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-        <path d="M3 3h2l.4 2M7 13h10l4-8H5.4" strokeLinecap="round" strokeLinejoin="round" />
-        <circle cx="9" cy="21" r="1" />
-        <circle cx="20" cy="21" r="1" />
-      </svg>
-   
-      {cart.length > 0 && (
-        <span className="absolute -top-2 -right-2 bg-green-500 text-white rounded-full px-2 py-1 text-xs font-bold shadow">{cart.length}</span>
-      )}
-      </button>
+    <button
+  onClick={() => setIsCartOpen(true)}
+  className="relative bg-white border-2 border-yellow-400 text-black hover:bg-yellow-300/80 rounded-full shadow-xl hover:shadow-2xl hover:-translate-y-1 w-14 h-14 sm:w-16 sm:h-16 flex flex-col items-center justify-center text-xl sm:text-2xl font-extrabold transition-all duration-300 group"
+  aria-label="Abrir carrito"
+>
+  <svg
+    className="w-6 h-6 sm:w-7 sm:h-7 mb-1 text-yellow-500 transform transition-transform duration-300 ease-in-out group-hover:scale-125"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    viewBox="0 0 24 24"
+  >
+    <path
+      d="M3 3h2l.4 2M7 13h10l4-8H5.4"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <circle cx="9" cy="21" r="1" />
+    <circle cx="20" cy="21" r="1" />
+  </svg>
+
+  {cart.length > 0 && (
+    <span className="absolute -top-2 -right-2 bg-green-500 text-white rounded-full px-2 py-1 text-xs font-bold shadow">
+      {cart.length}
+    </span>
+  )}
+</button>
+
       </div>
       </div>
       </>

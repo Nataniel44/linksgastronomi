@@ -13,18 +13,15 @@ export default function Home() {
               <feGaussianBlur stdDeviation="60" />
             </filter>
           </defs>
-          <ellipse cx="600" cy="100" rx="220" ry="120" fill="#fde047" fillOpacity="0.35" filter="url(#blurfondo)" />
+          <ellipse cx="600" cy="100" rx="220" ry="120" fill="#fde047" fillOpacity="0.50" filter="url(#blurfondo)" />
           <ellipse cx="200" cy="500" rx="180" ry="100" fill="#facc15" fillOpacity="0.25" filter="url(#blurfondo)" />
           <ellipse cx="700" cy="500" rx="90" ry="60" fill="#fbbf24" fillOpacity="0.18" filter="url(#blurfondo)" />
         </svg>
       </div>
-      <section className="w-full max-w-4xl mx-auto py-14 px-4 flex flex-col items-center gap-10">
+      <section className="w-full max-w-4xl mx-auto py-14 mt-10 px-4 flex flex-col items-center gap-10">
         <div className="flex flex-col items-center gap-4 mt-10">
   
-          <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900  text-center drop-shadow-xl tracking-tight">
-            Click
-            <span className="text-yellow-500">Cito</span>
-          </h1>
+          <img className="w-72 md:w-96" src="./log.png"alt="1" />
           <h2 className="text-xl  text-balance md:text-3xl font-semibold text-yellow-500 text-center mt-2">
             Menús Digitales y Apps para Gastronomía
           </h2>

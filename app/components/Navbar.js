@@ -33,8 +33,8 @@ export default function Navbar() {
         <div className="z-50  flex items-center w-full justify-between">
           {/* Logo */ }
           <Link href="/" className="text-sm font-bold">
-            <div className="text-center  bg-white/40 font-extrabold leading-4 text-black flex flex-col justify-center items-center  border rounded-full  w-20 h-20 ">
-           <span className=' border rounded-full flex flex-col justify-center items-center  w-16 h-16'><span>Click</span> <span className='font-normal italic'>Cito</span> </span> 
+            <div className="text-center  font-extrabold leading-4 text-black flex flex-col justify-center items-center  w-20 h-20 ">
+           <span className=' flex flex-col justify-center items-center  '> <img className='w-10 ' src="/c.png" alt="" /> </span> 
             </div>
           </Link>        
           {/* Mobile Menu Button */ }
