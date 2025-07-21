@@ -34,7 +34,7 @@ export default function Navbar() {
           {/* Logo */ }
           <Link href="/" className="text-sm font-bold">
             <div className="text-center  font-extrabold leading-4 text-black flex flex-col justify-center items-center  w-20 h-20 ">
-           <span className=' flex flex-col justify-center items-center  '> <img className='w-10 ' src="/c.png" alt="" /> </span> 
+           <span className=' flex flex-col justify-center items-center  '> <img className='w-10 ' src="./c.png" alt="" /> </span> 
             </div>
           </Link>        
           {/* Mobile Menu Button */ }

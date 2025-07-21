@@ -48,7 +48,7 @@ const Cart = ({ cartItems, updateCart, clearCart, handleOrder, isFormValid, isOp
                                 <div key={index} className="flex items-center bg-yellow-50 rounded-xl shadow p-3 gap-3 animate-fade-in">
                                     {/* Imagen si existe */}
                                     {item.image && (
-                                        <img src={item.image.replace('./','/')} alt={item.name} className="w-14 h-14 object-cover rounded-lg border border-yellow-200" />
+                                        <img src={item.image} alt={item.name} className="w-14 h-14 object-cover rounded-lg border border-yellow-200" />
                                     )}
                                     <div className="flex-1">
                                         <div className="font-bold text-gray-800 text-base truncate">{item.name}</div>
