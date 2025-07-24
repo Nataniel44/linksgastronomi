@@ -77,8 +77,8 @@ export default function Home() {
 </div>
 
   {/* Imágenes */}
-  <img src="cc.png" className="absolute top-50 right-0 w-80 md:w-[40rem] z-50 sm:invisible   animate-fade-up" alt="Menú digital en celular" />
-  <img src="vc.png" className="absolute bottom-10 right-0 w-72 md:w-[50rem] sm:invisible z-50 drop-shadow-xl animate-fade-up" alt="Menú digital en celular" />
+  <img src="cc.png" className="absolute top-50 right-0 w-72  md:w-[40rem] z-50 sm:invisible   animate-fade-up" alt="Menú digital en celular" />
+  <img src="vc.png" className="absolute bottom-10 right-0 w-52 md:w-[50rem] sm:invisible z-50 drop-shadow-xl animate-fade-up" alt="Menú digital en celular" />
   <img src="b.png" className="absolute bottom-10 right-0 w-80 sm:w-[40rem] z-20 sm:visible  invisible drop-shadow-xl animate-fade-up" alt="Menú digital en celular" />
   <img src="a.png" className="absolute bottom-10 left-0 w-56 z-10 drop-shadow-xl  animate-fade-up delay-150" alt="Menú digital en desktop" />
 </section>

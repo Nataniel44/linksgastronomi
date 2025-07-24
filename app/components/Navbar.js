@@ -23,8 +23,8 @@ export default function Navbar() {
     };
   }, []);
   
-  const navClasses = `fixed w-full z-50 top-0 mx-auto max-w-screen-md dark:text-white px-4 py-0 transition duration-300 ${
-    scrolled ? 'bg-white/65' : ''
+  const navClasses = `fixed w-full z-[999] top-0 mx-auto max-w-screen-md dark:text-white px-4 py-0 transition duration-300 ${
+    scrolled ? 'bg-white/70' : ''
   }`;
 
   return (    
