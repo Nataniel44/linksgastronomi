@@ -154,6 +154,7 @@ export default function PizzaPepaPage() {
   const [search, setSearch] = useState('');
   const [modalProduct, setModalProduct] = useState(null);
   const [showOrderForm, setShowOrderForm] = useState(false);
+  const [showCartModal, setShowCartModal] = useState(false);
 
   const filteredProducts = products
     .filter(p => p.category === selectedCategory)
@@ -167,6 +168,10 @@ export default function PizzaPepaPage() {
   const removeFromCart = (idx) => {
     setCart(cart.filter((_, i) => i !== idx));
   };
+
+  // Calcular total y cantidad de productos en el carrito
+  const cartTotal = cart.reduce((sum, item) => sum + item.price * (item.quantity || 1), 0);
+  const cartCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
 
   return (
     <div className="min-h-screen bg-[#f8f8f8] text-[#222]">
@@ -229,8 +234,8 @@ export default function PizzaPepaPage() {
           ))}
         </main>
 
-        {/* Carrito */}
-        <div className="w-full ">
+        {/* Carrito desktop */}
+        <div className="w-full hidden md:block">
           <Cart
             cart={cart}
             removeFromCart={removeFromCart}
@@ -238,6 +243,49 @@ export default function PizzaPepaPage() {
           />
         </div>
       </div>
+
+      {/* Carrito móvil: botón flotante */}
+      {cart.length > 0 && (
+        <button
+          className="fixed bottom-0 left-0 w-full z-40 bg-[#D58A17] text-white rounded-none px-0 py-4 shadow-lg flex items-center justify-center gap-3 font-bold text-lg md:hidden"
+          onClick={() => setShowCartModal(true)}
+        >
+          🛒 Mi pedido ({cartCount}) - ${cartTotal}
+        </button>
+      )}
+
+      {/* Modal carrito móvil */}
+      {showCartModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-end justify-center z-50 md:hidden">
+          <div className="w-full max-w-md bg-white rounded-t-2xl shadow-xl p-4 relative">
+            <button
+              className="absolute top-3 right-4 text-2xl text-gray-400 hover:text-red-500"
+              onClick={() => setShowCartModal(false)}
+              aria-label="Cerrar"
+            >×</button>
+            <Cart
+              cart={cart}
+              removeFromCart={removeFromCart}
+              onConfirm={() => {
+                setShowCartModal(false);
+                setShowOrderForm(true);
+              }}
+            />
+            {/* Botón confirmar pedido solo en móvil */}
+            {cart.length > 0 && (
+              <button
+                className="w-full bg-[#D58A17] text-white px-4 py-2 rounded font-semibold mt-4 md:hidden"
+                onClick={() => {
+                  setShowCartModal(false);
+                  setShowOrderForm(true);
+                }}
+              >
+                Confirmar pedido
+              </button>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Modal de producto */}
       {modalProduct && (
@@ -250,9 +298,12 @@ export default function PizzaPepaPage() {
 
       {/* Modal del formulario de pedido */}
       {showOrderForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+        <div className="fixed top-0 inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
           <div className="relative w-full max-w-2xl mx-auto h-full flex items-center justify-center">
-            <div className="w-full max-w-2xl bg-white rounded-xl shadow-lg overflow-y-auto max-h-[90vh] p-0 relative">
+            <div className="w-full max-w-2xl bg-white shadow-lg overflow-y-auto h-screen md:max-h-[100vh] p-0 relative rounded-xl md:rounded-xl rounded-none md:max-h-[90vh] md:p-0 md:relative
+              md:block
+              fixed md:static top-0 left-0 h-full md:h-auto
+              ">
               <button
                 className="absolute top-4 right-4 text-gray-500 hover:text-red-500 text-2xl z-10"
                 onClick={() => setShowOrderForm(false)}
@@ -260,7 +311,7 @@ export default function PizzaPepaPage() {
               >
                 ×
               </button>
-              <OrderForm />
+              <OrderForm logo="/pepa.svg" />
             </div>
           </div>
         </div>

@@ -46,7 +46,7 @@ export default function Cart({ cart, removeFromCart, onConfirm }) {
             </div>
           </div>
           <button
-            className="w-full bg-[#D58A17] text-white px-4 py-2 rounded font-semibold mt-2"
+            className="w-full bg-[#D58A17] text-white px-4 py-2 rounded font-semibold mt-2 hidden md:block"
             onClick={onConfirm}
           >
             Confirmar pedido

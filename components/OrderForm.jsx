@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function OrderForm() {
+export default function OrderForm({ logo }) {
   const [form, setForm] = useState({
     email: "",
     name: "",
@@ -12,7 +12,13 @@ export default function OrderForm() {
   });
 
   return (
-    <form className="bg-white rounded-xl shadow p-4 w-full max-w-2xl mx-auto grid gap-6">
+    <form className="bg-white shadow p-4 w-full max-w-2xl mx-auto grid gap-6 rounded-none md:rounded-xl min-h-screen md:min-h-0">
+      {/* Logo */}
+      {logo && (
+        <div className="flex justify-center mb-2">
+          <img src={logo} alt="Pizza Pepa" className="w-24 h-auto" />
+        </div>
+      )}
       {/* Datos generales */}
       <div className="">
         <h3 className="font-bold text-lg mb-2">Datos generales</h3>
@@ -86,36 +92,32 @@ export default function OrderForm() {
       <div>
         <h3 className="font-bold text-lg mb-2">Forma de pago</h3>
         <div className="flex flex-wrap gap-4">
-          <label className="flex items-center gap-2">
-            <input
-              type="radio"
-              name="payment"
-              value="efectivo"
-              checked={form.payment === "efectivo"}
-              onChange={e => setForm({ ...form, payment: e.target.value })}
-            />
-            Efectivo
-          </label>
-          <label className="flex items-center gap-2">
-            <input
-              type="radio"
-              name="payment"
-              value="qr"
-              checked={form.payment === "qr"}
-              onChange={e => setForm({ ...form, payment: e.target.value })}
-            />
-            Código QR
-          </label>
-          <label className="flex items-center gap-2">
-            <input
-              type="radio"
-              name="payment"
-              value="mercadopago"
-              checked={form.payment === "mercadopago"}
-              onChange={e => setForm({ ...form, payment: e.target.value })}
-            />
-            Mercado Pago
-          </label>
+          {/*
+            { value: "efectivo", label: "Efectivo", icon: "💵" },
+            { value: "qr", label: "Código QR", icon: "📱" },
+            { value: "mercadopago", label: "Mercado Pago", icon: "💳" }
+          */}
+          {["efectivo", "qr", "mercadopago"].map(option => (
+            <button
+              key={option}
+              type="button"
+              className={`flex items-center gap-2 px-4 py-2 rounded-full border font-semibold transition
+                ${form.payment === option
+                  ? "bg-[#D58A17] text-white border-[#D58A17] shadow"
+                  : "bg-white text-[#D58A17] border-[#D58A17] hover:bg-[#FFF5E6]"}
+              `}
+              onClick={() => setForm({ ...form, payment: option })}
+            >
+              <span className="text-xl">
+                {option === "efectivo"
+                  ? ""
+                  : option === "qr"
+                  ? ""
+                  : ""}
+              </span>
+              {option.charAt(0).toUpperCase() + option.slice(1)}
+            </button>
+          ))}
         </div>
       </div>
       {/* Botones */}
@@ -130,3 +132,4 @@ export default function OrderForm() {
     </form>
   );
 }
+    
