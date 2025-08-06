@@ -12,7 +12,13 @@ export default function OrderForm({ logo, deliveryType, onClose }) {
   });
 
   return (
-    <form className="bg-white shadow p-4 w-full max-w-2xl mx-auto grid gap-6 rounded-none md:rounded-xl min-h-screen md:min-h-0 relative">
+    <form
+      className="bg-white shadow p-4 w-full max-w-2xl mx-auto grid gap-6 rounded-none md:rounded-xl min-h-screen md:min-h-0 relative"
+      style={{
+        height: "100svh", // Soluciona el problema en iPhone Safari
+        minHeight: "100svh",
+      }}
+    >
       {/* Botón cerrar */}
       {onClose && (
         <button
@@ -46,7 +52,7 @@ export default function OrderForm({ logo, deliveryType, onClose }) {
               type="email"
               className="w-full border rounded px-3 py-2 mt-1"
               value={form.email}
-              onChange={e => setForm({ ...form, email: e.target.value })}
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
               placeholder="ejemplo@gmail.com"
             />
           </div>
@@ -56,7 +62,7 @@ export default function OrderForm({ logo, deliveryType, onClose }) {
               type="text"
               className="w-full border rounded px-3 py-2 mt-1"
               value={form.name}
-              onChange={e => setForm({ ...form, name: e.target.value })}
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
               required
               placeholder="Tu nombre"
             />
@@ -67,7 +73,7 @@ export default function OrderForm({ logo, deliveryType, onClose }) {
               type="tel"
               className="w-full border rounded px-3 py-2 mt-1"
               value={form.phone}
-              onChange={e => setForm({ ...form, phone: e.target.value })}
+              onChange={(e) => setForm({ ...form, phone: e.target.value })}
               placeholder="Ej: 011-15-2345-6789"
             />
           </div>
@@ -79,7 +85,7 @@ export default function OrderForm({ logo, deliveryType, onClose }) {
               type="text"
               className="w-full border rounded px-3 py-2 mt-1"
               value={form.address}
-              onChange={e => setForm({ ...form, address: e.target.value })}
+              onChange={(e) => setForm({ ...form, address: e.target.value })}
               placeholder="Av. Argentina 1234"
             />
           </div>
@@ -89,7 +95,7 @@ export default function OrderForm({ logo, deliveryType, onClose }) {
               type="text"
               className="w-full border rounded px-3 py-2 mt-1"
               value={form.floor}
-              onChange={e => setForm({ ...form, floor: e.target.value })}
+              onChange={(e) => setForm({ ...form, floor: e.target.value })}
               placeholder="Por ejemplo: 1B"
             />
           </div>
@@ -99,7 +105,7 @@ export default function OrderForm({ logo, deliveryType, onClose }) {
           <textarea
             className="w-full border rounded px-3 py-2 mt-1"
             value={form.comments}
-            onChange={e => setForm({ ...form, comments: e.target.value })}
+            onChange={(e) => setForm({ ...form, comments: e.target.value })}
             placeholder="Comentarios adicionales"
             rows={2}
           />
@@ -114,7 +120,7 @@ export default function OrderForm({ logo, deliveryType, onClose }) {
             { value: "qr", label: "Código QR", icon: "📱" },
             { value: "mercadopago", label: "Mercado Pago", icon: "💳" }
           */}
-          {["efectivo", "qr", "mercadopago"].map(option => (
+          {["efectivo", "qr", "mercadopago"].map((option) => (
             <button
               key={option}
               type="button"
@@ -139,10 +145,16 @@ export default function OrderForm({ logo, deliveryType, onClose }) {
       </div>
       {/* Botones */}
       <div className="flex justify-between mt-4">
-        <button type="button" className="border border-[#D58A17] text-[#D58A17] px-4 py-2 rounded font-semibold">
+        <button
+          type="button"
+          className="border border-[#D58A17] text-[#D58A17] px-4 py-2 rounded font-semibold"
+        >
           Atrás
         </button>
-        <button type="submit" className="bg-[#D58A17] text-white px-4 py-2 rounded font-semibold">
+        <button
+          type="submit"
+          className="bg-[#D58A17] text-white px-4 py-2 rounded font-semibold"
+        >
           Confirmar pedido
         </button>
       </div>

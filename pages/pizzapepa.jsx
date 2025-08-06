@@ -179,16 +179,16 @@ export default function PizzaPepaPage() {
     <div className="min-h-screen bg-[#f8f8f8] text-[#222]">
       {/* Header */}
       <header className="bg-white shadow px-6 py-4 flex flex-col md:flex-row md:justify-between md:items-center gap-3">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center w-full gap-3">
           <img src="./pepa.svg" alt="Pizza Pepa" className="w-28 " />
-          <div>
-            <div className="text-xs text-gray-500 flex  gap-5 items-center">
+
+            <div className="text-xs text-gray-500 flex  gap-5 items-center justify-end w-full">
               <span>Av. Misiones 579</span>
               <span>3755 701177</span>
             </div>
-          </div>
+
         </div>
-        <div className="flex gap-2 items-center">
+        <div className="flex gap-2 items-center justify-end md:min-w-80">
           <button
             className={`px-4 py-2 rounded-full font-semibold shadow transition ${
               deliveryType === "domicilio"
