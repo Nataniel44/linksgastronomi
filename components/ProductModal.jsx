@@ -84,7 +84,7 @@ export default function ProductModal({ product, onClose, onAdd }) {
         )}
         {/* Botón agregar */}
         <button
-          className="w-full bg-[#FF3B00] text-white rounded-full py-3 font-bold text-lg mt-4"
+          className="w-full bg-[#5fb333] text-white rounded-full py-3 font-bold text-lg mt-4"
           onClick={() => onAdd(product, quantity, selectedExtras)}
         >
           Agregar a mi pedido &nbsp; ${total}

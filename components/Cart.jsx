@@ -1,8 +1,26 @@
-export default function Cart({ cart, removeFromCart, onConfirm }) {
+export default function Cart({ cart, removeFromCart, onConfirm, onClose }) {
   const subtotal = cart.reduce((sum, item) => sum + item.price * (item.quantity || 1), 0);
 
   return (
-    <aside className="md:w-80 w-full bg-white rounded-xl shadow p-4   ">
+    <aside
+      className="md:w-80 w-full bg-white/80 backdrop-blur-md rounded-xl shadow p-4 relative"
+      style={{
+        maxHeight: '70vh',
+        overflowY: 'auto',
+        WebkitOverflowScrolling: 'touch'
+      }}
+    >
+      {/* Botón cerrar */}
+      {onClose && (
+        <button
+          type="button"
+          className="absolute top-4 right-4 text-2xl text-gray-500 hover:text-red-500 z-20"
+          onClick={onClose}
+          aria-label="Cerrar"
+        >
+          ×
+        </button>
+      )}
       <h3 className="text-lg font-bold mb-2 flex items-center gap-2">
         Mi pedido
       </h3>

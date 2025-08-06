@@ -3,6 +3,7 @@ import ProductCard from '../components/ProductCard';
 import Cart from '../components/Cart';
 import ProductModal from '../components/ProductModal';
 import OrderForm from '../components/OrderForm';
+import PickupForm from '../components/PickupForm'; // Nuevo componente para "Para retirar"
 import "./local.css";
 
 const defaultImage = "/argen.jpeg"; // Usa una imagen genérica
@@ -155,6 +156,7 @@ export default function PizzaPepaPage() {
   const [modalProduct, setModalProduct] = useState(null);
   const [showOrderForm, setShowOrderForm] = useState(false);
   const [showCartModal, setShowCartModal] = useState(false);
+  const [deliveryType, setDeliveryType] = useState("domicilio");
 
   const filteredProducts = products
     .filter(p => p.category === selectedCategory)
@@ -182,14 +184,31 @@ export default function PizzaPepaPage() {
           <div>
             <div className="text-xs text-gray-500 flex  gap-5 items-center">
               <span>Av. Misiones 579</span>
-             
               <span>3755 701177</span>
             </div>
           </div>
         </div>
         <div className="flex gap-2 items-center">
-          <button className="bg-[#D58A17] text-white px-4 py-2 rounded-full font-semibold shadow">Entrega a domicilio</button>
-          <button className="border border-[#D58A17] text-[#D58A17] px-4 py-2 rounded-full font-semibold hover:bg-[#D58A17] hover:text-white transition">Para retirar</button>
+          <button
+            className={`px-4 py-2 rounded-full font-semibold shadow transition ${
+              deliveryType === "domicilio"
+                ? "bg-[#D58A17] text-white"
+                : "border border-[#D58A17] text-[#D58A17] hover:bg-[#D58A17] hover:text-white"
+            }`}
+            onClick={() => setDeliveryType("domicilio")}
+          >
+            Entrega a domicilio
+          </button>
+          <button
+            className={`px-4 py-2 rounded-full font-semibold transition border ${
+              deliveryType === "retiro"
+                ? "bg-[#D58A17] text-white border-[#D58A17]"
+                : "border-[#D58A17] text-[#D58A17] hover:bg-[#D58A17] hover:text-white"
+            }`}
+            onClick={() => setDeliveryType("retiro")}
+          >
+            Para retirar
+          </button>
         </div>
       </header>
 
@@ -257,12 +276,16 @@ export default function PizzaPepaPage() {
       {/* Modal carrito móvil */}
       {showCartModal && (
         <div className="fixed inset-0 bg-black bg-opacity-40 flex items-end justify-center z-50 md:hidden">
+          {/* X flotante para cerrar */}
+          <button
+            className="fixed top-4 right-4 z-50 bg-white/60 backdrop-blur-lg rounded-full p-2 text-3xl text-gray-700 hover:text-red-500 shadow-lg"
+            style={{ border: 'none' }}
+            onClick={() => setShowCartModal(false)}
+            aria-label="Cerrar"
+          >
+            ×
+          </button>
           <div className="w-full max-w-md bg-white rounded-t-2xl shadow-xl p-4 relative">
-            <button
-              className="absolute top-3 right-4 text-2xl text-gray-400 hover:text-red-500"
-              onClick={() => setShowCartModal(false)}
-              aria-label="Cerrar"
-            >×</button>
             <Cart
               cart={cart}
               removeFromCart={removeFromCart}
@@ -270,6 +293,7 @@ export default function PizzaPepaPage() {
                 setShowCartModal(false);
                 setShowOrderForm(true);
               }}
+              onClose={() => setShowCartModal(false)}
             />
             {/* Botón confirmar pedido solo en móvil */}
             {cart.length > 0 && (
@@ -296,7 +320,7 @@ export default function PizzaPepaPage() {
         />
       )}
 
-      {/* Modal del formulario de pedido */}
+
       {showOrderForm && (
         <div className="fixed top-0 inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
           <div className="relative w-full max-w-2xl mx-auto h-full flex items-center justify-center">
@@ -304,21 +328,14 @@ export default function PizzaPepaPage() {
               md:block
               fixed md:static top-0 left-0 h-full md:h-auto
               ">
-              <button
-                className="absolute top-4 right-4 text-gray-500 hover:text-red-500 text-2xl z-10"
-                onClick={() => setShowOrderForm(false)}
-                aria-label="Cerrar"
-              >
-                ×
-              </button>
-              <OrderForm logo="/pepa.svg" />
+              <OrderForm logo="/pepa.svg" deliveryType={deliveryType} onClose={() => setShowOrderForm(false)} />
             </div>
           </div>
         </div>
       )}
 
       {/* Footer */}
-      <footer className="bg-[#941F1F] text-white text-center py-6 mt-8">
+      <footer className="bg-[#941F1F] text-white text-center py-6 mt-8 pb-28 md:pb-6">
         <p>📍 Av. Misiones 579 | 📞 3755 701177 | 📷 @pizzapepa.obera</p>
       </footer>
     </div>

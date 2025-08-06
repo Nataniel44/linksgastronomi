@@ -1,29 +1,28 @@
+// filepath: c:\Users\Usuario\linksgastronomi\components\PickupForm.jsx
 import { useState } from "react";
 
-export default function OrderForm({ logo, deliveryType, onClose }) {
+export default function PickupForm({ logo, deliveryType }) {
   const [form, setForm] = useState({
-    email: "",
     name: "",
     phone: "",
-    address: "",
-    floor: "",
     comments: "",
     payment: "efectivo",
   });
 
   return (
-    <form className="bg-white shadow p-4 w-full max-w-2xl mx-auto grid gap-6 rounded-none md:rounded-xl min-h-screen md:min-h-0 relative">
-      {/* Botón cerrar */}
-      {onClose && (
-        <button
-          type="button"
-          className="absolute top-4 right-4 text-2xl text-gray-500 hover:text-red-500 z-20"
-          onClick={onClose}
-          aria-label="Cerrar"
-        >
-          ×
-        </button>
-      )}
+    <form
+      className="bg-white shadow p-4 w-full max-w-2xl mx-auto grid gap-6 rounded-none md:rounded-xl min-h-screen md:min-h-0"
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
+        zIndex: 60,
+        borderRadius: 0,
+        maxWidth: '100vw'
+      }}
+    >
       {/* Logo */}
       {logo && (
         <div className="flex justify-center mb-2">
@@ -33,23 +32,13 @@ export default function OrderForm({ logo, deliveryType, onClose }) {
       {/* Modo de entrega */}
       <div className="mb-2 flex justify-center">
         <span className="inline-block bg-[#FFE5C2] text-[#D58A17] px-4 py-1 rounded-full font-semibold text-sm">
-          {deliveryType === "domicilio" ? "Entrega a domicilio" : "Para retirar"}
+          Para retirar
         </span>
       </div>
       {/* Datos generales */}
-      <div className="">
+      <div>
         <h3 className="font-bold text-lg mb-2">Datos generales</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="text-sm font-medium">Correo electrónico</label>
-            <input
-              type="email"
-              className="w-full border rounded px-3 py-2 mt-1"
-              value={form.email}
-              onChange={e => setForm({ ...form, email: e.target.value })}
-              placeholder="ejemplo@gmail.com"
-            />
-          </div>
           <div>
             <label className="text-sm font-medium">Nombre y apellido *</label>
             <input
@@ -72,28 +61,6 @@ export default function OrderForm({ logo, deliveryType, onClose }) {
             />
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-          <div>
-            <label className="text-sm font-medium">Calle y número</label>
-            <input
-              type="text"
-              className="w-full border rounded px-3 py-2 mt-1"
-              value={form.address}
-              onChange={e => setForm({ ...form, address: e.target.value })}
-              placeholder="Av. Argentina 1234"
-            />
-          </div>
-          <div>
-            <label className="text-sm font-medium">Piso y departamento</label>
-            <input
-              type="text"
-              className="w-full border rounded px-3 py-2 mt-1"
-              value={form.floor}
-              onChange={e => setForm({ ...form, floor: e.target.value })}
-              placeholder="Por ejemplo: 1B"
-            />
-          </div>
-        </div>
         <div className="mt-4">
           <label className="text-sm font-medium">Comentarios</label>
           <textarea
@@ -109,37 +76,30 @@ export default function OrderForm({ logo, deliveryType, onClose }) {
       <div>
         <h3 className="font-bold text-lg mb-2">Forma de pago</h3>
         <div className="flex flex-wrap gap-4">
-          {/*
+          {[
             { value: "efectivo", label: "Efectivo", icon: "💵" },
             { value: "qr", label: "Código QR", icon: "📱" },
             { value: "mercadopago", label: "Mercado Pago", icon: "💳" }
-          */}
-          {["efectivo", "qr", "mercadopago"].map(option => (
+          ].map(option => (
             <button
-              key={option}
+              key={option.value}
               type="button"
               className={`flex items-center gap-2 px-4 py-2 rounded-full border font-semibold transition
-                ${form.payment === option
+                ${form.payment === option.value
                   ? "bg-[#D58A17] text-white border-[#D58A17] shadow"
                   : "bg-white text-[#D58A17] border-[#D58A17] hover:bg-[#FFF5E6]"}
               `}
-              onClick={() => setForm({ ...form, payment: option })}
+              onClick={() => setForm({ ...form, payment: option.value })}
             >
-              <span className="text-xl">
-                {option === "efectivo"
-                  ? ""
-                  : option === "qr"
-                  ? ""
-                  : ""}
-              </span>
-              {option.charAt(0).toUpperCase() + option.slice(1)}
+              <span className="text-xl">{option.icon}</span>
+              {option.label}
             </button>
           ))}
         </div>
       </div>
       {/* Botones */}
       <div className="flex justify-between mt-4">
-        <button type="button" className="border border-[#D58A17] text-[#D58A17] px-4 py-2 rounded font-semibold">
+        <button type="button" aria-label=""  className="border border-[#D58A17] text-[#D58A17] px-4 py-2 rounded font-semibold">
           Atrás
         </button>
         <button type="submit" className="bg-[#D58A17] text-white px-4 py-2 rounded font-semibold">
