@@ -13,7 +13,7 @@ export default function OrderForm({ logo, deliveryType, onClose }) {
 
   return (
     <form
-      className="bg-white shadow p-4 w-full max-w-2xl mx-auto grid gap-6 rounded-none md:rounded-xl  md:min-h-0 relative"
+      className="bg-white shadow p-16 w-full max-w-2xl mx-auto grid gap-6 rounded-none md:rounded-xl min-h-screen md:min-h-0 relative"
       style={{
         height: "100svh", // Soluciona el problema en iPhone Safari
         minHeight: "100svh",
@@ -23,7 +23,7 @@ export default function OrderForm({ logo, deliveryType, onClose }) {
       {onClose && (
         <button
           type="button"
-          className="absolute top-4 right-4 text-2xl text-gray-500 hover:text-red-500 z-20"
+          className="absolute top-12 right-4 text-2xl text-gray-500 hover:text-red-500 z-20"
           onClick={onClose}
           aria-label="Cerrar"
         >
