@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <main className="min-h-screen dark:text-white flex flex-col items-center justify-center relative">
       {/* Fondo decorativo blop */}
-      <div className="absolute z-40 top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+      <div className="absolute -z-50 top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <svg width="100%" height="100%" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
           <defs>
             <filter id="blurfondo" x="-50%" y="-50%" width="200%" height="200%">
