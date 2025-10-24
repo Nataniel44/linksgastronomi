@@ -7,7 +7,7 @@ export function Features() {
     return (
         <SectionWrapper className="relative h-[800px] md:h-[500px] flex-col  flex items-start justify-center text-start">
             <BackgroundBlobs
-
+                colors={["#34d399", "#10b981", "#059669"]}
                 className="opacity-60"
             />
 
@@ -19,7 +19,7 @@ export function Features() {
                     Convertí tu menú en una experiencia visual atractiva y fácil de usar. Diferenciate de la competencia.
                 </p>
                 <ActionButton href="#contacto" variant="dark" className="mt-8">
-                    PROBALÓ GRATIS
+                    OBTENELO GRATIS
                 </ActionButton>
             </div>
 

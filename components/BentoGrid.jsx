@@ -54,7 +54,7 @@ export default function BentoGrid() {
       initial="hidden"
 
       animate={isInView ? "visible" : "hidden"}
-      className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl mx-auto px-4 mt-10"
+      className="grid grid-cols-1 md:grid-cols-3  gap-6 w-full max-w-6xl mx-auto px-4 mt-10"
     >
       {items.map((item, index) => (
         <BentoGridItem key={index} {...item} />

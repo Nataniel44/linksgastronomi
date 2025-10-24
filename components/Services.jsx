@@ -44,7 +44,7 @@ export function Services() {
 
             <div className="flex flex-col md:flex-row gap-4 justify-center items-center mt-12">
                 <ActionButton href="#contacto" variant="primary">
-                    Solicita tu demo
+                    Solicitá tu demo
                 </ActionButton>
                 <ActionButton href="#servicios" variant="secondary">
                     Ver servicios
