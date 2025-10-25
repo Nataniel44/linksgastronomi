@@ -42,14 +42,14 @@ export function Hero() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
-                    className="text-2xl md:text-4xl lg:text-4xl font-regular leading-tight max-w-3xl text-yellow-400 tracking-tight"
+                    className="text-2xl md:text-4xl lg:text-4xl font-regular text-balance leading-tight max-w-3xl text-yellow-400 tracking-tight"
                 >
                     <span className="font-bold">Soluciones</span>{" "}
                     <span className="relative inline-block">
                         <span className="font-bold">digitales</span>
                         <span
                             aria-hidden="true"
-                            className="absolute left-0 -bottom-1 w-full h-1 md:h-1.5 rounded-md bg-gradient-to-r from-yellow-400 to-yellow-600 opacity-90"
+                            className="absolute left-0 -bottom-1  w-full h-0.5 rounded-md bg-gradient-to-r from-yellow-400 to-yellow-600 opacity-90"
                         />
                     </span>{" "}
                     sitios web y menús interactivos para restaurantes, bares ,cafeterías y más.
