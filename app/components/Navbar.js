@@ -65,9 +65,9 @@ export default function Navbar() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
-        className={`fixed w-full z-50 top-0 transition-all duration-500 ${scrolled
-            ? 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl shadow-2xl shadow-black/5'
-            : 'bg-transparent'
+        className={`fixed w-full mx-auto inset-x-0 z-50 top-0 transition-all duration-500 ${scrolled
+          ? 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl shadow-2xl shadow-black/5'
+          : 'bg-transparent'
           }`}
       >
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
