@@ -93,7 +93,7 @@ export default function Navbar() {
                   />
                 </div>
                 <span className="text-xl font-bold bg-gradient-to-r from-yellow-500 to-yellow-600 bg-clip-text text-transparent hidden sm:block">
-                  LeDécide
+                  Clickcito
                 </span>
               </motion.div>
             </Link>
