@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import SectionWrapper from "./ui/SectionWrapper";
 import { BackgroundBlobs } from "./ui/BackgroundBlobs";
@@ -7,6 +8,20 @@ import { motion } from "framer-motion";
 import { CheckCircle2 } from "lucide-react";
 
 export function Features() {
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        // Detectar si es mobile
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
     return (
         <SectionWrapper className="relative min-h-screen flex items-center justify-center overflow-hidden py-20">
             <BackgroundBlobs
@@ -77,10 +92,13 @@ export function Features() {
                                         duration: 0.5,
                                         delay: 0.6 + idx * 0.1
                                     }}
-                                    whileHover={{ scale: 1.03, x: 5 }}
+                                    // Solo hover en desktop
+                                    {...(!isMobile && {
+                                        whileHover: { scale: 1.03, x: 5 }
+                                    })}
                                     className="flex items-center gap-3 bg-gradient-to-r from-black to-gray-900 backdrop-blur-sm px-5 py-3 rounded-full shadow-lg border border-emerald-500/20 group"
                                 >
-                                    <CheckCircle2 className="w-6 h-6 text-emerald-400 flex-shrink-0 group-hover:scale-110 transition-transform" />
+                                    <CheckCircle2 className="w-6 h-6 text-emerald-400 flex-shrink-0 md:group-hover:scale-110 transition-transform" />
                                     <span className="text-white font-semibold text-base md:text-lg">
                                         {feature}
                                     </span>
@@ -98,27 +116,32 @@ export function Features() {
                         className="relative flex items-center justify-center"
                     >
                         <div className="relative w-full max-w-md mx-auto">
-                            {/* Decorative elements */}
+                            {/* Decorative elements - Solo animación continua en desktop */}
                             <motion.div
-                                animate={{
-                                    rotate: [0, 360],
-                                    scale: [1, 1.1, 1]
-                                }}
-                                transition={{
-                                    duration: 20,
-                                    repeat: Infinity,
-                                    ease: "linear"
-                                }}
+                                {...(!isMobile && {
+                                    animate: {
+                                        rotate: [0, 360],
+                                        scale: [1, 1.1, 1]
+                                    },
+                                    transition: {
+                                        duration: 20,
+                                        repeat: Infinity,
+                                        ease: "linear"
+                                    }
+                                })}
                                 className="absolute inset-0 bg-gradient-to-br from-emerald-400/20 to-green-600/20 rounded-full blur-3xl"
                             />
 
+                            {/* Imagen - Animación flotante solo en desktop */}
                             <motion.div
-                                animate={{ y: [0, -20, 0] }}
-                                transition={{
-                                    duration: 3,
-                                    repeat: Infinity,
-                                    ease: "easeInOut"
-                                }}
+                                {...(!isMobile && {
+                                    animate: { y: [0, -20, 0] },
+                                    transition: {
+                                        duration: 3,
+                                        repeat: Infinity,
+                                        ease: "easeInOut"
+                                    }
+                                })}
                                 className="relative z-10"
                             >
                                 <Image
@@ -128,11 +151,12 @@ export function Features() {
                                     height={600}
                                     className="w-full h-auto drop-shadow-2xl"
                                     priority
+                                    loading="eager"
                                 />
                             </motion.div>
 
-                            {/* Floating particles */}
-                            {[...Array(3)].map((_, i) => (
+                            {/* Floating particles - Solo en desktop */}
+                            {!isMobile && [...Array(3)].map((_, i) => (
                                 <motion.div
                                     key={i}
                                     animate={{
