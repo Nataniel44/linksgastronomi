@@ -20,10 +20,10 @@ type Props = {
     whatsapp: string;
 };
 
-// 👇 Solución tipado MotionDiv (evita el error "className does not exist")
-const MotionDiv = motion.div as React.ForwardRefExoticComponent<
-    React.HTMLAttributes<HTMLDivElement> & MotionProps & React.RefAttributes<HTMLDivElement>
->;
+type MotionDivProps = React.HTMLAttributes<HTMLDivElement> & MotionProps;
+
+const MotionDiv = motion.div as React.FC<MotionDivProps>;
+
 
 export const CartSidebar: React.FC<Props> = ({ cart, onClose, removeItem, whatsapp }) => {
     const [showForm, setShowForm] = useState(false);
@@ -220,6 +220,6 @@ Total: $${total}`;
                     )}
                 </motion.div>
             </MotionDiv>
-        </AnimatePresence>
+        </AnimatePresence >
     );
 };
