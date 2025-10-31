@@ -62,6 +62,8 @@ Total: $${total}`;
     return (
         <AnimatePresence>
             <motion.div
+                {...({} as React.HTMLAttributes<HTMLDivElement>)}
+
                 className="fixed inset-0 z-50 flex"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
