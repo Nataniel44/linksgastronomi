@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, MotionProps } from "framer-motion";
 
 type Extra = { name: string; price: number };
 export type CartItem = {
@@ -19,6 +19,11 @@ type Props = {
     removeItem: (index: number) => void;
     whatsapp: string;
 };
+
+// 👇 Solución tipado MotionDiv (evita el error "className does not exist")
+const MotionDiv = motion.div as React.ForwardRefExoticComponent<
+    React.HTMLAttributes<HTMLDivElement> & MotionProps & React.RefAttributes<HTMLDivElement>
+>;
 
 export const CartSidebar: React.FC<Props> = ({ cart, onClose, removeItem, whatsapp }) => {
     const [showForm, setShowForm] = useState(false);
@@ -61,28 +66,29 @@ Total: $${total}`;
 
     return (
         <AnimatePresence>
-            <motion.div
-                {...({} as React.HTMLAttributes<HTMLDivElement>)}
-
+            <MotionDiv
                 className="fixed inset-0 z-50 flex"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
             >
                 {/* Overlay */}
-                <div className="fixed inset-0 bg-black/50" onClick={onClose}></div>
+                <div
+                    className="fixed inset-0 bg-black/50 backdrop-blur-sm cursor-pointer"
+                    onClick={onClose}
+                ></div>
 
                 {/* Sidebar */}
                 <motion.div
-                    className="relative w-full max-w-md bg-gray-900 text-white p-6 flex flex-col"
+                    className="relative w-full max-w-md bg-gray-900 text-white p-6 flex flex-col rounded-l-2xl shadow-2xl"
                     initial={{ x: "100%" }}
                     animate={{ x: 0 }}
                     exit={{ x: "100%" }}
-                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    transition={{ type: "spring", stiffness: 260, damping: 30 }}
                 >
                     <button
                         onClick={onClose}
-                        className="absolute top-4 right-4 text-white text-2xl"
+                        className="absolute top-4 right-4 text-white text-2xl hover:scale-110 transition"
                     >
                         🡰
                     </button>
@@ -91,11 +97,14 @@ Total: $${total}`;
                         <>
                             <h2 className="text-2xl font-bold mb-4">Tu Carrito</h2>
                             {cart.length === 0 ? (
-                                <p>El carrito está vacío</p>
+                                <p className="text-center text-white/70">El carrito está vacío</p>
                             ) : (
-                                <div className="space-y-4 flex-1 overflow-y-auto">
+                                <div className="space-y-4 flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700">
                                     {cart.map((item, i) => (
-                                        <div key={i} className="flex gap-3 items-center">
+                                        <div
+                                            key={i}
+                                            className="flex gap-3 items-center bg-white/5 p-2 rounded-lg hover:bg-white/10 transition"
+                                        >
                                             <div className="w-16 h-16 relative flex-shrink-0">
                                                 {item.image && (
                                                     <Image
@@ -119,7 +128,7 @@ Total: $${total}`;
                                             </div>
                                             <button
                                                 onClick={() => removeItem(i)}
-                                                className="text-red-500 font-bold text-lg"
+                                                className="text-red-400 hover:text-red-600 text-xl"
                                             >
                                                 ×
                                             </button>
@@ -128,7 +137,7 @@ Total: $${total}`;
                                 </div>
                             )}
 
-                            <div className="mt-4 space-y-2">
+                            <div className="mt-4 space-y-2 border-t border-white/10 pt-4">
                                 <div className="flex justify-between">
                                     <span>Subtotal</span>
                                     <span>${subtotal}</span>
@@ -144,18 +153,11 @@ Total: $${total}`;
                                 {cart.length > 0 && (
                                     <button
                                         onClick={() => setShowForm(true)}
-                                        className="w-full bg-green-500 hover:bg-green-600 p-3 rounded-lg font-bold"
+                                        className="w-full bg-green-500 hover:bg-green-600 p-3 rounded-lg font-bold transition"
                                     >
                                         Pagar
                                     </button>
-
                                 )}
-                                <button
-                                    onClick={onClose}
-                                    className="w-full bg-blue-500 hover:bg-blue-600 p-3 rounded-lg font-bold"
-                                >
-                                    🡰 Volver
-                                </button>
                             </div>
                         </>
                     ) : (
@@ -179,24 +181,16 @@ Total: $${total}`;
 
                                 {/* Selector Delivery / Pickup */}
                                 <div className="flex gap-2 mt-2">
-                                    <button
-                                        onClick={() => setPickupType("delivery")}
-                                        className={`flex-1 p-2 rounded-md font-semibold ${pickupType === "delivery"
-                                            ? "bg-green-500"
-                                            : "bg-white/10 hover:bg-white/20"
-                                            }`}
-                                    >
-                                        Delivery
-                                    </button>
-                                    <button
-                                        onClick={() => setPickupType("pickup")}
-                                        className={`flex-1 p-2 rounded-md font-semibold ${pickupType === "pickup"
-                                            ? "bg-green-500"
-                                            : "bg-white/10 hover:bg-white/20"
-                                            }`}
-                                    >
-                                        Retiro en local
-                                    </button>
+                                    {["delivery", "pickup"].map((type) => (
+                                        <button
+                                            key={type}
+                                            onClick={() => setPickupType(type as "delivery" | "pickup")}
+                                            className={`flex-1 p-2 rounded-md font-semibold transition ${pickupType === type ? "bg-green-500" : "bg-white/10 hover:bg-white/20"
+                                                }`}
+                                        >
+                                            {type === "delivery" ? "Delivery" : "Retiro en local"}
+                                        </button>
+                                    ))}
                                 </div>
 
                                 {pickupType === "delivery" && (
@@ -211,21 +205,21 @@ Total: $${total}`;
 
                                 <button
                                     onClick={handleSubmit}
-                                    className="w-full bg-green-500 hover:bg-green-600 p-3 rounded-lg font-bold"
+                                    className="w-full bg-green-500 hover:bg-green-600 p-3 rounded-lg font-bold transition"
                                 >
                                     Confirmar y enviar pedido
                                 </button>
                                 <button
-                                    onClick={onClose}
-                                    className="w-full bg-blue-500 hover:bg-blue-600 p-3 rounded-lg font-bold"
+                                    onClick={() => setShowForm(false)}
+                                    className="w-full bg-blue-500 hover:bg-blue-600 p-3 rounded-lg font-bold transition"
                                 >
-                                    🡰 Volver
+                                    🡰 Volver al carrito
                                 </button>
                             </div>
                         </>
                     )}
                 </motion.div>
-            </motion.div>
+            </MotionDiv>
         </AnimatePresence>
     );
 };
