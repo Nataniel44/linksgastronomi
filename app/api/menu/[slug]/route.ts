@@ -3,11 +3,11 @@ import { NextResponse } from 'next/server'
 
 export async function GET(
     request: Request,
-    { params }: { params: { slug: string } }
+    context: { params: Promise<{ slug: string }> }
 ) {
-    try {
-        const { slug } = params
+    const { slug } = await context.params
 
+    try {
         // Obtener restaurante con todas sus relaciones
         const restaurant = await prisma.restaurant.findFirst({
             where: {
@@ -45,7 +45,6 @@ export async function GET(
             }
         })
 
-        // Si no existe el restaurante
         if (!restaurant) {
             return NextResponse.json(
                 { error: 'Restaurante no encontrado' },
@@ -53,7 +52,6 @@ export async function GET(
             )
         }
 
-        // Si el restaurante no está activo
         if (!restaurant.isActive) {
             return NextResponse.json(
                 { error: 'Restaurante no disponible' },
@@ -61,7 +59,6 @@ export async function GET(
             )
         }
 
-        // Formatear la respuesta
         const response = {
             restaurant: {
                 id: restaurant.id,
@@ -102,7 +99,6 @@ export async function GET(
         }
 
         return NextResponse.json(response)
-
     } catch (error) {
         console.error('Error al obtener menú:', error)
         return NextResponse.json(
