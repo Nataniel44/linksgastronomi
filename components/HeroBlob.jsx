@@ -124,7 +124,9 @@ export function HeroBlob() {
                             <p className="text-white text-lg md:text-xl lg:text-2xl leading-relaxed">
 
                                 Desarrollador autodidacta de 21 años, desde Oberá, Misiones. Creo experiencias digitales que combinan diseño elegante con
+                                {"  "}
                                 <span className="font-bold text-yellow-400 relative inline-block">
+
                                     tecnología moderna
                                     <motion.span
                                         animate={{ scaleX: [0, 1, 0] }}

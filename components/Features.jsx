@@ -26,7 +26,7 @@ export function Features() {
         <SectionWrapper className="relative min-h-screen flex items-center justify-center overflow-hidden py-20">
             <BackgroundBlobs
                 colors={["#34d399", "#10b981", "#059669"]}
-                className="opacity-40"
+                className="opacity-40 z-0"
             />
 
             <div className="relative z-10 w-full max-w-7xl mx-auto px-4">
@@ -45,7 +45,7 @@ export function Features() {
                             viewport={{ once: true }}
                             transition={{ duration: 0.6, delay: 0.2 }}
                         >
-                            <h2 className="text-black text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight">
+                            <h2 className="text-black  text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight">
                                 DESTACA ENTRE
                                 <span className="block text-emerald-600 mt-2">
                                     LOS DEMÁS
@@ -145,7 +145,7 @@ export function Features() {
                                 className="relative z-10"
                             >
                                 <Image
-                                    src="/promo2.png"
+                                    src="/promo5.png"
                                     alt="Vista previa de menú digital en una pantalla de móvil"
                                     width={600}
                                     height={600}

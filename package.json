@@ -5,11 +5,14 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "seed": "ts-node prisma/seed.js",
     "start": "next start",
     "lint": "next lint",
     "deploy": "npm run build && firebase deploy"
   },
   "dependencies": {
+    "@prisma/client": "^6.18.0",
+    "dotenv": "^17.2.3",
     "firebase": "^11.0.2",
     "framer-motion": "11.11.17",
     "lucide-react": "^0.548.0",
@@ -19,9 +22,15 @@
     "react-dom": "18.2.0"
   },
   "devDependencies": {
+    "@types/node": "^24.9.2",
+    "@types/react": "19.2.2",
     "eslint": "^8",
     "eslint-config-next": "15.0.3",
     "postcss": "^8",
-    "tailwindcss": "^3.4.1"
+    "prisma": "^6.18.0",
+    "tailwindcss": "^3.4.1",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
   }
 }

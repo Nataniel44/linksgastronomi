@@ -7,20 +7,24 @@ module.exports = {
   ],
   theme: {
     extend: {
-      animation: {
-        shine: 'shine 4s linear infinite',
-      },
-      keyframes: {
-        shine: {
-          '0%': { transform: 'rotate(0deg) scale(2)' },
-          '100%': { transform: 'rotate(360deg) scale(2)' },
-        },
-      },
-      colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-      },
+      safelist: [
+        "from-blue-500",
+        "to-cyan-500",
+        "from-yellow-500 to-orange-500",
+        "from-yellow-50 to-orange-50",
+        "from-emerald-500 to-teal-500",
+        "from-emerald-50 to-teal-50",
+      ],
     },
   },
+  safelist: [
+    "from-blue-500",
+    "to-cyan-500",
+    "from-yellow-500 to-orange-500",
+    "from-yellow-50 to-orange-50",
+    "from-emerald-500 to-teal-500",
+    "from-emerald-50 to-teal-50",
+    "from-pink-500 to-rose-500",
+  ],
   plugins: [],
 };

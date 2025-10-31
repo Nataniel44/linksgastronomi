@@ -13,7 +13,7 @@ export const Header = ({ openmodal }) => {
           <Image
             width={1920}
             height="1080"
-            src="./class.jpeg"
+            src="/class.jpeg"
             className="w-full h-full object-cover object-[50%_80%] opacity-80"
             alt="Fondo"
           />
@@ -34,7 +34,7 @@ export const Header = ({ openmodal }) => {
         </div>
         {/* Botones de redes y acción creativa */}
         <div className="flex flex-col items-center gap-5 items-end sm:items-end  sm:mt-0">
-        
+
           <button
             className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold px-3 py-1 rounded-full shadow transition text-xs flex items-center gap-2"
             onClick={() => window.location.href = '/demo'}
@@ -64,7 +64,7 @@ export const Header = ({ openmodal }) => {
             </svg>
             Horario
           </button>
-            <div className="flex gap-2">
+          <div className="flex gap-2">
             <a
               href="https://www.instagram.com/"
               target="_blank"

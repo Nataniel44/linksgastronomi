@@ -13,18 +13,18 @@ export default function About() {
         <div className="text-center ">
           <h1 className="text-5xl md:text-6xl font-serif font-black uppercase tracking-widest text-yellow-400">
             Top One Burger
-          </h1>          
+          </h1>
           <h2 className="text-xs font-bold mt-2 mb-2">
             Más que Hamburguesas, una Experiencia
           </h2>
         </div>
         <div className=" text-center ">
-              <Link
-                href="/"
-                className="bg-yellow-500 hover:bg-yellow-600 mb-4 text-black font-bold py-4 px-8 rounded-full inline-flex items-center gap-2 transition duration-300"
-              >
-                ¡Pedí Ahora!
-              </Link>
+          <Link
+            href="/"
+            className="bg-yellow-500 hover:bg-yellow-600 mb-4 text-black font-bold py-4 px-8 rounded-full inline-flex items-center gap-2 transition duration-300"
+          >
+            ¡Pedí Ahora!
+          </Link>
         </div>
         {/* Bento Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-20">
@@ -78,7 +78,7 @@ export default function About() {
               para garantizar que cada hamburguesa sea una obra maestra.
             </p>
           </div>
-           {/* Nuestro Equipo */}
+          {/* Nuestro Equipo */}
           <div className="p-8 rounded-lg shadow-lg flex flex-col justify-center">
             <h2 className="text-3xl font-bold text-yellow-400 mb-4">
               Nuestro Equipo
@@ -106,7 +106,7 @@ export default function About() {
       </div>
       <Footer />
     </div>
-    
+
   );
 }
 

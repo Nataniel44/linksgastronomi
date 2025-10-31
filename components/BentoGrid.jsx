@@ -2,32 +2,36 @@
 import { motion, useInView } from "framer-motion";
 import { BentoGridItem } from "./BentoGridItem";
 import { useRef } from "react";
-import { Smartphone, ShoppingCart, Sparkles, Truck } from "lucide-react";
+import { Smartphone, ShoppingCart, Sparkles, Palette, Instagram, Camera, Truck } from "lucide-react";
 
 const items = [
   {
-    title: "Cartas Digitales",
-    description: "Menús QR y web dinámicos para tu local.",
-    icon: Smartphone,
-    className: "md:col-span-2 bg-gradient-to-br from-yellow-50 via-white to-yellow-100 border-2 border-yellow-200/50 hover:border-yellow-300 transition-colors",
-  },
-  {
     title: "Apps Personalizadas",
-    description: "Pedidos, reservas y fidelización de clientes.",
-    icon: ShoppingCart,
-    className: "md:col-span-1 bg-gradient-to-br from-white to-gray-50 border-2 border-gray-200/50 hover:border-yellow-300 transition-colors",
+    description: "Pedidos, reservas y fidelización de clientes en tu propia app.",
+    icon: Smartphone, // puedes usar otro ícono de app
+    className:
+      "md:col-span-2 bg-gradient-to-br from-blue-50 via-white to-cyan-100 border-2 border-blue-200/50 hover:border-cyan-300 transition-colors",
   },
   {
-    title: "Promociones Inteligentes",
-    description: "Destaca ofertas y combos de forma atractiva.",
+    title: "Diseño de Tarjetas & Banners",
+    description: "Material visual para tu negocio que destaque y atraiga clientes.",
+    icon: Palette,
+    className:
+      "md:col-span-1 bg-gradient-to-br from-white to-gray-50 border-2 border-gray-200/50 hover:border-blue-300 transition-colors",
+  },
+  {
+    title: "Publicidad Creativa",
+    description: "Campañas visuales que transmiten tu mensaje de forma impactante.",
     icon: Sparkles,
-    className: "md:col-span-1 bg-gradient-to-br from-white to-gray-50 border-2 border-gray-200/50 hover:border-yellow-300 transition-colors",
+    className:
+      "md:col-span-1 bg-gradient-to-tr from-pink-50 via-white to-rose-100 border-2 border-pink-200/50 hover:border-rose-300 transition-colors",
   },
   {
-    title: "Delivery & Take Away",
-    description: "Optimiza y gestiona tu servicio de entrega y recolección.",
-    icon: Truck,
-    className: "md:col-span-2 bg-gradient-to-tr from-yellow-50 via-white to-yellow-100 border-2 border-yellow-200/50 hover:border-yellow-300 transition-colors",
+    title: "Fotografía Profesional",
+    description: "Imágenes que realzan tu marca, producto o evento.",
+    icon: Camera,
+    className:
+      "md:col-span-2 bg-gradient-to-tr from-yellow-50 via-white to-yellow-100 border-2 border-yellow-200/50 hover:border-yellow-300 transition-colors",
   },
 ];
 
@@ -49,7 +53,7 @@ export default function BentoGrid() {
   return (
     <section className="relative py-20 overflow-hidden">
       {/* Fondo decorativo */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-yellow-50/30 to-transparent pointer-events-none" />
+      <div className="absolute inset-0  bg-gradient-to-b from-transparent via-yellow-50/30 to-transparent pointer-events-none" />
 
       {/* Título de sección */}
       <motion.div
@@ -72,7 +76,7 @@ export default function BentoGrid() {
         variants={containerVariants}
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
-        className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl mx-auto px-4"
+        className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full max-w-full mx-auto px-6 md:px-12 auto-rows-fr'
       >
         {items.map((item, index) => (
           <BentoGridItem key={index} {...item} />

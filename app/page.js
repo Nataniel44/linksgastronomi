@@ -1,15 +1,17 @@
-import BentoGrid from "@/components/BentoGrid";
-import { ContactForm } from "@/components/ContactForm";
-import { Features } from "@/components/Features";
-import { Hero } from "@/components/Hero";
-import { HeroBlob } from "@/components/HeroBlob";
-import { Services } from "@/components/Services";
-import SectionWrapper from "@/components/ui/SectionWrapper";
-import { WhatsAppContact } from "@/components/WhatsAppContact";
+import BentoGrid from "../components/BentoGrid";
+
+import { Features } from "../components/Features";
+import { Hero } from "../components/Hero";
+import { HeroBlob } from "../components/HeroBlob";
+import { Services } from "../components/Services";
+import SectionWrapper from "../components/ui/SectionWrapper";
+import { WhatsAppContact } from "../components/WhatsAppContact";
 
 export default function Home() {
+
   return (
-    <main className="min-h-screen dark:text-white flex flex-col items-center justify-center relative overflow-x-hidden">
+
+    <main className="min-h-screen dark:text-white flex flex-col items-center justify-center relative overflow-x-hidden z-20 ">
       <Hero />
 
       <BentoGrid />
@@ -23,7 +25,7 @@ export default function Home() {
           <span className="font-bold"> bar</span> al
           <span className="font-bold"> siguiente nivel.</span>
 
-          <span className="font-bold"> la competencia ya arrancó.</span>
+          <span className="font-bold"> La competencia ya arrancó.</span>
         </p>
 
       </SectionWrapper>

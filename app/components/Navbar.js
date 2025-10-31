@@ -61,17 +61,20 @@ export default function Navbar() {
 
   return (
     <>
+
       <motion.nav
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.5, ease: 'easeOut' }}
-        className={`fixed w-full mx-auto inset-x-0 z-50 top-0 transition-all duration-500 ${scrolled
-          ? 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl shadow-2xl shadow-black/5'
-          : 'bg-transparent'
+        initial={{ y: -80, opacity: 0, scale: 0.9 }}
+        animate={{ y: 0, opacity: 1, scale: 1 }}
+        transition={{ duration: 0.7, ease: [0.25, 0.8, 0.25, 1] }}
+        className={`fixed top-3 inset-x-0 z-50 mx-auto transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] ${scrolled
+          ? "w-[90%] md:w-[85%] lg:w-[70%] bg-white/80 dark:bg-gray-900/80 backdrop-blur-2xl shadow-2xl shadow-black/10 scale-95 rounded-full"
+          : "w-[95%] bg-transparent scale-100"
           }`}
       >
+
+
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
+          <div className="flex items-center justify-between h-16">
 
             {/* Logo con animación */}
             <Link href="/" className="relative group">
@@ -89,7 +92,7 @@ export default function Navbar() {
                   <img
                     src="/c.png"
                     alt="Logo"
-                    className="w-10 h-10 relative z-10 drop-shadow-lg"
+                    className="w-8 h-8 relative z-10 drop-shadow-lg"
                   />
                 </div>
                 <span className="text-xl font-bold bg-gradient-to-r from-yellow-500 to-yellow-600 bg-clip-text text-transparent hidden sm:block">
@@ -179,10 +182,10 @@ export default function Navbar() {
             </motion.button>
           </div>
         </div>
-      </motion.nav>
+      </motion.nav >
 
       {/* Mobile Menu con diseño premium - FUERA DEL NAV */}
-      <AnimatePresence>
+      < AnimatePresence >
         {isOpen && (
           <>
             {/* Backdrop */}
@@ -308,8 +311,9 @@ export default function Navbar() {
               </div>
             </motion.div>
           </>
-        )}
-      </AnimatePresence>
+        )
+        }
+      </AnimatePresence >
     </>
   );
 }
