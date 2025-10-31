@@ -7,7 +7,7 @@ export async function generateStaticParams() {
     return services.map((s) => ({ slug: s.slug }));
 }
 
-export default async function ServicePage({ params }: { params: { slug: string } }) {
+export default async function ServicePage({ params }: any) {
     const service = await getServiceBySlug(params.slug);
 
     if (!service) {
