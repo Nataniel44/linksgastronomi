@@ -17,12 +17,12 @@ export default function ProductModal({ product, onClose, onAdd }) {
   // Construye el array de extras seleccionados para el carrito
   const selectedExtras = product.extras
     ? product.extras
-        .map((extra, idx) =>
-          extrasQty[idx] > 0
-            ? { name: extra.name, price: extra.price, qty: extrasQty[idx] }
-            : null
-        )
-        .filter(Boolean)
+      .map((extra, idx) =>
+        extrasQty[idx] > 0
+          ? { name: extra.name, price: extra.price, qty: extrasQty[idx] }
+          : null
+      )
+      .filter(Boolean)
     : [];
 
   return (
@@ -32,7 +32,7 @@ export default function ProductModal({ product, onClose, onAdd }) {
           className="absolute top-3 right-3 text-2xl text-gray-400 hover:text-gray-700"
           onClick={onClose}
         >×</button>
-             {/* Imagen UX/UI */}
+        {/* Imagen UX/UI */}
         {product.image && (
           <div className="flex justify-center mb-4">
             <img

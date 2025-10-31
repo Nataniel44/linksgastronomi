@@ -9,6 +9,7 @@ import { Banner } from "./Banner";
 import { CartSidebar } from "./CartSidebar";
 import { CategorySelector } from "./CategorySelector";
 import LoadingScreen from "./LoadingScreen";
+import { MessageCircle, ShoppingCart } from "lucide-react";
 
 // Tipos
 type Product = {
@@ -126,7 +127,7 @@ export const RestaurantMenu: React.FC<Props> = ({ slug }) => {
         : [];
 
     return (
-        <div className="relative bg-gray-900 min-h-screen p">
+        <div className="relative w-full bg-gray-900 rounded-b-lg min-h-screen ">
 
 
             {/* Carrito flotante */}
@@ -183,27 +184,38 @@ export const RestaurantMenu: React.FC<Props> = ({ slug }) => {
 
                 </div>
             )}
+            <div className="fixed bottom-6 right-6   gap-6 flex">
 
-            {/* Botón flotante para abrir carrito */}
-            {cart.length > 0 && (
-                <button
-                    className="fixed bottom-24 z-10 right-6 bg-green-500 hover:bg-green-600 p-4 rounded-full shadow-xl text-white text-2xl"
-                    onClick={() => setShowCart(true)}
-                >
-                    🛒 ({cart.length})
-                </button>
-            )}
-            {/* Botón WhatsApp flotante */}
-            {restaurant.whatsapp && (
-                <a
-                    href={`https://wa.me/${restaurant.whatsapp}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 p-4 rounded-full shadow-xl text-white text-2xl"
-                >
-                    💬
-                </a>
-            )}
+
+
+                {/* Botón flotante para abrir carrito */}
+                {cart.length > 0 && (
+                    <button
+                        className="group flex items-center gap-2 bg-green-500/20 hover:bg-green-500/30 backdrop-blur-md px-4 py-2.5 rounded-full shadow-lg hover:shadow-xl text-white transition-all duration-200 border border-green-400/20 hover:scale-105 active:scale-95"
+                        onClick={() => setShowCart(true)}
+                    >
+                        <div className="relative">
+                            <ShoppingCart className="w-5 h-5" />
+                            {/* Badge con cantidad */}
+                            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center border border-white/20">
+                                {cart.length}
+                            </span>
+                        </div>
+                        <span className="text-sm font-medium">Ver carrito</span>
+                    </button>
+                )}
+                {/* Botón flotante de WhatsApp */}
+                {restaurant.whatsapp && (
+                    <a
+                        href={`https://wa.me/${restaurant.whatsapp}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group flex items-center justify-center bg-green-500/90 hover:bg-green-600 backdrop-blur-md w-14 h-14 rounded-full shadow-lg hover:shadow-xl text-white transition-all duration-200 border border-green-400/30 hover:scale-110 active:scale-95"
+                    >
+                        <MessageCircle className="w-6 h-6" />
+                    </a>
+                )}
+            </div>
         </div>
     );
 };

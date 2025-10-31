@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
+import { ChevronDown } from "lucide-react";
 
 type Subcategory = {
     id: number;
@@ -31,7 +32,7 @@ export const CategorySelector: React.FC<Props> = ({
     onSelectSubcategory,
 }) => {
     const categoryRef = useRef<HTMLDivElement>(null);
-    const subcategoryRef = useRef<HTMLDivElement>(null);
+    const [showSubcategories, setShowSubcategories] = useState(false);
 
     if (!categories || categories.length === 0) {
         return (
@@ -42,8 +43,8 @@ export const CategorySelector: React.FC<Props> = ({
     }
 
     const activeCat = categories.find((c) => c.slug === activeCategory);
+    const hasSubcategories = activeCat && activeCat.subcategories?.length > 0;
 
-    // Función para centrar el botón clickeado
     const scrollToCenter = (
         containerRef: React.RefObject<HTMLDivElement>,
         element: HTMLElement
@@ -62,68 +63,81 @@ export const CategorySelector: React.FC<Props> = ({
     };
 
     return (
-        <div className="sticky top-[90px] z-40 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 shadow-sm transition-all duration-300">
-            <div className="max-w-7xl mx-auto px-4 py-3">
-                {/* Categorías */}
+        <div className="sticky top-[90px] z-40 bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-800/50 shadow-sm">
+            <div className="max-w-7xl mx-auto px-4 py-2.5">
+                {/* Categorías - Compactas y elegantes */}
                 <div
                     ref={categoryRef}
-                    className="flex gap-3 overflow-x-auto scrollbar-hide pb-2 scroll-smooth"
+                    className="flex gap-2 overflow-x-auto scrollbar-hide scroll-smooth"
                 >
-                    {categories.map((cat) => (
-                        <motion.button
-                            key={cat.id}
-                            whileTap={{ scale: 0.95 }}
-                            onClick={(e) => {
-                                onSelectCategory(cat.slug);
-                                onSelectSubcategory(null);
-                                scrollToCenter(categoryRef, e.currentTarget);
-                            }}
-                            className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-300 ${activeCategory === cat.slug
-                                    ? "bg-green-500 text-white shadow-md"
-                                    : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-green-100 dark:hover:bg-gray-700"
-                                }`}
-                        >
-                            {cat.name}
-                        </motion.button>
-                    ))}
-                </div>
-
-                {/* Subcategorías */}
-                {activeCat && activeCat.subcategories?.length > 0 && (
-                    <div
-                        ref={subcategoryRef}
-                        className="flex gap-2 overflow-x-auto scrollbar-hide mt-3 pb-1 scroll-smooth"
-                    >
-                        <motion.button
-                            whileTap={{ scale: 0.95 }}
-                            onClick={(e) => {
-                                onSelectSubcategory(null);
-                                scrollToCenter(subcategoryRef, e.currentTarget);
-                            }}
-                            className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition-all ${activeSubcategory === null
-                                    ? "bg-green-500 text-white"
-                                    : "bg-gray-200 dark:bg-gray-800 hover:bg-green-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300"
-                                }`}
-                        >
-                            Todos
-                        </motion.button>
-
-                        {activeCat.subcategories.map((sub) => (
+                    {categories.map((cat) => {
+                        const isActive = activeCategory === cat.slug;
+                        return (
                             <motion.button
-                                key={sub.id}
+                                key={cat.id}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={(e) => {
-                                    onSelectSubcategory(sub.id);
-                                    scrollToCenter(subcategoryRef, e.currentTarget);
+                                    onSelectCategory(cat.slug);
+                                    onSelectSubcategory(null);
+                                    setShowSubcategories(false);
+                                    scrollToCenter(categoryRef, e.currentTarget);
                                 }}
-                                className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition-all ${activeSubcategory === sub.id
-                                        ? "bg-green-500 text-white"
-                                        : "bg-gray-200 dark:bg-gray-800 hover:bg-green-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300"
+                                className={`relative flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 ${isActive
+                                        ? "bg-green-500/90 text-white shadow-md"
+                                        : "bg-gray-100/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 hover:bg-gray-200/80 dark:hover:bg-gray-700/80"
                                     }`}
                             >
-                                {sub.name}
+                                {cat.name}
+                                {cat.subcategories?.length > 0 && (
+                                    <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isActive && showSubcategories ? 'rotate-180' : ''}`} />
+                                )}
                             </motion.button>
-                        ))}
+                        );
+                    })}
+                </div>
+
+                {/* Subcategorías - Desplegable opcional */}
+                {hasSubcategories && (
+                    <div className="mt-2 flex items-center gap-2">
+                        <button
+                            onClick={() => setShowSubcategories(!showSubcategories)}
+                            className="text-xs text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 font-medium flex items-center gap-1 transition-colors"
+                        >
+                            {showSubcategories ? 'Ocultar' : 'Ver'} subcategorías
+                            <ChevronDown className={`w-3 h-3 transition-transform ${showSubcategories ? 'rotate-180' : ''}`} />
+                        </button>
+
+                        {showSubcategories && (
+                            <motion.div
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: "auto" }}
+                                exit={{ opacity: 0, height: 0 }}
+                                className="flex gap-2 overflow-x-auto scrollbar-hide flex-1"
+                            >
+                                <button
+                                    onClick={() => onSelectSubcategory(null)}
+                                    className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition-all ${activeSubcategory === null
+                                            ? "bg-green-500/20 text-green-700 dark:text-green-300 border border-green-500/30"
+                                            : "bg-gray-100/80 dark:bg-gray-800/80 hover:bg-gray-200/80 dark:hover:bg-gray-700/80 text-gray-600 dark:text-gray-400"
+                                        }`}
+                                >
+                                    Todos
+                                </button>
+
+                                {activeCat.subcategories.map((sub) => (
+                                    <button
+                                        key={sub.id}
+                                        onClick={() => onSelectSubcategory(sub.id)}
+                                        className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition-all ${activeSubcategory === sub.id
+                                                ? "bg-green-500/20 text-green-700 dark:text-green-300 border border-green-500/30"
+                                                : "bg-gray-100/80 dark:bg-gray-800/80 hover:bg-gray-200/80 dark:hover:bg-gray-700/80 text-gray-600 dark:text-gray-400"
+                                            }`}
+                                    >
+                                        {sub.name}
+                                    </button>
+                                ))}
+                            </motion.div>
+                        )}
                     </div>
                 )}
             </div>
