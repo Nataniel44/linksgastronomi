@@ -66,7 +66,9 @@ export type CartItem = {
 };
 type Props = {
     slug: string;
+
 };
+
 
 export const RestaurantMenu: React.FC<Props> = ({ slug }) => {
     const [data, setData] = useState<RestaurantData | null>(null);
@@ -164,7 +166,7 @@ export const RestaurantMenu: React.FC<Props> = ({ slug }) => {
                             <ProductCard
                                 key={prod.id}
                                 product={prod}
-                                onClick={setSelectedProduct}
+                                onClick={(p) => setSelectedProduct(p as Product)}
                                 getImageSrc={getImageSrc}
                             />
                         ))}

@@ -18,6 +18,7 @@ type Props = {
     onClose: () => void;
     removeItem: (index: number) => void;
     whatsapp: string;
+    getImageSrc: (src?: string) => string; // 🔥 AGREGA ESTA LÍNEA
 };
 
 type MotionDivProps = React.HTMLAttributes<HTMLDivElement> & MotionProps;
@@ -25,7 +26,7 @@ type MotionDivProps = React.HTMLAttributes<HTMLDivElement> & MotionProps;
 const MotionDiv = motion.div as React.FC<MotionDivProps>;
 
 
-export const CartSidebar: React.FC<Props> = ({ cart, onClose, removeItem, whatsapp }) => {
+export const CartSidebar: React.FC<Props> = ({ cart, onClose, removeItem, whatsapp, getImageSrc, }) => {
     const [showForm, setShowForm] = useState(false);
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
