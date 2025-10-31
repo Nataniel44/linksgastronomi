@@ -28,9 +28,8 @@ export const ProductCard: React.FC<Props> = ({ product, onClick, getImageSrc }) 
         e.stopPropagation(); // evita que dispare el onClick del producto
 
         const shareText = `🔥 ${product.name} - $${product.price}\n${product.description || ""}`;
-        const imageUrl = getImageSrc(product.image);
+        const imageUrl = getImageSrc(product.image || undefined);
         const productUrl = `${window.location.origin}/producto/${product.slug || product.id}`;
-
         try {
             if (navigator.share) {
                 await navigator.share({
