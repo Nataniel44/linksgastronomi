@@ -14,7 +14,7 @@ type Product = {
         extras?: { name: string; price: number }[];
         sizes?: { name: string; price: number }[];
     };
-    slug?: string; // por si querés compartir una URL única
+    slug?: string;
 };
 
 type Props = {
@@ -25,21 +25,36 @@ type Props = {
 
 export const ProductCard: React.FC<Props> = ({ product, onClick, getImageSrc }) => {
     const handleShare = async (e: React.MouseEvent) => {
-        e.stopPropagation(); // evita que dispare el onClick del producto
+        e.stopPropagation();
 
         const shareText = `🔥 ${product.name} - $${product.price}\n${product.description || ""}`;
         const imageUrl = getImageSrc(product.image || undefined);
         const productUrl = `${window.location.origin}/producto/${product.slug || product.id}`;
+
         try {
-            if (navigator.share) {
+            // Intentamos compartir con imagen
+            if (navigator.canShare && navigator.canShare({ files: [] })) {
+                const response = await fetch(imageUrl);
+                const blob = await response.blob();
+                const file = new File([blob], `${product.name}.jpg`, { type: blob.type });
+
+                await navigator.share({
+                    title: product.name,
+                    text: shareText,
+                    files: [file],
+                    url: productUrl,
+                });
+            } else if (navigator.share) {
+                // Solo texto + URL
                 await navigator.share({
                     title: product.name,
                     text: shareText,
                     url: productUrl,
                 });
             } else {
+                // Fallback a WhatsApp
                 const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(
-                    `${shareText}\n\n${productUrl}`
+                    `${shareText}\n\n${imageUrl}\n${productUrl}`
                 )}`;
                 window.open(whatsappUrl, "_blank");
             }
@@ -68,7 +83,7 @@ export const ProductCard: React.FC<Props> = ({ product, onClick, getImageSrc }) 
                 </div>
             )}
 
-            {/* Botón compartir (aparece sobre la imagen) */}
+            {/* Botón compartir */}
             <button
                 onClick={handleShare}
                 className="absolute top-2 right-2 bg-black/50 hover:bg-black/70 p-2 rounded-full text-white opacity-0 group-hover:opacity-100 transition"
