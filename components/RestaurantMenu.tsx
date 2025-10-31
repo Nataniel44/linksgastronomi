@@ -7,6 +7,7 @@ import { ModalProducto } from "./ModalProducto";
 import { ProductCard } from "./ProductCard";
 import { Banner } from "./Banner";
 import { CartSidebar } from "./CartSidebar";
+import { CategorySelector } from "./CategorySelector";
 
 // Tipos
 type Product = {
@@ -148,9 +149,17 @@ export const RestaurantMenu: React.FC<Props> = ({ slug }) => {
                         address={restaurant.address}
                         getImageSrc={getImageSrc}
                     />
+                    <CategorySelector
+                        categories={categories}
+                        activeCategory={activeCategory}
+                        activeSubcategory={activeSubcategory}
+                        onSelectCategory={setActiveCategory}
+                        onSelectSubcategory={setActiveSubcategory}
+                    />
+
 
                     {/* Productos */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6 md:p-12">
+                    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6 md:p-12">
                         {filteredProducts.map(prod => (
                             <ProductCard
                                 key={prod.id}
