@@ -8,6 +8,7 @@ import { ProductCard } from "./ProductCard";
 import { Banner } from "./Banner";
 import { CartSidebar } from "./CartSidebar";
 import { CategorySelector } from "./CategorySelector";
+import LoadingScreen from "./LoadingScreen";
 
 // Tipos
 type Product = {
@@ -111,7 +112,7 @@ export const RestaurantMenu: React.FC<Props> = ({ slug }) => {
         fetchMenu();
     }, [slug]);
 
-    if (loading) return <p className="text-center mt-20">Cargando menú...</p>;
+    if (loading) return <LoadingScreen />;
     if (error) return <p className="text-red-500 text-center mt-20">{error}</p>;
     if (!data) return null;
 

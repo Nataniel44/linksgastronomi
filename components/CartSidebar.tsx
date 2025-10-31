@@ -68,7 +68,7 @@ Total: $${total}`;
     return (
         <AnimatePresence>
             <MotionDiv
-                className="fixed inset-0 z-50 flex"
+                className="fixed inset-0 z-50 flex justify-end"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -83,7 +83,7 @@ Total: $${total}`;
                 <motion.div
                     className="relative w-full max-w-md bg-gray-900 text-white p-6 flex flex-col rounded-l-2xl shadow-2xl"
                     initial={{ x: "100%" }}
-                    animate={{ x: 0 }}
+                    animate={{ x: "0" }}
                     exit={{ x: "100%" }}
                     transition={{ type: "spring", stiffness: 260, damping: 30 }}
                 >
