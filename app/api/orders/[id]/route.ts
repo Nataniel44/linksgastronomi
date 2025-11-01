@@ -5,10 +5,10 @@ import { prisma } from '@/lib/prisma'; // Ajusta la ruta según tu proyecto
 // GET - Obtener un pedido por ID
 export async function GET(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    context: { params: { id: string } }
 ) {
     try {
-        const orderId = parseInt(params.id);
+        const orderId = parseInt(context.params.id);
 
         if (isNaN(orderId)) {
             return NextResponse.json(
