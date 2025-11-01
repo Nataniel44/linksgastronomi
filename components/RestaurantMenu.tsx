@@ -194,8 +194,6 @@ export const RestaurantMenu: React.FC<Props> = ({ slug }) => {
             )}
             <div className="fixed bottom-6 right-6   gap-6 flex">
 
-
-
                 {/* Botón flotante para abrir carrito */}
                 {cart.length > 0 && (
                     <button
