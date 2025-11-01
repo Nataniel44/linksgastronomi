@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
-import { motion } from "framer-motion";
+import { useCustomerPhone } from "./hooks/useCustomerPhone";
+
 import { ModalProducto } from "./ModalProducto";
 import { ProductCard } from "./ProductCard";
 import { Banner } from "./Banner";
@@ -11,6 +11,8 @@ import { CategorySelector } from "./CategorySelector";
 import LoadingScreen from "./LoadingScreen";
 import { MessageCircle, ShoppingCart } from "lucide-react";
 import OrderHistory from "./OrderHistory";
+
+
 
 // Tipos
 type Product = {
@@ -83,6 +85,8 @@ export const RestaurantMenu: React.FC<Props> = ({ slug }) => {
     const [cart, setCart] = useState<CartItem[]>([]);
     const [showCart, setShowCart] = useState(false);
 
+
+    const { phone, savePhone } = useCustomerPhone();
 
     const clearCart = () => setCart([]);
 
@@ -192,8 +196,8 @@ export const RestaurantMenu: React.FC<Props> = ({ slug }) => {
 
                 </div>
             )}
-            <div className="fixed bottom-6 right-6   gap-6 flex">
-
+            <div className="fixed z-40 bottom-6 right-6   gap-6 flex">
+                <OrderHistory phone={phone as string} restaurantId={restaurant.id} />
                 {/* Botón flotante para abrir carrito */}
                 {cart.length > 0 && (
                     <button

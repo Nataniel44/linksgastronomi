@@ -4,6 +4,7 @@ import Image from "next/image";
 import { motion, AnimatePresence, MotionProps } from "framer-motion";
 import { ArrowLeft, Loader2, CheckCircle2 } from "lucide-react";
 import { OrderStatusTracker } from "./OrderStatusTracker"; // Importar el componente
+import { useCustomerPhone } from "./hooks/useCustomerPhone";
 
 type Extra = { name: string; price: number };
 
@@ -48,6 +49,7 @@ export const CartSidebar: React.FC<Props> = ({
     const [orderSuccess, setOrderSuccess] = useState(false);
     const [createdOrderId, setCreatedOrderId] = useState<number | null>(null);
     const [showTracker, setShowTracker] = useState(false);
+    const { savePhone } = useCustomerPhone();
 
     const deliveryFee = pickupType === "delivery" ? 50 : 0;
     const subtotal = cart.reduce(
@@ -104,6 +106,12 @@ export const CartSidebar: React.FC<Props> = ({
 
             const savedOrder = await response.json();
             setCreatedOrderId(savedOrder.id);
+            savePhone(phone);
+
+            // 🔹 Guardar el número en localStorage
+            if (typeof window !== "undefined") {
+                localStorage.setItem("customerPhone", phone);
+            }
 
             // Preparar mensaje de WhatsApp
             const mensaje = `🛒 *Nuevo Pedido #${savedOrder.id}*

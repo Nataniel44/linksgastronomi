@@ -63,7 +63,7 @@ export const CategorySelector: React.FC<Props> = ({
     };
 
     return (
-        <div className="sticky top-[90px] z-40 bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-800/50 shadow-sm">
+        <div className="sticky top-[90px] z-10 bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-800/50 shadow-sm">
             <div className="max-w-7xl mx-auto px-4 py-2.5">
                 {/* Categorías - Compactas y elegantes */}
                 <div
@@ -83,8 +83,8 @@ export const CategorySelector: React.FC<Props> = ({
                                     scrollToCenter(categoryRef, e.currentTarget);
                                 }}
                                 className={`relative flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 ${isActive
-                                        ? "bg-green-500/90 text-white shadow-md"
-                                        : "bg-gray-100/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 hover:bg-gray-200/80 dark:hover:bg-gray-700/80"
+                                    ? "bg-green-500/90 text-white shadow-md"
+                                    : "bg-gray-100/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 hover:bg-gray-200/80 dark:hover:bg-gray-700/80"
                                     }`}
                             >
                                 {cat.name}
@@ -117,8 +117,8 @@ export const CategorySelector: React.FC<Props> = ({
                                 <button
                                     onClick={() => onSelectSubcategory(null)}
                                     className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition-all ${activeSubcategory === null
-                                            ? "bg-green-500/20 text-green-700 dark:text-green-300 border border-green-500/30"
-                                            : "bg-gray-100/80 dark:bg-gray-800/80 hover:bg-gray-200/80 dark:hover:bg-gray-700/80 text-gray-600 dark:text-gray-400"
+                                        ? "bg-green-500/20 text-green-700 dark:text-green-300 border border-green-500/30"
+                                        : "bg-gray-100/80 dark:bg-gray-800/80 hover:bg-gray-200/80 dark:hover:bg-gray-700/80 text-gray-600 dark:text-gray-400"
                                         }`}
                                 >
                                     Todos
@@ -129,8 +129,8 @@ export const CategorySelector: React.FC<Props> = ({
                                         key={sub.id}
                                         onClick={() => onSelectSubcategory(sub.id)}
                                         className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition-all ${activeSubcategory === sub.id
-                                                ? "bg-green-500/20 text-green-700 dark:text-green-300 border border-green-500/30"
-                                                : "bg-gray-100/80 dark:bg-gray-800/80 hover:bg-gray-200/80 dark:hover:bg-gray-700/80 text-gray-600 dark:text-gray-400"
+                                            ? "bg-green-500/20 text-green-700 dark:text-green-300 border border-green-500/30"
+                                            : "bg-gray-100/80 dark:bg-gray-800/80 hover:bg-gray-200/80 dark:hover:bg-gray-700/80 text-gray-600 dark:text-gray-400"
                                             }`}
                                     >
                                         {sub.name}
