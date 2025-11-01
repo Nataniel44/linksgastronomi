@@ -142,7 +142,7 @@ export const RestaurantMenu: React.FC<Props> = ({ slug }) => {
                     cart={cart}
                     onClose={() => setShowCart(false)}
                     removeItem={(i) => setCart(cart.filter((_, idx) => idx !== i))}
-                    whatsapp="5493764123456"
+                    whatsapp={restaurant.whatsapp as string}
                     restaurantId={restaurant.id}
                     getImageSrc={getImageSrc}
                     clearCart={clearCart} // 🔥 NUEVO
