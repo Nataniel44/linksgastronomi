@@ -1,3 +1,4 @@
+import { ArrowLeft } from 'lucide-react';
 import { useState } from 'react';
 
 export default function ProductModal({ product, onClose, onAdd }) {
