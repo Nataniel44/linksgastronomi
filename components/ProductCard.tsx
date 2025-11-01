@@ -35,6 +35,8 @@ const ProductCardBase: React.FC<Props> = ({ product, onClick, getImageSrc }) => 
         >
             {/* Imagen */}
             <div className="relative w-full aspect-[4/3] overflow-hidden bg-gray-100 dark:bg-zinc-800/50">
+
+
                 {product.image ? (
                     <Image
                         src={getImageSrc(product.image)}

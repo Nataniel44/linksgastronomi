@@ -35,13 +35,21 @@ export default function ProductModal({ product, onClose, onAdd }) {
         {/* Imagen UX/UI */}
         {product.image && (
           <div className="flex justify-center mb-4">
+
             <img
               src={product.image}
               alt={product.name}
               className="w-32 h-32 object-cover rounded-full shadow"
             />
           </div>
+
         )}
+        <button
+          onClick={onClose}
+          className="absolute top-6 z-50 right-6 text-white text-2xl hover:scale-110 transition"
+        >
+          <ArrowLeft className="w-8" />
+        </button>
         <h2 className="text-xl font-bold text-center">{product.name}</h2>
         <div className="text-[#FF3B00] font-bold text-lg mb-2 text-center">${product.price}</div>
         <div className="text-gray-500 mb-4 text-center">{product.description}</div>

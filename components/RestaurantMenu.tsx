@@ -10,6 +10,7 @@ import { CartSidebar } from "./CartSidebar";
 import { CategorySelector } from "./CategorySelector";
 import LoadingScreen from "./LoadingScreen";
 import { MessageCircle, ShoppingCart } from "lucide-react";
+import OrderHistory from "./OrderHistory";
 
 // Tipos
 type Product = {
@@ -83,6 +84,9 @@ export const RestaurantMenu: React.FC<Props> = ({ slug }) => {
     const [showCart, setShowCart] = useState(false);
 
 
+    const clearCart = () => setCart([]);
+
+
     const handleAddToCart = (product: Product, quantity: number, extras: Extra[]) => {
         setCart(prev => [...prev, { ...product, quantity, extras }]);
         setShowCart(true); // abrir carrito automáticamente
@@ -96,9 +100,11 @@ export const RestaurantMenu: React.FC<Props> = ({ slug }) => {
     };
 
     useEffect(() => {
+
         const fetchMenu = async () => {
             setLoading(true);
             try {
+
                 const res = await fetch(`/api/menu/${slug}`);
                 if (!res.ok) throw new Error("No se pudo cargar el restaurante");
                 const json: RestaurantData = await res.json();
@@ -135,9 +141,11 @@ export const RestaurantMenu: React.FC<Props> = ({ slug }) => {
                 <CartSidebar
                     cart={cart}
                     onClose={() => setShowCart(false)}
-                    removeItem={handleRemoveItem}
+                    removeItem={(i) => setCart(cart.filter((_, idx) => idx !== i))}
+                    whatsapp="5493764123456"
+                    restaurantId={restaurant.id}
                     getImageSrc={getImageSrc}
-                    whatsapp={restaurant.whatsapp || ""}
+                    clearCart={clearCart} // 🔥 NUEVO
                 />
             )}
             {/* Banner */}

@@ -2,7 +2,7 @@
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-
+import { OrderTrackerProvider } from "@/components/contexts/OrderTrackerContext";
 
 
 export default function RootLayout({ children }) {
@@ -16,8 +16,9 @@ export default function RootLayout({ children }) {
 
 
         <Navbar />
-
-        {children}
+        <OrderTrackerProvider >
+          {children}
+        </OrderTrackerProvider>
         <Footer />
       </body>
     </html>

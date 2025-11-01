@@ -97,17 +97,18 @@ export const Banner: React.FC<BannerProps> = ({
 
                 {address && (
                     <a
-                        href={`https://wa.me/${whatsapp}`}
+                        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group flex items-center gap-2.5 bg-gradient-to-r from-gray-500/50 to-gray-600/50 hover:from-gray-600 hover:to-gray-700 backdrop-blur-md px-3 py-1  rounded-full text-white transition-all duration-300 hover:scale-105 hover:shadow-xl active:scale-95 border border-white/20"
+                        className="group flex items-center gap-2.5 bg-gradient-to-r from-gray-500/50 to-gray-600/50 hover:from-gray-600 hover:to-gray-700 backdrop-blur-md px-3 py-1 rounded-full text-white transition-all duration-300 hover:scale-105 hover:shadow-xl active:scale-95 border border-white/20"
                     >
                         <div className="bg-white/20 p-1.5 rounded-full group-hover:bg-white/30 transition-colors">
                             <MapPin className="w-4 h-4" />
                         </div>
-                        <span className="text-sm font-semibold tracking-wide">WhatsApp</span>
+                        <span className="text-sm font-semibold tracking-wide">Ubicación</span>
                     </a>
                 )}
+
             </div>
         </div>
     </div>
