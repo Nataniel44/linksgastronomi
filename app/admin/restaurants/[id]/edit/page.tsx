@@ -8,11 +8,8 @@ export default function EditRestaurantPage() {
     const params = useParams();
     const router = useRouter();
 
-    if (!params || !params.id) {
-        return <p className="text-center mt-10 text-gray-500">Cargando...</p>;
-    }
 
-    const id = params.id as string;
+    const id = params?.id as string | undefined;
 
     const [form, setForm] = useState({
         name: "",
@@ -67,6 +64,9 @@ export default function EditRestaurantPage() {
             setLoading(false);
         }
     };
+    if (!params || !params.id) {
+        return <p className="text-center mt-10 text-gray-500">Cargando...</p>;
+    }
 
     return (
         <div className="max-w-lg mx-auto mt-10">
