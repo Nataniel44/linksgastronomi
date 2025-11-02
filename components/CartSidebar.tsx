@@ -351,7 +351,7 @@ ${cart
                                                                     const lng = pos.coords.longitude.toFixed(6);
 
                                                                     // Generamos el link de Google Maps
-                                                                    const mapsUrl = `https://www.google.com/maps?q=${lat},${lng}`;
+                                                                    const mapsUrl = `${lat},${lng}`;
 
                                                                     // Guardamos el link completo en el input
                                                                     setAddress(mapsUrl);
