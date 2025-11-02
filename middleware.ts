@@ -1,44 +1,44 @@
-// middleware.ts
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import jwt from "jsonwebtoken";
 
-const SECRET = process.env.JWT_SECRET!; // tu clave secreta
+const SECRET = process.env.JWT_SECRET!;
 
 export function middleware(req: NextRequest) {
     const { pathname } = req.nextUrl;
 
-    // Rutas públicas (no requieren autenticación)
+    // Rutas públicas
     const publicPaths = ["/login", "/api/login", "/api/public"];
-    if (publicPaths.some((path) => pathname.startsWith(path))) {
+    if (publicPaths.some(path => pathname.startsWith(path))) {
         return NextResponse.next();
     }
 
+    // Chequear token
     const token = req.cookies.get("token")?.value;
 
-    const rscRequest = req.nextUrl.searchParams.has("_rsc");
-    if (!token && !rscRequest) {
-        return NextResponse.redirect(new URL("/login", req.url));
-    }
+    // Chequear si es RSC request
+    const isRSC =
+        req.nextUrl.searchParams.has("_rsc") || req.headers.get("rsc") === "1";
+
     if (!token) {
-        // Sin token → redirigir a login
+        if (isRSC) {
+            // Permitir RSC aunque no haya token
+            return NextResponse.next();
+        }
+        // Navegador normal sin token → login
         return NextResponse.redirect(new URL("/login", req.url));
     }
 
     try {
-        // Verificar token
         jwt.verify(token, SECRET);
-        // Token válido → continuar
         return NextResponse.next();
     } catch (err) {
-        // Token inválido → eliminar cookie y redirigir
         const response = NextResponse.redirect(new URL("/login", req.url));
-        response.cookies.delete({ name: "token", path: "/" }); // ✅ corrección
+        response.cookies.delete({ name: "token", path: "/" });
         return response;
     }
 }
 
-// Configuración: proteger todas las rutas /admin/*
 export const config = {
     matcher: ["/admin/:path*"],
 };
