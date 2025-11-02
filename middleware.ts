@@ -1,0 +1,40 @@
+// middleware.ts
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import jwt from "jsonwebtoken";
+
+const SECRET = process.env.JWT_SECRET!; // tu clave secreta
+
+export function middleware(req: NextRequest) {
+    const { pathname } = req.nextUrl;
+
+    // 1️⃣ Rutas públicas que no requieren autenticación
+    const publicPaths = ["/login", "/api/public"];
+    if (publicPaths.some(path => pathname.startsWith(path))) {
+        return NextResponse.next();
+    }
+
+    // 2️⃣ Obtener token de cookies
+    const token = req.cookies.get("token")?.value;
+
+    if (!token) {
+        // Sin token → redirigir a login
+        return NextResponse.redirect(new URL("/login", req.url));
+    }
+
+    try {
+        // 3️⃣ Verificar token
+        jwt.verify(token, SECRET);
+        return NextResponse.next(); // token válido, continuar
+    } catch (err) {
+        // Token inválido → eliminar cookie y redirigir
+        const response = NextResponse.redirect(new URL("/login", req.url));
+        response.cookies.delete("token");
+        return response;
+    }
+}
+
+// 4️⃣ Configuración: proteger todas las rutas /admin/*
+export const config = {
+    matcher: ["/admin/:path*"],
+};
