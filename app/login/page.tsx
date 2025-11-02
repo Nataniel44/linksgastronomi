@@ -27,7 +27,7 @@ export default function LoginPage() {
             if (!res.ok) throw new Error(data.error || "Error desconocido");
 
             // Login exitoso → redirigir
-            router.push("/admin");
+            router.push("/admin/restaurants");
         } catch (err: any) {
             setError(err.message);
         } finally {
