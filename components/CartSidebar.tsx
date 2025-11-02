@@ -108,17 +108,18 @@ export const CartSidebar: React.FC<Props> = ({
             setCreatedOrderId(savedOrder.id);
             savePhone(phone);
 
-            // 🔹 Guardar el número en localStorage
-            if (typeof window !== "undefined") {
-                localStorage.setItem("customerPhone", phone);
-            }
 
-            // Preparar mensaje de WhatsApp
             const mensaje = `🛒 *Nuevo Pedido #${savedOrder.id}*
 
 👤 *Cliente:* ${name}
 📱 *Teléfono:* ${phone}
-${pickupType === "delivery" ? `📍 *Dirección:* ${address}` : "🏪 *Retiro en local*"}
+${pickupType === "delivery"
+                    ? `📍 *Ubicación:* ${address.startsWith("https://www.google.com/maps")
+                        ? address
+                        : `https://www.google.com/maps?q=${encodeURIComponent(address)}`
+                    }`
+                    : "🏪 *Retiro en local*"}
+
 
 *Items:*
 ${cart
@@ -314,15 +315,86 @@ ${cart
                                             </div>
 
                                             {pickupType === "delivery" && (
-                                                <input
-                                                    type="text"
-                                                    placeholder="Dirección de entrega"
-                                                    value={address}
-                                                    onChange={(e) => setAddress(e.target.value)}
-                                                    disabled={isSubmitting}
-                                                    className="w-full p-3 rounded-lg bg-white/10 text-white placeholder-white/60 border border-white/20 focus:border-green-500 focus:outline-none transition"
-                                                />
+                                                <div className="space-y-2">
+                                                    <div className="flex gap-2">
+                                                        <input
+                                                            type="text"
+                                                            placeholder="Dirección de entrega"
+                                                            value={address}
+                                                            onChange={(e) => setAddress(e.target.value)}
+                                                            disabled={isSubmitting}
+                                                            className="w-full p-3 rounded-lg bg-white/10 text-white placeholder-white/60 border border-white/20 focus:border-green-500 focus:outline-none transition"
+                                                        />
+                                                        <button
+                                                            type="button"
+                                                            disabled={isSubmitting}
+                                                            onClick={async () => {
+                                                                if (!navigator.geolocation) {
+                                                                    alert("❌ Tu navegador no soporta geolocalización.");
+                                                                    return;
+                                                                }
+
+                                                                try {
+                                                                    const getPosition = (): Promise<GeolocationPosition> =>
+                                                                        new Promise((resolve, reject) => {
+                                                                            const options: PositionOptions = {
+                                                                                enableHighAccuracy: true,
+                                                                                timeout: 10000, // 10 segundos
+                                                                                maximumAge: 0,
+                                                                            };
+                                                                            navigator.geolocation.getCurrentPosition(resolve, reject, options);
+                                                                        });
+
+                                                                    // Esperamos la posición
+                                                                    const pos = await getPosition();
+                                                                    const lat = pos.coords.latitude.toFixed(6);
+                                                                    const lng = pos.coords.longitude.toFixed(6);
+
+                                                                    // Generamos el link de Google Maps
+                                                                    const mapsUrl = `https://www.google.com/maps?q=${lat},${lng}`;
+
+                                                                    // Guardamos el link completo en el input
+                                                                    setAddress(mapsUrl);
+                                                                } catch (err: any) {
+                                                                    console.error("Error obteniendo ubicación:", err);
+
+                                                                    let message = "❌ No se pudo obtener tu ubicación.";
+
+                                                                    // Controlamos todos los códigos posibles del error
+                                                                    if (err.code) {
+                                                                        switch (err.code) {
+                                                                            case err.PERMISSION_DENIED:
+                                                                                message =
+                                                                                    "🚫 Denegaste el permiso de ubicación. Activá la ubicación en el navegador y volvé a intentar.";
+                                                                                break;
+                                                                            case err.POSITION_UNAVAILABLE:
+                                                                                message =
+                                                                                    "📡 No se pudo determinar tu ubicación. Asegurate de tener señal GPS o conexión a internet.";
+                                                                                break;
+                                                                            case err.TIMEOUT:
+                                                                                message = "⏳ La solicitud de ubicación tardó demasiado. Probá nuevamente.";
+                                                                                break;
+                                                                            default:
+                                                                                message = "⚠️ Ocurrió un error inesperado al obtener tu ubicación.";
+                                                                                break;
+                                                                        }
+                                                                    }
+
+                                                                    alert(message);
+                                                                }
+                                                            }}
+                                                            className="bg-green-600 hover:bg-green-700 px-3 rounded-lg text-white text-sm font-semibold whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
+                                                        >
+                                                            📍 Usar mi ubicación
+                                                        </button>
+
+                                                    </div>
+                                                    <p className="text-xs text-white/60">
+                                                        Podés escribir tu dirección manualmente o usar tu ubicación actual.
+                                                    </p>
+                                                </div>
                                             )}
+
 
                                             <button
                                                 onClick={handleSubmit}

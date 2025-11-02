@@ -222,16 +222,16 @@ export const OrderStatusTracker: React.FC<Props> = ({ orderId, onClose }) => {
                                     className="flex items-center gap-4"
                                 >
                                     <div className={`flex items-center justify-center w-10 h-10 rounded-full transition-all ${isCompleted
-                                            ? `${config.bgColor} ${config.color}`
-                                            : 'bg-gray-200 dark:bg-gray-800 text-gray-400'
+                                        ? `${config.bgColor} ${config.color}`
+                                        : 'bg-gray-200 dark:bg-gray-800 text-gray-400'
                                         } ${isCurrent ? 'ring-4 ring-green-500/30' : ''}`}>
                                         {config.icon}
                                     </div>
 
                                     <div className="flex-1">
                                         <p className={`font-medium ${isCompleted
-                                                ? 'text-gray-900 dark:text-white'
-                                                : 'text-gray-400 dark:text-gray-600'
+                                            ? 'text-gray-900 dark:text-white'
+                                            : 'text-gray-400 dark:text-gray-600'
                                             }`}>
                                             {config.label}
                                         </p>

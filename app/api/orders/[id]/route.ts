@@ -25,3 +25,23 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ error: "Error al obtener el pedido" }, { status: 500 });
     }
 }
+
+// PATCH /api/orders/:id
+export async function PATCH(req: Request, { params }: { params: { id: string } }) {
+    try {
+        const { whatsappSent, status } = await req.json();
+
+        const updated = await prisma.order.update({
+            where: { id: Number(params.id) },
+            data: {
+                whatsappSent: whatsappSent ?? undefined,
+                status: status ?? undefined,
+            },
+        });
+
+        return NextResponse.json(updated);
+    } catch (error) {
+        console.error("Error en PATCH /api/orders/[id]:", error);
+        return NextResponse.json({ error: "Error al actualizar el pedido" }, { status: 500 });
+    }
+}
