@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-// ✅ GET /api/orders/[id]
-export async function GET(request: NextRequest) {
+export async function GET(req: NextRequest, context: { params: { id: string } }) {
     try {
-        const url = new URL(request.url);
-        const id = url.pathname.split("/").pop(); // obtiene el id del path dinámico
+        const { id } = context.params;
 
         if (!id) {
             return NextResponse.json({ error: "ID no proporcionado" }, { status: 400 });
@@ -27,13 +25,13 @@ export async function GET(request: NextRequest) {
     }
 }
 
-// ✅ PATCH /api/orders/[id]
-export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, context: { params: { id: string } }) {
     try {
-        const { whatsappSent, status } = await request.json();
+        const { id } = context.params;
+        const { whatsappSent, status } = await req.json();
 
         const updated = await prisma.order.update({
-            where: { id: Number(params.id) },
+            where: { id: Number(id) },
             data: {
                 whatsappSent: whatsappSent ?? undefined,
                 status: status ?? undefined,
