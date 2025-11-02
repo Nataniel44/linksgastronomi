@@ -14,9 +14,12 @@ export function middleware(req: NextRequest) {
         return NextResponse.next();
     }
 
-    // Obtener token de cookies
     const token = req.cookies.get("token")?.value;
 
+    const rscRequest = req.nextUrl.searchParams.has("_rsc");
+    if (!token && !rscRequest) {
+        return NextResponse.redirect(new URL("/login", req.url));
+    }
     if (!token) {
         // Sin token → redirigir a login
         return NextResponse.redirect(new URL("/login", req.url));
