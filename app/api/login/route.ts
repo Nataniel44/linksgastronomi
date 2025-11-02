@@ -38,7 +38,7 @@ export async function POST(req: Request) {
         response.cookies.delete("token");
         response.cookies.set("token", token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "development", // false en localhost
+            secure: process.env.NODE_ENV === "production", // false en localhost
             path: "/",   // MUY importante que coincida con el middleware
             maxAge: 60 * 60 * 24, // 1 día
         });

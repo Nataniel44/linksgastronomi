@@ -14,6 +14,7 @@ export default function LoginPage() {
 
         const token = document.cookie.split("; ").find(row => row.startsWith("token="));
 
+
         if (token) router.replace("/admin");
     }, []);
 
