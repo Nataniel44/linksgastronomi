@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-export async function GET(req: NextRequest, context: { params: { id: string } }) {
+// GET /api/orders/:id
+export async function GET(req: NextRequest, context: any) {
     try {
-        const { id } = context.params;
+        const id = context?.params?.id;
 
         if (!id) {
             return NextResponse.json({ error: "ID no proporcionado" }, { status: 400 });
@@ -20,14 +21,15 @@ export async function GET(req: NextRequest, context: { params: { id: string } })
 
         return NextResponse.json(order);
     } catch (error) {
-        console.error(error);
+        console.error("Error en GET /api/orders/[id]:", error);
         return NextResponse.json({ error: "Error al obtener el pedido" }, { status: 500 });
     }
 }
 
-export async function PATCH(req: NextRequest, context: { params: { id: string } }) {
+// PATCH /api/orders/:id
+export async function PATCH(req: NextRequest, context: any) {
     try {
-        const { id } = context.params;
+        const id = context?.params?.id;
         const { whatsappSent, status } = await req.json();
 
         const updated = await prisma.order.update({
