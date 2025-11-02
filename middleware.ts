@@ -3,38 +3,46 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import jwt from "jsonwebtoken";
 
-const SECRET = process.env.JWT_SECRET!; // tu clave secreta
+const SECRET = process.env.JWT_SECRET!;
 
+// Middleware principal
 export function middleware(req: NextRequest) {
     const { pathname } = req.nextUrl;
 
-    // 1️⃣ Rutas públicas que no requieren autenticación
+    // Rutas públicas que no necesitan autenticación
     const publicPaths = ["/login", "/api/public"];
     if (publicPaths.some(path => pathname.startsWith(path))) {
         return NextResponse.next();
     }
 
-    // 2️⃣ Obtener token de cookies
+    // 1️⃣ Obtener token de cookies
+    // ⚠️ Traefik puede pasar cookies con domain, así que nos aseguramos de usar `.get("token")`
     const token = req.cookies.get("token")?.value;
 
     if (!token) {
         // Sin token → redirigir a login
-        return NextResponse.redirect(new URL("/login", req.url));
+        const loginUrl = new URL("/login", req.url);
+        const res = NextResponse.redirect(loginUrl);
+        res.cookies.delete({ name: "token", path: "/" });
+        return res;
     }
 
     try {
-        // 3️⃣ Verificar token
+        // 2️⃣ Verificar token JWT
         jwt.verify(token, SECRET);
-        return NextResponse.next(); // token válido, continuar
+
+        // Token válido → continuar
+        return NextResponse.next();
     } catch (err) {
         // Token inválido → eliminar cookie y redirigir
-        const response = NextResponse.redirect(new URL("/login", req.url));
-        response.cookies.delete("token");
-        return response;
+        const loginUrl = new URL("/login", req.url);
+        const res = NextResponse.redirect(loginUrl);
+        res.cookies.delete({ name: "token", path: "/" });
+        return res;
     }
 }
 
-// 4️⃣ Configuración: proteger todas las rutas /admin/*
+// 3️⃣ Configuración de rutas protegidas
 export const config = {
-    matcher: ["/admin/:path*"],
+    matcher: ["/admin/:path*"], // protege todo /admin/*
 };

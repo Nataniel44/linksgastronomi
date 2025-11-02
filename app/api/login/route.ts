@@ -38,9 +38,11 @@ export async function POST(req: Request) {
         response.cookies.delete("token");
         response.cookies.set("token", token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production", // false en localhost
+            secure: true,
             path: "/",   // MUY importante que coincida con el middleware
-            maxAge: 60 * 60 * 24, // 1 día
+            maxAge: 60 * 60 * 24, // 1 día  sameSite: "lax", // importante para que funcione con redirecciones internas de Next.js
+            sameSite: "lax", // importante para que funcione con redirecciones internas de Next.js
+
         });
 
         return response;
