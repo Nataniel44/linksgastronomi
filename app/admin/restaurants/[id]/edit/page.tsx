@@ -56,7 +56,7 @@ export default function EditRestaurantPage() {
                 throw new Error(data.error || "Error al guardar los cambios");
             }
 
-            setSuccess("Cambios guardados correctamente ✅");
+            setSuccess("Cambios guardados correctamente ");
             setTimeout(() => router.push("/admin/restaurants"), 1500);
         } catch (err: any) {
             setError(err.message || "Error desconocido al guardar.");
@@ -159,7 +159,7 @@ export default function EditRestaurantPage() {
                     {loading ? "Guardando..." : "Guardar cambios"}
                 </button>
             </form>    <ProductForm restaurantId={Number(id)} />
-            // 👇 después del botón "Guardar cambios"
+            // después del botón "Guardar cambios"
             <hr className="my-8" />
             <h2 className="text-xl font-semibold mb-4">Productos del restaurante</h2>
 
