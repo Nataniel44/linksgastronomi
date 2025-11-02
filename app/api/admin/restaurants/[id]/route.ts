@@ -2,13 +2,18 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 // Obtener restaurante por ID
-export async function GET(
-    request: Request,
-    { params }: { params: { id: string } }
-) {
+export async function GET(request: Request) {
     try {
+        const url = new URL(request.url);
+        const segments = url.pathname.split("/");
+        const id = segments[segments.indexOf("restaurants") + 1];
+
+        if (!id) {
+            return NextResponse.json({ error: "ID de restaurante no proporcionado" }, { status: 400 });
+        }
+
         const restaurant = await prisma.restaurant.findUnique({
-            where: { id: Number(params.id) },
+            where: { id: Number(id) },
         });
 
         if (!restaurant) {
@@ -23,40 +28,38 @@ export async function GET(
 }
 
 // Actualizar restaurante (PATCH)
-export async function PATCH(
-    request: Request,
-    { params }: { params: { id: string } }
-) {
+export async function PATCH(request: Request) {
     try {
-        const id = Number(params.id);
+        const url = new URL(request.url);
+        const segments = url.pathname.split("/");
+        const id = segments[segments.indexOf("restaurants") + 1];
+
+        if (!id) {
+            return NextResponse.json({ error: "ID de restaurante no proporcionado" }, { status: 400 });
+        }
+
         const body = await request.json();
 
-        // 🧠 Validación básica
+        // Validación básica
         if (!body.name || !body.slug) {
-            return NextResponse.json(
-                { error: "El nombre y el slug son obligatorios." },
-                { status: 400 }
-            );
+            return NextResponse.json({ error: "El nombre y el slug son obligatorios." }, { status: 400 });
         }
 
         // Verificar si el slug ya existe (y no pertenece a este restaurante)
         const existing = await prisma.restaurant.findFirst({
             where: {
                 slug: body.slug,
-                NOT: { id },
+                NOT: { id: Number(id) },
             },
         });
 
         if (existing) {
-            return NextResponse.json(
-                { error: "Ya existe otro restaurante con ese slug." },
-                { status: 409 }
-            );
+            return NextResponse.json({ error: "Ya existe otro restaurante con ese slug." }, { status: 409 });
         }
 
         // Actualizar el restaurante
         const updated = await prisma.restaurant.update({
-            where: { id },
+            where: { id: Number(id) },
             data: {
                 name: body.name,
                 slug: body.slug,
@@ -74,9 +77,6 @@ export async function PATCH(
         });
     } catch (error) {
         console.error("❌ Error al actualizar restaurante:", error);
-        return NextResponse.json(
-            { error: "Error al guardar los cambios." },
-            { status: 500 }
-        );
+        return NextResponse.json({ error: "Error al guardar los cambios." }, { status: 500 });
     }
 }
