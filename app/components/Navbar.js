@@ -7,9 +7,32 @@ import { motion, AnimatePresence, LazyMotion, domAnimation, m } from 'framer-mot
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const toggleMenu = () => setIsOpen(!isOpen);
+  // 🔹 Verificar sesión al montar
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const res = await fetch("/api/me", { credentials: "include" });
+        const data = await res.json();
+        setIsLoggedIn(data.loggedIn);
+      } catch {
+        setIsLoggedIn(false);
+      }
+    };
+    checkAuth();
+  }, []);
 
+  // 🔹 Cerrar sesión
+  const handleLogout = async () => {
+    await fetch("/api/logout", {
+      method: "POST",
+      credentials: "include",
+    });
+    setIsLoggedIn(false);
+    window.location.href = "/login";
+  };
   // Memoizar variantes para evitar recrearlas en cada render
   const navVariants = useMemo(() => ({
     initial: { y: -80, opacity: 0, scale: 0.9 },
@@ -100,7 +123,7 @@ export default function Navbar() {
         variants={navVariants}
         initial="initial"
         animate="animate"
-        className={`fixed top-3 inset-x-0 z-50 mx-auto transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] ${scrolled
+        className={`fixed top-3 inset-x-0 z-50 mx-auto transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] ${scrolled
           ? "w-[90%] md:w-[85%] lg:w-[70%] bg-white/80 dark:bg-gray-900/80 backdrop-blur-2xl shadow-2xl shadow-black/10 scale-95 rounded-full"
           : "w-[95%] bg-transparent scale-100"
           }`}
@@ -317,6 +340,15 @@ export default function Navbar() {
                   </m.div>
                 </div>
 
+                {/* 🔹 Solo mostrar si está logueado */}
+                {isLoggedIn && (
+                  <button
+                    onClick={handleLogout}
+                    className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-full transition"
+                  >
+                    Cerrar sesión
+                  </button>
+                )}
                 {/* Footer */}
                 <m.div
                   initial={{ opacity: 0 }}

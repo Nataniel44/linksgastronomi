@@ -70,7 +70,7 @@ export function Services() {
                 transition={{ duration: 0.6 }}
                 className="text-center mb-16"
             >
-                <div className="flex items-center justify-center gap-3 mb-4">
+                <div className="flex items-center justify-center gap-3 mb-4 z-20 relative">
                     <Sparkles className="w-8 h-8 text-yellow-500" />
                     <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900">
                         ¿Qué{" "}
@@ -106,7 +106,7 @@ export function Services() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: 0.8 }}
-                className="flex flex-col md:flex-row gap-4 justify-center items-center mt-16"
+                className="flex flex-col md:flex-row gap-4 justify-center items-center mt-16 z-20 relative"
             >
                 <ActionButton href="#contacto" variant="primary">
                     Solicitá tu demo

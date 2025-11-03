@@ -43,13 +43,17 @@ export function Features() {
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
+                            className="w-full"
                             transition={{ duration: 0.6, delay: 0.2 }}
                         >
-                            <h2 className="text-black  text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight">
-                                DESTACA ENTRE
-                                <span className="block text-emerald-600 mt-2">
+                            <h2 className="text-black text-nowrap md:text-start text-center text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight">
+                                <div className="w-full">
+                                    DESTACA ENTRE
+                                </div>
+                                {" "}
+                                <div className=" text-emerald-600 w-full">
                                     LOS DEMÁS
-                                </span>
+                                </div>
                             </h2>
                         </motion.div>
 
@@ -147,9 +151,9 @@ export function Features() {
                                 <Image
                                     src="/promo5.png"
                                     alt="Vista previa de menú digital en una pantalla de móvil"
-                                    width={600}
-                                    height={600}
-                                    className="w-full h-auto drop-shadow-2xl"
+                                    width={800}
+                                    height={800}
+                                    className="w-full scale-150 h-auto drop-shadow-2xl"
                                     priority
                                     loading="eager"
                                 />

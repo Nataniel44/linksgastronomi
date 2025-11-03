@@ -1,53 +1,73 @@
-// app/api/login/route.ts
-import { NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
-import { prisma } from "@/lib/prisma"; // tu cliente Prisma
-import bcrypt from "bcrypt";
+import { NextResponse, NextRequest } from "next/server";
+import { prisma } from "@/lib/prisma";
+import { createToken } from "@/lib/auth";
+import bcrypt from "bcryptjs";
 
-
-
-export async function POST(req: Request) {
-    const SECRET = process.env.JWT_SECRET!;
-
+// ===========================
+// LOGIN SEGURO (sin inyección)
+// ===========================
+export async function POST(req: NextRequest) {
     try {
-        const { email, password } = await req.json();
-        console.log("Login attempt for:", email);
+        const body = await req.json();
 
-        if (!email || !password) {
-            return NextResponse.json({ error: "Email y contraseña son obligatorios" }, { status: 400 });
+        // Sanitizar y validar inputs
+        const email = String(body.email || "").trim().toLowerCase();
+        const password = String(body.password || "").trim();
+
+        if (!email || !password || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            return NextResponse.json({ error: "Datos inválidos" }, { status: 400 });
         }
 
-        // Buscar admin en DB
-        const admin = await prisma.admin.findUnique({ where: { email } });
-        if (!admin) return NextResponse.json({ error: "Credenciales inválidas" }, { status: 401 });
-
-
-
-        const valid = await bcrypt.compare(password, admin.password);
-        if (!valid) return NextResponse.json({ error: "Credenciales inválidas" }, { status: 401 });
-
-        // Crear JWT
-        const token = jwt.sign({ id: admin.id, email: admin.email, role: "admin" }, SECRET, {
-            expiresIn: "1d",
+        // Evitar SQL injection: Prisma usa queries parametrizadas por defecto.
+        const admin = await prisma.admin.findUnique({
+            where: { email },
+            select: { id: true, email: true, name: true, password: true },
         });
 
-        // Guardar token en cookie
-        const response = NextResponse.json({ success: true });
+        // Usuario no existe
+        if (!admin) {
+            await new Promise((r) => setTimeout(r, 1000)); // delay contra fuerza bruta
+            return NextResponse.json({ error: "Credenciales inválidas" }, { status: 401 });
+        }
 
-        // Antes de setear la nueva cookie, elimina cualquier cookie vieja:
-        response.cookies.delete("token");
+        // Validar contraseña
+        const isValid = await bcrypt.compare(password, admin.password);
+        if (!isValid) {
+            await new Promise((r) => setTimeout(r, 1000));
+            return NextResponse.json({ error: "Credenciales inválidas" }, { status: 401 });
+        }
+
+        // Crear token seguro
+        const token = await createToken({
+            userId: admin.id,
+            email: admin.email,
+            role: "admin",
+        });
+
+        // Generar respuesta y cookie protegida
+        const response = NextResponse.json({
+            success: true,
+            user: {
+                id: admin.id,
+                email: admin.email,
+                name: admin.name,
+            },
+        });
+
         response.cookies.set("token", token, {
-            httpOnly: true,
-            secure: true,
-            path: "/",   // MUY importante que coincida con el middleware
-            maxAge: 60 * 60 * 24, // 1 día  sameSite: "lax", // importante para que funcione con redirecciones internas de Next.js
-            sameSite: "lax", // importante para que funcione con redirecciones internas de Next.js
-
+            httpOnly: true,      // evita acceso desde JS (protege XSS)
+            secure: process.env.NODE_ENV === "production", // solo HTTPS en prod
+            sameSite: "strict",  // evita envío CSRF
+            maxAge: 60 * 60 * 24 * 7, // 7 días
+            path: "/",
         });
 
         return response;
-    } catch (err) {
-        console.error("Login error:", err);
-        return NextResponse.json({ error: "Error interno del servidor" }, { status: 500 });
+    } catch (error) {
+        console.error("Error en login:", error);
+        return NextResponse.json(
+            { error: "Error interno en el servidor" },
+            { status: 500 }
+        );
     }
 }

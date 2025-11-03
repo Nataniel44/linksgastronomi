@@ -12,21 +12,36 @@ export default function LoginPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setLoading(true);
         setError(null);
 
+        // Validación básica antes del fetch
+        const cleanEmail = email.trim().toLowerCase();
+        const cleanPassword = password.trim();
+        if (!cleanEmail || !cleanPassword) {
+            setError("Complete todos los campos");
+            return;
+        }
+
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
+            setError("Email inválido");
+            return;
+        }
+
         try {
+            setLoading(true);
             const res = await fetch("/api/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password }),
-                credentials: "include", // Muy importante para enviar cookies en fetch
+                body: JSON.stringify({
+                    email: cleanEmail.replace(/[<>]/g, ""), // evita inyección o XSS
+                    password: cleanPassword.replace(/[<>]/g, ""),
+                }),
+                credentials: "include",
             });
 
             const data = await res.json();
             if (!res.ok) throw new Error(data.error || "Error desconocido");
 
-            // Login exitoso → redirigir
             router.push("/admin/restaurants");
         } catch (err: any) {
             setError(err.message);
@@ -36,9 +51,8 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="max-w-md mx-auto mt-20 p-6 border rounded shadow">
+        <div className="max-w-md mx-auto mt-20 p-6 border rounded shadow bg-white/80 backdrop-blur">
             <h1 className="text-2xl font-bold mb-4">Iniciar sesión</h1>
-
             {error && <p className="text-red-600 mb-4">{error}</p>}
 
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -69,7 +83,7 @@ export default function LoginPage() {
                 <button
                     type="submit"
                     disabled={loading}
-                    className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+                    className="w-full bg-yellow-500 text-black py-2 rounded font-semibold hover:bg-yellow-400 disabled:opacity-60"
                 >
                     {loading ? "Ingresando..." : "Ingresar"}
                 </button>
