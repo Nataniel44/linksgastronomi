@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import React, { useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
 
@@ -54,7 +53,8 @@ export const CategorySelector: React.FC<Props> = ({
         const containerWidth = container.offsetWidth;
         const elementLeft = element.offsetLeft;
         const elementWidth = element.offsetWidth;
-        const scrollPosition = elementLeft - containerWidth / 2 + elementWidth / 2;
+        const scrollPosition =
+            elementLeft - containerWidth / 2 + elementWidth / 2;
 
         container.scrollTo({
             left: scrollPosition,
@@ -65,7 +65,7 @@ export const CategorySelector: React.FC<Props> = ({
     return (
         <div className="sticky top-[90px] z-10 bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-800/50 shadow-sm">
             <div className="max-w-7xl mx-auto px-4 py-2.5">
-                {/* Categorías - Compactas y elegantes */}
+                {/* Categorías */}
                 <div
                     ref={categoryRef}
                     className="flex gap-2 overflow-x-auto scrollbar-hide scroll-smooth"
@@ -73,71 +73,76 @@ export const CategorySelector: React.FC<Props> = ({
                     {categories.map((cat) => {
                         const isActive = activeCategory === cat.slug;
                         return (
-                            <motion.button
+                            <button
                                 key={cat.id}
-                                whileTap={{ scale: 0.95 }}
                                 onClick={(e) => {
                                     onSelectCategory(cat.slug);
                                     onSelectSubcategory(null);
                                     setShowSubcategories(false);
                                     scrollToCenter(categoryRef, e.currentTarget);
                                 }}
-                                className={`relative flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 ${isActive
+                                className={`relative flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 active:scale-95 ${isActive
                                     ? "bg-green-500/90 text-white shadow-md"
                                     : "bg-gray-100/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 hover:bg-gray-200/80 dark:hover:bg-gray-700/80"
                                     }`}
                             >
                                 {cat.name}
                                 {cat.subcategories?.length > 0 && (
-                                    <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isActive && showSubcategories ? 'rotate-180' : ''}`} />
+                                    <ChevronDown
+                                        className={`w-3.5 h-3.5 transition-transform ${isActive && showSubcategories ? "rotate-180" : ""
+                                            }`}
+                                    />
                                 )}
-                            </motion.button>
+                            </button>
                         );
                     })}
                 </div>
 
-                {/* Subcategorías - Desplegable opcional */}
+                {/* Subcategorías */}
                 {hasSubcategories && (
                     <div className="mt-2 flex items-center gap-2">
                         <button
                             onClick={() => setShowSubcategories(!showSubcategories)}
                             className="text-xs text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 font-medium flex items-center gap-1 transition-colors"
                         >
-                            {showSubcategories ? 'Ocultar' : 'Ver'} subcategorías
-                            <ChevronDown className={`w-3 h-3 transition-transform ${showSubcategories ? 'rotate-180' : ''}`} />
+                            {showSubcategories ? "Ocultar" : "Ver"} subcategorías
+                            <ChevronDown
+                                className={`w-3 h-3 transition-transform ${showSubcategories ? "rotate-180" : ""
+                                    }`}
+                            />
                         </button>
 
-                        {showSubcategories && (
-                            <motion.div
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: "auto" }}
-                                exit={{ opacity: 0, height: 0 }}
-                                className="flex gap-2 overflow-x-auto scrollbar-hide flex-1"
-                            >
-                                <button
-                                    onClick={() => onSelectSubcategory(null)}
-                                    className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition-all ${activeSubcategory === null
-                                        ? "bg-green-500/20 text-green-700 dark:text-green-300 border border-green-500/30"
-                                        : "bg-gray-100/80 dark:bg-gray-800/80 hover:bg-gray-200/80 dark:hover:bg-gray-700/80 text-gray-600 dark:text-gray-400"
-                                        }`}
-                                >
-                                    Todos
-                                </button>
-
-                                {activeCat.subcategories.map((sub) => (
+                        <div
+                            className={`transition-all overflow-hidden duration-300 ${showSubcategories ? "max-h-32 opacity-100" : "max-h-0 opacity-0"
+                                } flex gap-2 overflow-x-auto scrollbar-hide flex-1`}
+                        >
+                            {showSubcategories && (
+                                <>
                                     <button
-                                        key={sub.id}
-                                        onClick={() => onSelectSubcategory(sub.id)}
-                                        className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition-all ${activeSubcategory === sub.id
+                                        onClick={() => onSelectSubcategory(null)}
+                                        className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition-all ${activeSubcategory === null
                                             ? "bg-green-500/20 text-green-700 dark:text-green-300 border border-green-500/30"
                                             : "bg-gray-100/80 dark:bg-gray-800/80 hover:bg-gray-200/80 dark:hover:bg-gray-700/80 text-gray-600 dark:text-gray-400"
                                             }`}
                                     >
-                                        {sub.name}
+                                        Todos
                                     </button>
-                                ))}
-                            </motion.div>
-                        )}
+
+                                    {activeCat.subcategories.map((sub) => (
+                                        <button
+                                            key={sub.id}
+                                            onClick={() => onSelectSubcategory(sub.id)}
+                                            className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition-all ${activeSubcategory === sub.id
+                                                ? "bg-green-500/20 text-green-700 dark:text-green-300 border border-green-500/30"
+                                                : "bg-gray-100/80 dark:bg-gray-800/80 hover:bg-gray-200/80 dark:hover:bg-gray-700/80 text-gray-600 dark:text-gray-400"
+                                                }`}
+                                        >
+                                            {sub.name}
+                                        </button>
+                                    ))}
+                                </>
+                            )}
+                        </div>
                     </div>
                 )}
             </div>

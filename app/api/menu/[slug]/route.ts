@@ -59,6 +59,42 @@ export async function GET(
             )
         }
 
+        // 🔥 OBTENER PROMOCIONES ACTIVAS
+        const now = new Date()
+        const promotions = await prisma.promotion.findMany({
+            where: {
+                restaurantId: restaurant.id,
+                isActive: true,
+                OR: [
+                    { startDate: null },
+                    { startDate: { lte: now } }
+                ],
+                AND: [
+                    {
+                        OR: [
+                            { endDate: null },
+                            { endDate: { gte: now } }
+                        ]
+                    }
+                ]
+            },
+            orderBy: {
+                createdAt: 'desc'
+            },
+            select: {
+                id: true,
+                name: true,
+                description: true,
+                code: true,
+                discountType: true,
+                discountValue: true,
+                minAmount: true,
+                maxDiscount: true,
+                isActive: true // ✅ necesario para el filtro del frontend
+            }
+
+        })
+
         const response = {
             restaurant: {
                 id: restaurant.id,
@@ -95,7 +131,9 @@ export async function GET(
                     categoryId: product.categoryId,
                     subcategoryId: product.subcategoryId
                 }))
-            }))
+            })),
+            // 🔥 AGREGAR PROMOCIONES A LA RESPUESTA
+            promotions: promotions
         }
 
         return NextResponse.json(response)

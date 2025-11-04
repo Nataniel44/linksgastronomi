@@ -11,6 +11,7 @@ import { CategorySelector } from "./CategorySelector";
 import LoadingScreen from "./LoadingScreen";
 import { MessageCircle, ShoppingCart } from "lucide-react";
 import OrderHistory from "./OrderHistory";
+import { PromotionCard } from "./PromotionCard";
 
 
 
@@ -47,6 +48,17 @@ type Category = {
     subcategories: Subcategory[];
     products: Product[];
 };
+type Promotion = {
+    id: number;
+    name: string;
+    description: string | null;
+    code: string | null;
+    discountType: string;
+    discountValue: number;
+    minAmount: number | null;
+    maxDiscount: number | null;
+    isActive: boolean;
+};
 
 type RestaurantData = {
     restaurant: {
@@ -58,7 +70,10 @@ type RestaurantData = {
         whatsapp: string | null;
         description: string | null;
         address: string | null;
+
     };
+    promotions?: Promotion[]; // ✅ agregado correctamente
+
     categories: Category[];
 };
 export type CartItem = {
@@ -114,6 +129,8 @@ export const RestaurantMenu: React.FC<Props> = ({ slug }) => {
                 const json: RestaurantData = await res.json();
                 setData(json);
                 setActiveCategory(json.categories[0]?.slug || null);
+
+
             } catch (err: any) {
                 setError(err.message || "Error al cargar");
             } finally {
@@ -173,6 +190,19 @@ export const RestaurantMenu: React.FC<Props> = ({ slug }) => {
                         onSelectSubcategory={setActiveSubcategory}
                     />
 
+                    {/* 🔥 Promociones activas */}
+                    {data.promotions && data.promotions.length > 0 && (
+                        <div className="px-6 md:px-12 mt-8">
+                            <h2 className="text-xl font-bold text-white mb-4">Promociones</h2>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                {data.promotions
+                                    .filter((promo) => promo.isActive)
+                                    .map((promo) => (
+                                        <PromotionCard key={promo.id} promotion={promo} />
+                                    ))}
+                            </div>
+                        </div>
+                    )}
 
                     {/* Productos */}
                     <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6 md:p-12">
