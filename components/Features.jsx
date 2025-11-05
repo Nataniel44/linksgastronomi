@@ -23,13 +23,13 @@ export function Features() {
     }, []);
 
     return (
-        <SectionWrapper className="relative min-h-screen flex items-center justify-center overflow-hidden py-20">
+        <SectionWrapper className="relative min-h-screen  w-full flex items-center justify-center overflow-hidden py-20">
             <BackgroundBlobs
                 colors={["#34d399", "#10b981", "#059669"]}
-                className="opacity-40 z-0"
+                className="opacity-40 z-0 "
             />
 
-            <div className="relative z-10 w-full max-w-7xl mx-auto px-4">
+            <div className="relative z-10 w-full  mx-auto px-4">
                 <div className="grid md:grid-cols-2 gap-12 items-center">
                     {/* Content Column */}
                     <motion.div
@@ -37,7 +37,7 @@ export function Features() {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
-                        className="flex flex-col items-start text-start"
+                        className="flex flex-col items-center md:items-start text-start"
                     >
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
@@ -47,10 +47,10 @@ export function Features() {
                             transition={{ duration: 0.6, delay: 0.2 }}
                         >
                             <h2 className="text-black text-nowrap md:text-start text-center text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight">
-                                <div className="w-full">
+                                <div className="w-full font-semibold ">
                                     DESTACA ENTRE
                                 </div>
-                                {" "}
+
                                 <div className=" text-emerald-600 w-full">
                                     LOS DEMÁS
                                 </div>
@@ -62,20 +62,24 @@ export function Features() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.6, delay: 0.3 }}
-                            className="text-lg md:text-xl text-gray-700 mt-6 max-w-lg leading-relaxed"
+                            className="text-lg md:text-xl text-center md:text-start text-gray-700 mt-6 w-full text-pretty leading-relaxed"
                         >
                             Convertí tu menú en una experiencia visual atractiva y fácil de usar.
                             Diferenciate de la competencia con tecnología de vanguardia.
                         </motion.p>
 
                         <motion.div
+                            className="flex justify-center items-center gap-5 mt-12"
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.6, delay: 0.4 }}
                         >
-                            <ActionButton href="#contacto" variant="dark" className="mt-8 text-lg px-8 py-4">
-                                OBTENELO GRATIS
+
+
+
+                            <ActionButton href="#contacto" variant="secondary" className="text-lg ">
+                                <Image src="/c.png" alt="Decorative underline" width={50} height={50} className=" w-6" />      OBTENELO GRATIS
                             </ActionButton>
                         </motion.div>
 

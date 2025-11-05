@@ -11,7 +11,7 @@ export default function RootLayout({ children }) {
       <link rel="icon" href="./c.png" type="image/x-icon" />
 
       <body
-        className={` dark:text-black dark:bg-white max-w-screen-lg mx-auto`}
+        className={`dark:bg-white max-w-screen-2xl mx-auto`}
       >
 
 

@@ -62,7 +62,7 @@ export function Hero() {
                     transition={{ delay: 0.4, duration: 0.7 }}
                     className="flex flex-col md:flex-row items-center gap-4 mt-4"
                 >
-                    <ActionButton href="/demo" variant="primary">
+                    <ActionButton href="/elysrestobar" variant="primary">
                         <svg
                             className="w-6 h-6 animate-bounce"
                             fill="none"
@@ -72,7 +72,7 @@ export function Hero() {
                         >
                             <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                         </svg>
-                        Ver carta de Top One Burgers
+                        Ver Carta Demo
                     </ActionButton>
 
                     <Link

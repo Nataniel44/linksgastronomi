@@ -43,7 +43,7 @@ export function WhatsAppContact() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
                 transition={{ duration: 0.8 }}
-                className="relative z-10 w-full max-w-2xl mx-4"
+                className="relative z-10 w-full md:max-w-3xl  mx-4"
             >
                 {/* Card principal */}
                 <div className="relative bg-white rounded-3xl shadow-2xl overflow-hidden border border-green-100">

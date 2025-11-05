@@ -12,38 +12,49 @@ export async function GET(
         const restaurant = await prisma.restaurant.findFirst({
             where: {
                 slug: slug,
-                isActive: true
+                isActive: true,
             },
             include: {
                 categories: {
                     where: {
-                        isActive: true
+                        isActive: true,
                     },
                     include: {
                         subcategories: {
                             where: {
-                                isActive: true
+                                isActive: true,
+                            },
+                            include: {
+                                products: {
+                                    where: {
+                                        isActive: true,
+                                        isAvailable: true,
+                                    },
+                                    orderBy: {
+                                        order: "asc",
+                                    },
+                                },
                             },
                             orderBy: {
-                                order: 'asc'
-                            }
+                                order: "asc",
+                            },
                         },
                         products: {
                             where: {
                                 isActive: true,
-                                isAvailable: true
+                                isAvailable: true,
                             },
                             orderBy: {
-                                order: 'asc'
-                            }
-                        }
+                                order: "asc",
+                            },
+                        },
                     },
                     orderBy: {
-                        order: 'asc'
-                    }
-                }
-            }
-        })
+                        order: "asc",
+                    },
+                },
+            },
+        });
 
         if (!restaurant) {
             return NextResponse.json(
@@ -118,7 +129,24 @@ export async function GET(
                 slug: category.slug,
                 description: category.description,
                 image: category.image,
-                subcategories: category.subcategories,
+                subcategories: category.subcategories.map(sub => ({
+                    id: sub.id,
+                    name: sub.name,
+                    slug: sub.slug,
+                    products: sub.products.map(p => ({
+                        id: p.id,
+                        name: p.name,
+                        slug: p.slug,
+                        description: p.description,
+                        image: p.image,
+                        price: p.price,
+                        comparePrice: p.comparePrice,
+                        options: p.options,
+                        categoryId: p.categoryId,
+                        subcategoryId: p.subcategoryId,
+                    })),
+                })),
+
                 products: category.products.map(product => ({
                     id: product.id,
                     name: product.name,

@@ -6,37 +6,7 @@ import { Code2, Sparkles, Palette } from "lucide-react";
 
 export function HeroBlob() {
     return (
-        <section className="relative w-full pb-16 min-h-screen flex flex-col items-center justify-center pt-16 overflow-hidden bg-gradient-to-b from-white via-yellow-50/30 to-white">
-            {/* Blobs dinámicos de fondo */}
-            <motion.div
-                animate={{
-                    rotate: 360,
-                    scale: [1, 1.1, 1]
-                }}
-                transition={{
-                    rotate: { repeat: Infinity, duration: 120, ease: "linear" },
-                    scale: { repeat: Infinity, duration: 8, ease: "easeInOut" }
-                }}
-                className="absolute w-[600px] h-[600px] md:w-[800px] md:h-[800px] top-[-200px] left-1/2 -translate-x-1/2 opacity-20"
-            >
-                <div className="absolute inset-0 bg-gradient-to-br from-yellow-400 via-amber-300 to-orange-400 rounded-full blur-3xl" />
-            </motion.div>
-
-            <motion.div
-                animate={{
-                    rotate: -360,
-                    x: [0, 50, 0],
-                    y: [0, -30, 0]
-                }}
-                transition={{
-                    rotate: { repeat: Infinity, duration: 100, ease: "linear" },
-                    x: { repeat: Infinity, duration: 10, ease: "easeInOut" },
-                    y: { repeat: Infinity, duration: 7, ease: "easeInOut" }
-                }}
-                className="absolute w-[400px] h-[400px] md:w-[600px] md:h-[600px] bottom-0 right-[-150px] opacity-15"
-            >
-                <div className="absolute inset-0 bg-gradient-to-tl from-yellow-500 via-amber-400 to-yellow-300 rounded-full blur-3xl" />
-            </motion.div>
+        <section className="relative w-full pb-16  flex flex-col items-center justify-center pt-16 overflow-hidden bg-gradient-to-b from-white via-yellow-50/30 to-white">
 
             {/* Partículas flotantes */}
             {[...Array(5)].map((_, i) => (
@@ -53,7 +23,7 @@ export function HeroBlob() {
                         delay: i * 0.8,
                         ease: "easeInOut"
                     }}
-                    className="absolute w-2 h-2 bg-yellow-400 rounded-full blur-sm"
+                    className="absolute w-8 h-8 bg-blue-400 rounded-full blur-sm"
                     style={{
                         left: `${15 + i * 18}%`,
                         top: `${30 + i * 10}%`
@@ -62,7 +32,7 @@ export function HeroBlob() {
             ))}
 
             {/* Contenedor de contenido */}
-            <div className="relative z-10 flex flex-col items-center text-center gap-8 px-4 max-w-6xl mx-auto">
+            <div className="relative z-10 flex flex-col items-center text-center gap-8 px-4  mx-auto">
                 {/* Título con animación */}
                 <motion.div
                     initial={{ opacity: 0, y: -30 }}
@@ -163,28 +133,7 @@ export function HeroBlob() {
                     </div>
                 </motion.div>
 
-                {/* Scroll indicator */}
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.8, delay: 1.2 }}
-                    className="mt-12"
-                >
-                    <motion.div
-                        animate={{ y: [0, 10, 0] }}
-                        transition={{ duration: 8, repeat: Infinity }}
-                        className="flex flex-col items-center gap-2 text-gray-400"
-                    >
-                        <span className="text-sm font-medium">Descubre más</span>
-                        <div className="w-6 h-10 border-2 border-gray-400 rounded-full flex items-start justify-center p-2">
-                            <motion.div
-                                animate={{ y: [0, 12, 0] }}
-                                transition={{ duration: 8, repeat: Infinity }}
-                                className="w-1.5 h-1.5 bg-yellow-500 rounded-full"
-                            />
-                        </div>
-                    </motion.div>
-                </motion.div>
+
             </div>
         </section>
     );

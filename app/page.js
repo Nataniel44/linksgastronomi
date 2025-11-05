@@ -1,3 +1,4 @@
+import PricingSection from "@/components/PricingSection";
 import BentoGrid from "../components/BentoGrid";
 
 import { Features } from "../components/Features";
@@ -11,24 +12,14 @@ export default function Home() {
 
   return (
 
-    <main className="min-h-screen dark:text-white flex flex-col items-center justify-center relative overflow-x-hidden z-20 ">
+    <main className="min-h-screen bg-white/90 md:border-l md:border-r border-white/95 dark:text-white flex flex-col items-center justify-center relative overflow-x-hidden z-20 ">
       <Hero />
 
-      <BentoGrid />
+
       <Features />
+      <PricingSection />
 
-      <SectionWrapper id="info" className="text-center pt-5">
-        <p className="text-lg md:text-xl pb-5 text-balance text-gray-700 max-w-2xl mx-auto">
-          Lleva tu <span className="font-bold">restaurante</span>,
-          <span className="font-bold"> hamburguesería</span>,
-          <span className="font-bold"> pizzería</span> o
-          <span className="font-bold"> bar</span> al
-          <span className="font-bold"> siguiente nivel.</span>
 
-          <span className="font-bold"> La competencia ya arrancó.</span>
-        </p>
-
-      </SectionWrapper>
       < HeroBlob />
       <Services />
       <WhatsAppContact />

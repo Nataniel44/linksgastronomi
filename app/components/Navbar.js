@@ -134,7 +134,7 @@ export default function Navbar() {
       </nav>
       {/* Mobile Menu */}
       <div
-        className={`fixed top-0 z-[999] -right-5 h-screen w-full max-w-sm bg-gradient-to-br from-gray-900 via-gray-800 to-black transform transition-transform duration-500 ease-in-out md:hidden  ${isOpen ? "translate-x-0" : "translate-x-full"
+        className={`fixed top-0 z-[999] -right-5 h-screen w-full max-w-sm bg-gradient-to-br from-gray-900 via-gray-800 to-black transform transition-transform duration-500 ease-in-out md:hidden  ${isOpen ? "-translate-x-5" : "translate-x-full"
           }`}
       >
         {/* Backdrop */}

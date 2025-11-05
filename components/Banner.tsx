@@ -22,7 +22,7 @@ export const Banner: React.FC<BannerProps> = ({
     address,
     getImageSrc
 }) => (
-    <div className="relative w-full h-[400px] md:h-[320px] overflow-hidden rounded-lg shadow-2xl ">
+    <div className="relative w-full h-[400px] md:h-[320px] overflow-hidden rounded-b-lg shadow-2xl ">
         {/* Imagen de fondo */}
         {banner ? (
             <div
@@ -30,7 +30,7 @@ export const Banner: React.FC<BannerProps> = ({
                 style={{ backgroundImage: `url(${getImageSrc(banner)})` }}
             />
         ) : (
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600" />
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-600/50 via-purple-600/50 to-pink-600/50" />
         )}
 
         {/* Overlay con gradiente mejorado */}

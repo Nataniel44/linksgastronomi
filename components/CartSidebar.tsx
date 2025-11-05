@@ -214,7 +214,7 @@ ${cart
                                     <>
                                         <h2 className="text-2xl font-bold mb-4">Tu Carrito</h2>
                                         {cart.length === 0 ? (
-                                            <p className="text-center text-white/70">El carrito está vacío</p>
+                                            <p className="text-center text-white/70 py-16">El carrito está vacío</p>
                                         ) : (
                                             <div className="space-y-4 flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700">
                                                 {cart.map((item, i) => (
@@ -273,6 +273,14 @@ ${cart
                                                     className="w-full bg-green-500 hover:bg-green-600 p-3 rounded-lg font-bold transition"
                                                 >
                                                     Continuar
+                                                </button>
+                                            )}
+                                            {cart.length == 0 && (
+                                                <button
+                                                    onClick={onClose}
+                                                    className="w-full bg-blue-500/75 hover:bg-yellow-600/50 p-3 rounded-lg font-bold transition"
+                                                >
+                                                    Volver al menú
                                                 </button>
                                             )}
                                         </div>
