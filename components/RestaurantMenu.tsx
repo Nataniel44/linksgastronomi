@@ -179,26 +179,6 @@ export const RestaurantMenu: React.FC<Props> = ({ slug }) => {
 
             </div>
 
-            <div className="fixed z-40 bottom-6 right-6   gap-6 flex flex-col items-end">
-                <OrderHistory restaurantId={restaurant.id} />
-                {/* Botón flotante para abrir carrito */}
-                {cart.length > 0 && (
-                    <button
-                        className="group flex items-center gap-2 bg-green-500/20 hover:bg-green-500/30 backdrop-blur-md px-7 h-14 rounded-full shadow-lg hover:shadow-xl text-white transition-all duration-200 border border-green-400/20 hover:scale-105 active:scale-95"
-                        onClick={() => setShowCart(true)}
-                    >
-                        <div className="relative">
-                            <ShoppingCart className="w-6 h-6" />
-                            {/* Badge con cantidad */}
-                            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center border border-white/20">
-                                {cart.length}
-                            </span>
-                        </div>
-                        <span className="text-sm font-medium">Ver carrito</span>
-                    </button>
-                )}
-
-            </div>
         </div>
     );
 };
