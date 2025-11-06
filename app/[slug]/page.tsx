@@ -1,12 +1,16 @@
-// app/restaurants/[slug]/page.tsx
 import { RestaurantMenu } from "@/components/RestaurantMenu";
+import type { Metadata, ResolvingMetadata } from "next";
+
+type Props = {
+    params: Promise<{ slug: string }>; // ✅ ahora concuerda con Next.js 15
+};
 
 async function getMenuData(slug: string) {
     const baseUrl =
-        process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"; // ✅ fallback local
+        process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
     const res = await fetch(`${baseUrl}/api/menu/${slug}`, {
-        cache: "no-store", // 🔥 evita cache en el servidor
+        cache: "no-store",
     });
 
     if (!res.ok) throw new Error("No se pudo cargar el menú");
@@ -14,17 +18,9 @@ async function getMenuData(slug: string) {
     return res.json();
 }
 
-export default async function RestaurantPage({
-    params,
-}: {
-    params: { slug: string };
-}) {
-    const data = await getMenuData(params.slug);
+export default async function RestaurantPage({ params }: Props) {
+    const { slug } = await params; // ✅ se espera como promesa
+    const data = await getMenuData(slug);
 
-    return (
-        <RestaurantMenu
-            slug={params.slug}
-            initialData={data} // ✅ datos cargados del server directamente
-        />
-    );
+    return <RestaurantMenu slug={slug} initialData={data} />;
 }
