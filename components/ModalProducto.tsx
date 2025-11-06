@@ -58,12 +58,13 @@ const ModalProductoComponent: React.FC<Props> = ({
     }, []);
 
     const handleAddToCart = useCallback(() => {
-        if (product.options?.sizes?.length > 0 && !selectedSize) {
+        if ((product.options?.sizes?.length ?? 0) > 0 && !selectedSize) {
+
             alert("Por favor, elegí una porción antes de continuar.");
             return;
         }
 
-        if (product.options?.salsas?.length > 0 && !selectedSalsa) {
+        if ((product.options?.sizes?.length ?? 0) > 0 && !selectedSize) {
             alert("Por favor, elegí una salsa antes de continuar.");
             return;
         }
@@ -169,7 +170,7 @@ const ModalProductoComponent: React.FC<Props> = ({
                                                 value={size.portion}
                                                 checked={selectedSize === size.portion}
                                                 onChange={() => {
-                                                    setSelectedSize(size.portion);
+                                                    setSelectedSize(size.portion ?? "");
                                                     setSelectedSizePrice(size.price);
                                                 }}
                                                 className="accent-green-500 w-4 h-4"
@@ -320,14 +321,15 @@ const ModalProductoComponent: React.FC<Props> = ({
 
                     <button
                         disabled={
-                            (product.options?.sizes?.length > 0 && !selectedSize) ||
-                            (product.options?.salsas?.length > 0 && !selectedSalsa)
+                            ((product.options?.sizes?.length ?? 0) > 0 && !selectedSize) ||
+                            ((product.options?.salsas?.length ?? 0) > 0 && !selectedSalsa)
                         }
-                        className={`w-full py-3 rounded-xl font-semibold shadow-lg transition-all active:scale-[0.97] ${(product.options?.sizes?.length > 0 && !selectedSize) ||
-                            (product.options?.salsas?.length > 0 && !selectedSalsa)
+                        className={`w-full py-3 rounded-xl font-semibold shadow-lg transition-all active:scale-[0.97] ${((product.options?.sizes?.length ?? 0) > 0 && !selectedSize) ||
+                            ((product.options?.salsas?.length ?? 0) > 0 && !selectedSalsa)
                             ? "bg-gray-600 cursor-not-allowed text-gray-300"
                             : "bg-green-600 hover:bg-green-700 text-white"
                             }`}
+
                         onClick={handleAddToCart}
                     >
                         Agregar al carrito
@@ -361,7 +363,7 @@ const ModalProductoComponent: React.FC<Props> = ({
           }
         }
       `}</style>
-        </div>
+        </div >
     );
 };
 
