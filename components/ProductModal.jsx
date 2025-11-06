@@ -1,5 +1,6 @@
 import { ArrowLeft } from 'lucide-react';
 import { useState } from 'react';
+import Image from 'next/image';
 
 export default function ProductModal({ product, onClose, onAdd }) {
   const [quantity, setQuantity] = useState(1);
@@ -37,7 +38,7 @@ export default function ProductModal({ product, onClose, onAdd }) {
         {product.image && (
           <div className="flex justify-center mb-4">
 
-            <img
+            <Image
               src={product.image}
               alt={product.name}
               className="w-32 h-32 object-cover rounded-full shadow"

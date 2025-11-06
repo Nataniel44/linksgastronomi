@@ -1,5 +1,6 @@
 import React from 'react';
 import { Phone, MessageCircle, MapPin, Store } from 'lucide-react';
+import Image from 'next/image';
 
 type BannerProps = {
     name: string;
@@ -27,7 +28,7 @@ export const Banner: React.FC<BannerProps> = ({
         {banner ? (
             <div
                 className="absolute inset-0 bg-cover bg-center"
-                style={{ backgroundImage: `url(${getImageSrc(banner)})` }}
+
             />
         ) : (
             <div className="absolute inset-0 bg-gradient-to-br from-blue-600/50 via-purple-600/50 to-pink-600/50" />
@@ -42,7 +43,9 @@ export const Banner: React.FC<BannerProps> = ({
             <div className="mb-4">
                 {logo ? (
                     <div className="bg-white/25 border border-black/30 backdrop-blur-sm rounded-xl p-4 inline-block shadow-xl ">
-                        <img
+                        <Image
+                            width={720}
+                            height={568}
                             src={getImageSrc(logo)}
                             alt={name}
                             className="h-16 md:h-20 w-auto object-contain"

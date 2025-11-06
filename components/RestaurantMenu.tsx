@@ -58,10 +58,11 @@ type Props = {
 };
 
 
-export const RestaurantMenu: React.FC<Props> = ({ slug }) => {
-    const [data, setData] = useState<RestaurantData | null>(null);
-    const [loading, setLoading] = useState(true);
+export const RestaurantMenu = ({ slug, initialData }: { slug: string; initialData: any }) => {
+    const [data, setData] = useState(initialData);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+
     const [activeCategory, setActiveCategory] = useState<string | null>(null);
     const [activeSubcategory, setActiveSubcategory] = useState<number | null>(null);
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -85,26 +86,23 @@ export const RestaurantMenu: React.FC<Props> = ({ slug }) => {
         if (!src) return "/placeholder.png";
         return src.startsWith("http") ? src : `${src}`;
     };
-
     useEffect(() => {
-
-        const fetchMenu = async () => {
+        if (!slug) return;
+        const fetchData = async () => {
             setLoading(true);
             try {
-
                 const res = await fetch(`/api/menu/${slug}`);
-                if (!res.ok) throw new Error("No se pudo cargar el restaurante");
-                const json: RestaurantData = await res.json();
+                const json = await res.json();
                 setData(json);
-                setActiveCategory(json.categories[0]?.slug || null);
             } catch (err: any) {
-                setError(err.message || "Error al cargar");
+                setError(err.message);
             } finally {
                 setLoading(false);
             }
         };
-        fetchMenu();
+        fetchData();
     }, [slug]);
+
 
     if (loading) return <LoadingScreen />;
     if (error) return <p className="text-red-500 text-center mt-20">{error}</p>;

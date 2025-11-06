@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from 'next/image';
 
 export default function RestaurantsPage() {
     const [restaurants, setRestaurants] = useState<any[]>([]);
@@ -43,7 +44,9 @@ export default function RestaurantsPage() {
                             className="border rounded-lg p-4 hover:shadow-lg transition"
                         >
                             {r.logo && (
-                                <img
+                                <Image
+                                    width={720}
+                                    height={568}
                                     src={r.logo}
                                     alt={r.name}
                                     className="w-full h-40 object-cover rounded-md mb-2"
