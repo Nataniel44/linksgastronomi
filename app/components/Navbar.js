@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -66,7 +67,7 @@ export default function Navbar() {
             <Link href="/" className="flex items-center space-x-3 group">
               <div className="relative w-12 h-12 flex items-center justify-center">
                 <div className="absolute inset-0 rounded-full bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 opacity-20 blur-md group-hover:opacity-30 transition" />
-                <img src="/c.png" alt="Logo" className="w-8 h-8 relative z-10" />
+                <Image src="/c.png" alt="Logo" width={8} height={8} className="w-8 h-8 relative z-10" />
               </div>
               <span className="text-xl font-bold bg-gradient-to-r from-yellow-500 to-yellow-600 bg-clip-text text-transparent hidden sm:block">
                 Clickcito

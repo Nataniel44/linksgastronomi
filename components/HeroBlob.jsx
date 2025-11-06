@@ -40,13 +40,7 @@ export function HeroBlob() {
                     transition={{ duration: 0.6 }}
                     className="flex flex-col items-center gap-3"
                 >
-                    <motion.div
-                        animate={{ rotate: [0, 10, -10, 0] }}
-                        transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
-                        className="inline-block"
-                    >
-                        <Sparkles className="w-8 h-8 text-yellow-500 mb-2" />
-                    </motion.div>
+
 
                     <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-gray-900">
                         Hola, soy{" "}

@@ -24,13 +24,31 @@ const ModalProductoComponent: React.FC<Props> = ({
     const [total, setTotal] = useState(product.price);
     const [imageLoaded, setImageLoaded] = useState(false);
 
-    // Calcular total (memoizado)
+    const [selectedSize, setSelectedSize] = useState<string | null>(null);
+    const [selectedSalsa, setSelectedSalsa] = useState<string | null>(null);
+    const [selectedSizePrice, setSelectedSizePrice] = useState<number>(0);
+    const [selectedSalsaPrice, setSelectedSalsaPrice] = useState<number>(0);
+
+    const [extrasQty, setExtrasQty] = useState<number[]>(
+        product.options?.extras?.map(() => 0) || []
+    );
+
+    const extrasTotal = product.options?.extras
+        ? product.options.extras.reduce(
+            (sum, extra, idx) => sum + (extrasQty[idx] || 0) * extra.price,
+            0
+        )
+        : 0;
+
+    const totalFinal =
+        (product.price + selectedSizePrice + selectedSalsaPrice + extrasTotal) * quantity;
+
+    // actualiza total base con extras manuales
     useEffect(() => {
         const extrasTotal = selectedExtras.reduce((acc, e) => acc + (e.price || 0), 0);
         setTotal((product.price + extrasTotal) * quantity);
     }, [quantity, selectedExtras, product.price]);
 
-    // Handlers optimizados
     const handleQuantityDecrease = useCallback(() => {
         setQuantity((q) => Math.max(1, q - 1));
     }, []);
@@ -40,44 +58,42 @@ const ModalProductoComponent: React.FC<Props> = ({
     }, []);
 
     const handleAddToCart = useCallback(() => {
-        onAddToCart(product, quantity, selectedExtras);
+        if (product.options?.sizes?.length > 0 && !selectedSize) {
+            alert("Por favor, elegí una porción antes de continuar.");
+            return;
+        }
+
+        if (product.options?.salsas?.length > 0 && !selectedSalsa) {
+            alert("Por favor, elegí una salsa antes de continuar.");
+            return;
+        }
+
+        const selectedExtrasFinal = [
+            ...selectedExtras,
+            ...(selectedSalsa ? [{ name: selectedSalsa, price: selectedSalsaPrice }] : []),
+            ...(selectedSize ? [{ name: selectedSize, price: selectedSizePrice }] : []),
+            ...(product.options?.extras || [])
+                .map((extra, idx) =>
+                    extrasQty[idx] > 0 ? { name: extra.name, price: extra.price * extrasQty[idx] } : null
+                )
+                .filter(Boolean) as Extra[],
+        ];
+
+        onAddToCart(product, quantity, selectedExtrasFinal);
         onClose();
-    }, [product, quantity, selectedExtras, onAddToCart, onClose]);
+    }, [
+        product,
+        quantity,
+        selectedExtras,
+        selectedSalsa,
+        selectedSalsaPrice,
+        selectedSize,
+        selectedSizePrice,
+        extrasQty,
+        onAddToCart,
+        onClose,
+    ]);
 
-    // Toggle extra optimizado
-    const toggleExtra = useCallback((extra: Extra) => {
-        setSelectedExtras((prev) =>
-            prev.find((e) => e.name === extra.name)
-                ? prev.filter((e) => e.name !== extra.name)
-                : [...prev, extra]
-        );
-    }, []);
-
-    // Handler para salsas (FIX DEL ERROR)
-    const toggleSalsa = useCallback((salsaName: string) => {
-        setSelectedExtras((prev) => {
-            const exists = prev.find((e) => e.name === salsaName);
-            if (exists) {
-                return prev.filter((e) => e.name !== salsaName);
-            } else {
-                // Crear objeto Extra válido
-                return [...prev, { name: salsaName, price: 0 }];
-            }
-        });
-    }, []);
-
-    // Handler para tamaños
-    const selectSize = useCallback((sizePortion: string, sizePrice: number) => {
-        // Remover otros tamaños primero
-        setSelectedExtras((prev) => {
-            const withoutSizes = prev.filter(
-                (e) => !product.options?.sizes?.some((s) => s.portion === e.name)
-            );
-            return [...withoutSizes, { name: sizePortion, price: sizePrice }];
-        });
-    }, [product.options?.sizes]);
-
-    // Verificar si un item está seleccionado
     const isSelected = useCallback(
         (name: string) => selectedExtras.some((e) => e.name === name),
         [selectedExtras]
@@ -92,7 +108,6 @@ const ModalProductoComponent: React.FC<Props> = ({
                 className="relative bg-gradient-to-b from-gray-900 via-zinc-900 to-black rounded-2xl overflow-hidden max-w-md w-full shadow-2xl transform transition-all duration-150 animate-slideUp max-h-[90vh] overflow-y-auto"
                 onClick={(e) => e.stopPropagation()}
             >
-                {/* Botón cerrar */}
                 <button
                     onClick={onClose}
                     className="fixed top-3 right-3 z-10 bg-white/10 hover:bg-white/20 text-white rounded-full p-2 transition"
@@ -101,7 +116,6 @@ const ModalProductoComponent: React.FC<Props> = ({
                     <X className="w-5 h-5" />
                 </button>
 
-                {/* Imagen */}
                 {product.image && (
                     <div className="relative w-full aspect-[4/3] bg-gray-800">
                         {!imageLoaded && (
@@ -121,9 +135,7 @@ const ModalProductoComponent: React.FC<Props> = ({
                     </div>
                 )}
 
-                {/* Contenido */}
                 <div className="p-6 space-y-5">
-                    {/* Nombre y descripción */}
                     <div>
                         <h3 className="text-2xl font-bold text-white">{product.name}</h3>
                         {product.description && (
@@ -133,116 +145,146 @@ const ModalProductoComponent: React.FC<Props> = ({
                         )}
                     </div>
 
-                    {/* Precio base */}
                     <div className="flex items-center gap-3">
                         <span className="text-2xl font-semibold text-green-400">
                             ${product.price}
                         </span>
                         {product.comparePrice && (
-                            <span className="text-gray-400 line-through">
-                                ${product.comparePrice}
-                            </span>
+                            <span className="text-gray-400 line-through">${product.comparePrice}</span>
                         )}
                     </div>
 
-                    {/* OPCIONES */}
+                    {/* 🔸 Opciones dinámicas */}
                     {product.options && (
-                        <div className="space-y-5">
-                            {/* Tamaños o porciones */}
-                            {product.options.sizes && product.options.sizes.length > 0 && (
-                                <div className="space-y-2">
-                                    <p className="text-white font-semibold text-sm uppercase tracking-wide">
-                                        Porciones
-                                    </p>
-                                    <div className="flex flex-col gap-2">
-                                        {product.options.sizes.map((size, idx) => {
-                                            const selected = isSelected(size.portion || "");
-                                            return (
-                                                <button
-                                                    key={idx}
-                                                    onClick={() => selectSize(size.portion || "", size.price)}
-                                                    className={`w-full flex justify-between items-center px-3 py-2 rounded-lg border transition-all ${selected
-                                                        ? "bg-green-600 text-white border-green-400 shadow-md"
-                                                        : "bg-white/5 border-white/10 text-gray-200 hover:bg-green-600/60 hover:text-white"
-                                                        }`}
-                                                >
-                                                    <span>{size.portion}</span>
-                                                    <span className="font-semibold">
-                                                        {size.price > 0 ? `+$${size.price}` : "Incluido"}
+                        <div className="space-y-4">
+                            {/* Tamaños */}
+                            {product.options?.sizes && product.options.sizes.length > 0 && (
+                                <div>
+                                    <div className="font-semibold mb-2">Porciones</div>
+                                    {product.options.sizes.map((size, idx) => (
+                                        <label key={idx} className="flex items-center gap-2 mb-2 cursor-pointer">
+                                            <input
+                                                type="radio"
+                                                name="size"
+                                                value={size.portion}
+                                                checked={selectedSize === size.portion}
+                                                onChange={() => {
+                                                    setSelectedSize(size.portion);
+                                                    setSelectedSizePrice(size.price);
+                                                }}
+                                                className="accent-green-500 w-4 h-4"
+                                            />
+                                            <span className="text-sm text-white">
+                                                {size.portion}
+                                                {size.price > 0 && (
+                                                    <span className="text-green-400 font-bold ml-1">
+                                                        +${size.price}
                                                     </span>
-                                                </button>
-                                            );
-                                        })}
-                                    </div>
+                                                )}
+                                            </span>
+                                        </label>
+                                    ))}
                                 </div>
-                            )}
-                            {/* Selector de Empanadas */}
-                            {product.options?.sabores && product.name.toLowerCase().includes("empanada") && (
-                                <SelectorEmpanadas
-                                    sabores={product.options.sabores}
-                                    onSelect={(saboresSeleccionados) => {
-                                        // Convertir selección a extras sin precio
-                                        const seleccionExtras = saboresSeleccionados
-                                            .filter((s) => s.cantidad > 0)
-                                            .map((s) => ({ name: `${s.sabor} x${s.cantidad}`, price: 0 }));
-
-                                        setSelectedExtras(seleccionExtras);
-                                    }}
-                                />
                             )}
 
                             {/* Extras */}
-                            {product.options.extras && product.options.extras.length > 0 && (
-                                <div className="space-y-2">
-                                    <p className="text-white font-semibold text-sm uppercase tracking-wide">
-                                        Extras
-                                    </p>
-                                    <div className="flex flex-wrap gap-2">
-                                        {product.options.extras.map((extra) => {
-                                            const selected = isSelected(extra.name);
-                                            return (
-                                                <button
-                                                    key={extra.name}
-                                                    className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-all ${selected
-                                                        ? "bg-green-500 text-white border-green-400 shadow-md scale-105"
-                                                        : "bg-white/5 border-white/10 text-gray-200 hover:bg-green-600/60 hover:text-white"
-                                                        }`}
-                                                    onClick={() => toggleExtra(extra)}
-                                                >
-                                                    {extra.name} (+${extra.price})
-                                                </button>
-                                            );
-                                        })}
+                            {product.options?.extras && product.options.extras.length > 0 && (
+                                <div>
+                                    <div className="font-semibold mb-2">
+                                        Extras <span className="text-xs text-gray-400">(opcional)</span>
                                     </div>
+                                    {product.options.extras.map((extra, idx) => (
+                                        <div key={idx} className="flex items-center gap-2 mb-2 text-white">
+                                            <span className="text-sm">{extra.name}</span>
+                                            {extra.price > 0 && (
+                                                <span className="text-green-400 font-bold text-sm">
+                                                    +${extra.price}
+                                                </span>
+                                            )}
+                                            <button
+                                                onClick={() =>
+                                                    setExtrasQty((qty) =>
+                                                        qty.map((q, i) => (i === idx ? Math.max(0, q - 1) : q))
+                                                    )
+                                                }
+                                                className="text-xl px-2"
+                                            >
+                                                -
+                                            </button>
+                                            <span className="font-bold">{extrasQty[idx]}</span>
+                                            <button
+                                                onClick={() =>
+                                                    setExtrasQty((qty) =>
+                                                        qty.map((q, i) => (i === idx ? q + 1 : q))
+                                                    )
+                                                }
+                                                className="text-xl px-2"
+                                            >
+                                                +
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                            {/* 🔸 Selector de Empanadas */}
+                            {product.options?.sabores && product.name.toLowerCase().includes("empanada") && (
+                                <div>
+                                    <div className="font-semibold mb-2">Sabores</div>
+                                    <SelectorEmpanadas
+                                        sabores={product.options.sabores}
+                                        onSelect={(saboresSeleccionados) => {
+                                            // Convertir selección a formato de extras
+                                            const seleccionExtras = saboresSeleccionados
+                                                .filter((s) => s.cantidad > 0)
+                                                .map((s) => ({
+                                                    name: `${s.sabor} x${s.cantidad}`,
+                                                    price: 0, // sin costo adicional
+                                                }));
+
+                                            setSelectedExtras(seleccionExtras);
+                                        }}
+                                    />
                                 </div>
                             )}
 
-                            {/* Salsas - FIX APLICADO */}
-                            {product.options.salsas && product.options.salsas.length > 0 && (
-                                <div className="space-y-2">
-                                    <p className="text-white font-semibold text-sm uppercase tracking-wide">
-                                        Salsas
-                                    </p>
-                                    <div className="flex flex-wrap gap-2">
-                                        {product.options.salsas.map((salsa, idx) => {
-                                            // Asegurarse de que salsa es un string
-                                            const salsaName = typeof salsa === 'string' ? salsa : salsa.name;
-                                            const selected = isSelected(salsaName);
-
-                                            return (
-                                                <button
-                                                    key={idx}
-                                                    className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-all ${selected
-                                                        ? "bg-green-500 text-white border-green-400 shadow-md scale-105"
-                                                        : "bg-white/5 border-white/10 text-gray-200 hover:bg-green-600/60 hover:text-white"
-                                                        }`}
-                                                    onClick={() => toggleSalsa(salsaName)}
-                                                >
-                                                    {salsaName}
-                                                </button>
-                                            );
-                                        })}
+                            {/* 🔸 Salsas (solo una) */}
+                            {product.options?.salsas && product.options.salsas.length > 0 && (
+                                <div>
+                                    <div className="font-semibold mb-2">
+                                        Salsas <span className="text-xs text-gray-400">(elegí una)</span>
                                     </div>
+                                    {product.options.salsas.map((salsa, idx) => {
+                                        const salsaName = typeof salsa === "string" ? salsa : salsa.name;
+                                        const salsaPrice =
+                                            typeof salsa === "string" ? 0 : salsa.price || 0;
+
+                                        return (
+                                            <label
+                                                key={idx}
+                                                className="flex items-center gap-2 mb-2 cursor-pointer text-white"
+                                            >
+                                                <input
+                                                    type="radio"
+                                                    name="salsa"
+                                                    value={salsaName}
+                                                    checked={selectedSalsa === salsaName}
+                                                    onChange={() => {
+                                                        setSelectedSalsa(salsaName);
+                                                        setSelectedSalsaPrice(salsaPrice);
+                                                    }}
+                                                    className="accent-green-500 w-4 h-4"
+                                                />
+                                                <span className="text-sm">
+                                                    {salsaName}
+                                                    {salsaPrice > 0 && (
+                                                        <span className="text-green-400 font-bold ml-1">
+                                                            +${salsaPrice}
+                                                        </span>
+                                                    )}
+                                                </span>
+                                            </label>
+                                        );
+                                    })}
                                 </div>
                             )}
                         </div>
@@ -257,7 +299,6 @@ const ModalProductoComponent: React.FC<Props> = ({
                             <button
                                 className="px-3 py-2 text-white hover:bg-white/20 transition"
                                 onClick={handleQuantityDecrease}
-                                aria-label="Disminuir cantidad"
                             >
                                 <Minus className="w-4 h-4" />
                             </button>
@@ -265,7 +306,6 @@ const ModalProductoComponent: React.FC<Props> = ({
                             <button
                                 className="px-3 py-2 text-white hover:bg-white/20 transition"
                                 onClick={handleQuantityIncrease}
-                                aria-label="Aumentar cantidad"
                             >
                                 <Plus className="w-4 h-4" />
                             </button>
@@ -275,12 +315,19 @@ const ModalProductoComponent: React.FC<Props> = ({
                     {/* Total */}
                     <div className="flex justify-between items-center border-t border-white/10 pt-4">
                         <span className="text-lg font-semibold text-gray-300">Total:</span>
-                        <span className="text-2xl font-bold text-green-400">${total}</span>
+                        <span className="text-2xl font-bold text-green-400">${totalFinal}</span>
                     </div>
 
-                    {/* Botón agregar */}
                     <button
-                        className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-xl shadow-lg transition-all active:scale-[0.97]"
+                        disabled={
+                            (product.options?.sizes?.length > 0 && !selectedSize) ||
+                            (product.options?.salsas?.length > 0 && !selectedSalsa)
+                        }
+                        className={`w-full py-3 rounded-xl font-semibold shadow-lg transition-all active:scale-[0.97] ${(product.options?.sizes?.length > 0 && !selectedSize) ||
+                            (product.options?.salsas?.length > 0 && !selectedSalsa)
+                            ? "bg-gray-600 cursor-not-allowed text-gray-300"
+                            : "bg-green-600 hover:bg-green-700 text-white"
+                            }`}
                         onClick={handleAddToCart}
                     >
                         Agregar al carrito
@@ -289,31 +336,31 @@ const ModalProductoComponent: React.FC<Props> = ({
             </div>
 
             <style jsx>{`
-                .animate-fadeIn {
-                    animation: fadeIn 0.3s ease forwards;
-                }
-                .animate-slideUp {
-                    animation: slideUp 0.35s ease forwards;
-                }
-                @keyframes fadeIn {
-                    from {
-                        opacity: 0;
-                    }
-                    to {
-                        opacity: 1;
-                    }
-                }
-                @keyframes slideUp {
-                    from {
-                        transform: translateY(30px);
-                        opacity: 0;
-                    }
-                    to {
-                        transform: translateY(0);
-                        opacity: 1;
-                    }
-                }
-            `}</style>
+        .animate-fadeIn {
+          animation: fadeIn 0.3s ease forwards;
+        }
+        .animate-slideUp {
+          animation: slideUp 0.35s ease forwards;
+        }
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+        @keyframes slideUp {
+          from {
+            transform: translateY(30px);
+            opacity: 0;
+          }
+          to {
+            transform: translateY(0);
+            opacity: 1;
+          }
+        }
+      `}</style>
         </div>
     );
 };

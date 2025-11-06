@@ -68,7 +68,7 @@ export const CategorySelector: React.FC<Props> = ({
                 {/* Categorías */}
                 <div
                     ref={categoryRef}
-                    className="flex gap-2 overflow-x-auto scrollbar-hide scroll-smooth"
+                    className="flex gap-2 p-2 overflow-x-auto scrollbar-hide scroll-smooth"
                 >
                     {categories.map((cat) => {
                         const isActive = activeCategory === cat.slug;
