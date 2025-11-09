@@ -201,8 +201,8 @@ const ModalProductoComponent: React.FC<Props> = ({
                                                 <label
                                                     key={idx}
                                                     className={`flex items-center justify-between gap-3 p-3 rounded-lg cursor-pointer transition-all border-2 ${selectedSize === size.portion
-                                                            ? "bg-green-500/20 border-green-500"
-                                                            : "bg-white/5 border-white/10 hover:border-white/30"
+                                                        ? "bg-green-500/20 border-green-500"
+                                                        : "bg-white/5 border-white/10 hover:border-white/30"
                                                         }`}
                                                 >
                                                     <div className="flex items-center gap-3">
@@ -267,8 +267,8 @@ const ModalProductoComponent: React.FC<Props> = ({
                                                     <label
                                                         key={idx}
                                                         className={`flex items-center justify-between gap-3 p-3 rounded-lg cursor-pointer transition-all border-2 ${selectedSalsa === salsaName
-                                                                ? "bg-green-500/20 border-green-500"
-                                                                : "bg-white/5 border-white/10 hover:border-white/30"
+                                                            ? "bg-green-500/20 border-green-500"
+                                                            : "bg-white/5 border-white/10 hover:border-white/30"
                                                             }`}
                                                     >
                                                         <div className="flex items-center gap-3">
@@ -404,10 +404,10 @@ const ModalProductoComponent: React.FC<Props> = ({
                                 (isEmpanada && empanadasQty === 0)
                             }
                             className={`w-full py-4 rounded-xl font-bold text-base shadow-lg transition-all active:scale-[0.97] ${((product.options?.sizes?.length ?? 0) > 0 && !selectedSize) ||
-                                    ((product.options?.salsas?.length ?? 0) > 0 && !selectedSalsa) ||
-                                    (isEmpanada && empanadasQty === 0)
-                                    ? "bg-gray-600 cursor-not-allowed text-gray-400"
-                                    : "bg-green-600 hover:bg-green-700 text-white shadow-green-500/50"
+                                ((product.options?.salsas?.length ?? 0) > 0 && !selectedSalsa) ||
+                                (isEmpanada && empanadasQty === 0)
+                                ? "bg-gray-600 cursor-not-allowed text-gray-400"
+                                : "bg-green-600 hover:bg-green-700 text-white shadow-green-500/50"
                                 }`}
                             onClick={handleAddToCart}
                         >
