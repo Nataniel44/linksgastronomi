@@ -154,6 +154,7 @@ export const RestaurantMenu = ({ slug, initialData }: { slug: string; initialDat
                     onSelectCategory={setActiveCategory}
                     onSelectSubcategory={setActiveSubcategory}
                 />
+
                 {!activeCategory && (
                     <ClickcitoIntro></ClickcitoIntro>
                 )}
