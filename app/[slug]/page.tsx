@@ -1,10 +1,12 @@
 import { RestaurantMenu } from "@/components/RestaurantMenu";
 
-type Props = {
-    params: { slug: string };
-};
+export default async function RestaurantPage({
+    params,
+}: {
+    params: Promise<{ slug: string }>;
+}) {
+    const { slug } = await params;
 
-async function getMenuData(slug: string) {
     const baseUrl =
         process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
@@ -14,12 +16,7 @@ async function getMenuData(slug: string) {
 
     if (!res.ok) throw new Error("No se pudo cargar el menú");
 
-    return res.json();
-}
-
-export default async function RestaurantPage({ params }: Props) {
-    const { slug } = params;
-    const data = await getMenuData(slug);
+    const data = await res.json();
 
     return <RestaurantMenu slug={slug} initialData={data} />;
 }
