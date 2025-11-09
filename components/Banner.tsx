@@ -23,7 +23,7 @@ export const Banner: React.FC<BannerProps> = ({
     address,
     getImageSrc
 }) => (
-    <div className="relative w-full h-[400px] md:h-[220px] overflow-hidden rounded-b-lg shadow-2xl ">
+    <div className="relative w-full h-[300px] md:h-[220px] overflow-hidden rounded-b-lg shadow-2xl ">
         {/* Imagen de fondo */}
         {banner ? (
             <div
@@ -34,8 +34,8 @@ export const Banner: React.FC<BannerProps> = ({
             <div className="absolute inset-0 bg-gradient-to-br from-blue-600/50 via-purple-600/50 to-pink-600/50" />
         )}
 
-        {/* Overlay con gradiente mejorado */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-black/20" />
+        {/* Overlay con gradiente mejorado   bg-gradient-to-t from-black/90 via-black/60 to-black/20*/}
+        <div className="absolute inset-0" />
 
         {/* Contenido */}
         <div className="absolute inset-0 flex flex-col justify-center items-center p-6 md:p-10">
