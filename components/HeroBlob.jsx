@@ -54,7 +54,7 @@ export function HeroBlob() {
             <div className="relative w-full md:w-2/5 h-64 md:h-80 overflow-hidden transform transition-transform duration-300 group-hover:scale-105">
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10" />
               <Image
-                src="/nata.jpeg"
+                src="/nataelg.png"
                 alt="Nataniel - Desarrollador Web"
                 fill
                 className="object-cover"

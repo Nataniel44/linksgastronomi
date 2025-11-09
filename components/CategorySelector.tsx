@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { ChevronDown, Grid } from "lucide-react";
 
 type Subcategory = { id: number; name: string };
@@ -23,6 +23,29 @@ export const CategorySelector: React.FC<Props> = ({
 }) => {
     const categoryRef = useRef<HTMLDivElement>(null);
     const [showSubcategories, setShowSubcategories] = useState(false);
+    const [topPosition, setTopPosition] = useState("top-20");
+
+    // Detectar si el navbar está visible
+    useEffect(() => {
+        const updateTopPosition = () => {
+            const navbarVisible = getComputedStyle(document.documentElement)
+                .getPropertyValue('--navbar-visible');
+
+            // Si el navbar está oculto, ajustar posición
+            setTopPosition(navbarVisible === '0' ? 'top-3' : 'top-20');
+        };
+
+        // Observar cambios en la variable CSS
+        const observer = new MutationObserver(updateTopPosition);
+        observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['style']
+        });
+
+        updateTopPosition();
+
+        return () => observer.disconnect();
+    }, []);
 
     if (!categories || categories.length === 0) {
         return <div className="text-center text-gray-500 py-6">No hay categorías disponibles.</div>;
@@ -46,7 +69,7 @@ export const CategorySelector: React.FC<Props> = ({
     };
 
     return (
-        <div className="sticky top-[90px] z-10 bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-800/50 shadow-md">
+        <div className={`sticky ${topPosition} z-10 bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-800/50 shadow-md transition-all duration-300`}>
             <div className="max-w-7xl mx-auto px-4 py-3">
                 {/* 🔹 Título UX/UI */}
                 <div className="flex items-center gap-2 mb-2">
@@ -73,8 +96,8 @@ export const CategorySelector: React.FC<Props> = ({
                                     scrollToCenter(categoryRef, e.currentTarget);
                                 }}
                                 className={`relative flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 active:scale-95 ${isActive
-                                        ? "bg-green-500/90 text-white shadow-md shadow-green-500/30"
-                                        : "bg-gray-100/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 hover:bg-gray-200/80 dark:hover:bg-gray-700/80"
+                                    ? "bg-green-500/90 text-white shadow-md shadow-green-500/30"
+                                    : "bg-gray-100/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 hover:bg-gray-200/80 dark:hover:bg-gray-700/80"
                                     }`}
                             >
                                 {cat.name}
@@ -112,8 +135,8 @@ export const CategorySelector: React.FC<Props> = ({
                                     <button
                                         onClick={() => onSelectSubcategory(null)}
                                         className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition-all ${activeSubcategory === null
-                                                ? "bg-green-500/20 text-green-700 dark:text-green-300 border border-green-500/30"
-                                                : "bg-gray-100/80 dark:bg-gray-800/80 hover:bg-gray-200/80 dark:hover:bg-gray-700/80 text-gray-600 dark:text-gray-400"
+                                            ? "bg-green-500/20 text-green-700 dark:text-green-300 border border-green-500/30"
+                                            : "bg-gray-100/80 dark:bg-gray-800/80 hover:bg-gray-200/80 dark:hover:bg-gray-700/80 text-gray-600 dark:text-gray-400"
                                             }`}
                                     >
                                         Todos
@@ -124,8 +147,8 @@ export const CategorySelector: React.FC<Props> = ({
                                             key={sub.id}
                                             onClick={() => onSelectSubcategory(sub.id)}
                                             className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition-all ${activeSubcategory === sub.id
-                                                    ? "bg-green-500/20 text-green-700 dark:text-green-300 border border-green-500/30"
-                                                    : "bg-gray-100/80 dark:bg-gray-800/80 hover:bg-gray-200/80 dark:hover:bg-gray-700/80 text-gray-600 dark:text-gray-400"
+                                                ? "bg-green-500/20 text-green-700 dark:text-green-300 border border-green-500/30"
+                                                : "bg-gray-100/80 dark:bg-gray-800/80 hover:bg-gray-200/80 dark:hover:bg-gray-700/80 text-gray-600 dark:text-gray-400"
                                                 }`}
                                         >
                                             {sub.name}

@@ -152,11 +152,11 @@ export const OrderStatusTracker: React.FC<Props> = ({ orderId, onClose }) => {
     return (
         <div
             onClick={onClose}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4  animate-fade-in"
         >
             <div
                 onClick={(e) => e.stopPropagation()}
-                className="bg-white dark:bg-gray-900 rounded-2xl max-w-2xl w-full shadow-2xl overflow-hidden animate-scale-in"
+                className="bg-white dark:bg-gray-900 rounded-2xl max-w-2xl w-full shadow-2xl max-h-[90dvh] overflow-hidden overflow-y-auto animate-scale-in"
             >
                 {/* Header */}
                 <div className="bg-gradient-to-r from-green-500 to-green-600 p-6 text-white">
@@ -207,8 +207,8 @@ export const OrderStatusTracker: React.FC<Props> = ({ orderId, onClose }) => {
                             >
                                 <div
                                     className={`flex items-center justify-center w-10 h-10 rounded-full transition-all ${done
-                                            ? `${config.bgColor} ${config.color}`
-                                            : "bg-gray-200 dark:bg-gray-800 text-gray-400"
+                                        ? `${config.bgColor} ${config.color}`
+                                        : "bg-gray-200 dark:bg-gray-800 text-gray-400"
                                         } ${current ? "ring-4 ring-green-500/30" : ""}`}
                                 >
                                     {config.icon}
@@ -216,8 +216,8 @@ export const OrderStatusTracker: React.FC<Props> = ({ orderId, onClose }) => {
                                 <div className="flex-1">
                                     <p
                                         className={`font-medium ${done
-                                                ? "text-gray-900 dark:text-white"
-                                                : "text-gray-400 dark:text-gray-600"
+                                            ? "text-gray-900 dark:text-white"
+                                            : "text-gray-400 dark:text-gray-600"
                                             }`}
                                     >
                                         {config.label}

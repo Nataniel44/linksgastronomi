@@ -161,7 +161,7 @@ export const RestaurantMenu = ({ slug, initialData }: { slug: string; initialDat
 
 
                 {/* Productos */}
-                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6 md:p-12">
+                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-6 p-6 md:p-12">
                     {filteredProducts.map(prod => (
                         <ProductCard
                             key={prod.id}

@@ -71,6 +71,12 @@ const ModalProductoComponent: React.FC<Props> = ({
             return;
         }
 
+        // 🔹 Validar que si es empanada, haya al menos una seleccionada
+        if (product.name.toLowerCase().includes("empanada") && empanadasQty === 0) {
+            alert("Seleccioná al menos una empanada antes de agregar al carrito.");
+            return;
+        }
+
         // 🔸 Si es empanada, usamos la cantidad seleccionada
         const totalQty =
             product.name.toLowerCase().includes("empanada") && empanadasQty > 0
@@ -131,11 +137,11 @@ const ModalProductoComponent: React.FC<Props> = ({
 
     return (
         <div
-            className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn"
+            className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-end justify-center z-50  animate-fadeIn"
             onClick={onClose}
         >
             <div
-                className="relative bg-gradient-to-b from-gray-900 via-zinc-900 to-black rounded-2xl overflow-hidden max-w-md w-full shadow-2xl transform transition-all duration-150 animate-slideUp max-h-[100dvh] overflow-y-auto"
+                className="relative bg-gradient-to-b from-gray-900 via-zinc-900 to-black rounded-t-2xl overflow-hidden max-w-md w-full shadow-2xl transform transition-all duration-150 animate-slideUp max-h-[100dvh] overflow-y-auto"
                 onClick={(e) => e.stopPropagation()}
             >
                 <button
@@ -145,8 +151,7 @@ const ModalProductoComponent: React.FC<Props> = ({
                 >
                     <X className="w-5 h-5" />
                 </button>
-
-                {product.image && (
+                {product.image && !product.name.toLowerCase().includes("empanada") && (
                     <div className="relative w-full aspect-[4/3] bg-gray-800">
                         {!imageLoaded && (
                             <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-white/5 animate-pulse" />
@@ -165,6 +170,8 @@ const ModalProductoComponent: React.FC<Props> = ({
                     </div>
                 )}
 
+
+
                 <div className="p-6 space-y-5">
                     <div>
                         <h3 className="text-2xl font-bold text-white">{product.name}</h3>
@@ -175,16 +182,6 @@ const ModalProductoComponent: React.FC<Props> = ({
                         )}
                     </div>
 
-                    <div className="flex items-center gap-3">
-                        <span className="text-2xl font-semibold text-green-400">
-                            ${product.price}
-                        </span>
-                        {product.comparePrice && (
-                            <span className="text-gray-400 line-through">
-                                ${product.comparePrice}
-                            </span>
-                        )}
-                    </div>
 
                     {/* 🔸 Opciones dinámicas */}
                     {product.options && (
@@ -322,27 +319,38 @@ const ModalProductoComponent: React.FC<Props> = ({
                         </div>
                     )}
 
-                    {/* Cantidad */}
-                    <div className="flex items-center justify-between mt-4">
-                        <span className="text-white font-semibold text-sm uppercase tracking-wide">
-                            Cantidad
-                        </span>
-                        <div className="flex items-center bg-white/10 rounded-full overflow-hidden">
-                            <button
-                                className="px-3 py-2 text-white hover:bg-white/20 transition"
-                                onClick={handleQuantityDecrease}
-                            >
-                                <Minus className="w-4 h-4" />
-                            </button>
-                            <span className="px-4 text-white font-medium">{quantity}</span>
-                            <button
-                                className="px-3 py-2 text-white hover:bg-white/20 transition"
-                                onClick={handleQuantityIncrease}
-                            >
-                                <Plus className="w-4 h-4" />
-                            </button>
+                    {/* 🔸 Cantidad */}
+                    {!product.name.toLowerCase().includes("empanada") ? (
+                        <div className="flex items-center justify-between mt-4">
+                            <span className="text-white font-semibold text-sm uppercase tracking-wide">
+                                Cantidad
+                            </span>
+                            <div className="flex items-center bg-white/10 rounded-full overflow-hidden">
+                                <button
+                                    className="px-3 py-2 text-white hover:bg-white/20 transition"
+                                    onClick={handleQuantityDecrease}
+                                >
+                                    <Minus className="w-4 h-4" />
+                                </button>
+                                <span className="px-4 text-white font-medium">{quantity}</span>
+                                <button
+                                    className="px-3 py-2 text-white hover:bg-white/20 transition"
+                                    onClick={handleQuantityIncrease}
+                                >
+                                    <Plus className="w-4 h-4" />
+                                </button>
+                            </div>
                         </div>
-                    </div>
+                    ) : (
+                        <div className="flex items-center justify-between mt-4">
+                            <span className="text-white font-semibold text-sm uppercase tracking-wide">
+                                Cantidad de empanadas
+                            </span>
+                            <span className="px-4 py-2 bg-white/10 rounded-full text-white font-medium">
+                                {empanadasQty}
+                            </span>
+                        </div>
+                    )}
 
                     {/* Total */}
                     <div className="flex justify-between items-center border-t border-white/10 pt-4">

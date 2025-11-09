@@ -8,6 +8,8 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showNavbar, setShowNavbar] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   const toggleMenu = () => setIsOpen((prev) => !prev);
 
@@ -46,12 +48,34 @@ export default function Navbar() {
     }
   };
 
-  // 🎢 Cambiar estilo con scroll
+  // 🎢 Cambiar estilo con scroll y controlar visibilidad del navbar
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 10);
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      setScrolled(currentScrollY > 10);
+
+      // Mostrar navbar cuando se desplaza hacia arriba, ocultar cuando baja
+      if (currentScrollY < lastScrollY || currentScrollY < 10) {
+        setShowNavbar(true);
+      } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setShowNavbar(false);
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [lastScrollY]);
+
+  // Exponer el estado del navbar globalmente para otros componentes
+  useEffect(() => {
+    document.documentElement.style.setProperty(
+      '--navbar-visible',
+      showNavbar ? '1' : '0'
+    );
+  }, [showNavbar]);
 
   // 🚫 Bloquear scroll cuando el menú móvil está abierto
   useEffect(() => {
@@ -68,7 +92,8 @@ export default function Navbar() {
     <>
       {/* Navbar principal */}
       <nav
-        className={`fixed top-3 inset-x-0 z-50 mx-auto transition-all duration-300 `}
+        className={`fixed top-3 inset-x-0 z-50 mx-auto transition-all duration-300 ${showNavbar ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
+          }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
           {/* Logo */}

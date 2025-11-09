@@ -23,7 +23,7 @@ export const Banner: React.FC<BannerProps> = ({
     address,
     getImageSrc
 }) => (
-    <div className="relative w-full h-[400px] md:h-[320px] overflow-hidden rounded-b-lg shadow-2xl ">
+    <div className="relative w-full h-[400px] md:h-[220px] overflow-hidden rounded-b-lg shadow-2xl ">
         {/* Imagen de fondo */}
         {banner ? (
             <div
@@ -44,11 +44,11 @@ export const Banner: React.FC<BannerProps> = ({
                 {logo ? (
                     <div className="bg-white/25 border border-black/30 backdrop-blur-sm rounded-xl p-4 inline-block shadow-xl ">
                         <Image
-                            width={720}
-                            height={568}
+                            width={250}
+                            height={250}
                             src={getImageSrc(logo)}
                             alt={name}
-                            className="h-16 md:h-20 w-auto object-contain"
+                            className="h-16 md:h-16 w-auto object-contain"
                         />
                     </div>
                 ) : (
