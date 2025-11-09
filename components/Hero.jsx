@@ -2,31 +2,21 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
 import { BackgroundBlobs } from "./ui/BackgroundBlobs";
 import { ActionButton } from "./ui/ActionButton";
 
 export function Hero() {
     return (
-        <header className="relative w-full flex flex-col items-center justify-center overflow-hidden pt-20 pb-14">
+        <header className="relative w-full flex flex-col items-center justify-center pt-20 pb-14">
             {/* Fondo dinámico */}
             <BackgroundBlobs
                 colors={["#fde047", "#facc15", "#fbbf24"]}
                 className="opacity-40 blur-2xl scale-110"
             />
 
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.8 }}
-                className="md:w-full max-w-4xl mx-auto px-4 flex flex-col items-center text-center gap-8 z-10"
-            >
+            <div className="md:w-full max-w-4xl mx-auto px-4 flex flex-col items-center text-center gap-8 z-10">
                 {/* Logo */}
-                <motion.div
-                    initial={{ scale: 0.9, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                >
+                <div>
                     <Image
                         src="/log.png"
                         alt="Logo de la empresa"
@@ -35,15 +25,10 @@ export function Hero() {
                         priority
                         className="drop-shadow-lg select-none"
                     />
-                </motion.div>
+                </div>
 
                 {/* Título principal */}
-                <motion.h1
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
-                    className="text-2xl md:text-4xl lg:text-4xl font-regular text-balance leading-tight max-w-3xl text-yellow-400 tracking-tight"
-                >
+                <h1 className="text-2xl md:text-4xl lg:text-4xl font-regular text-balance leading-tight max-w-3xl text-yellow-400 tracking-tight">
                     <span className="font-bold">Soluciones</span>{" "}
                     <span className="relative inline-block">
                         <span className="font-bold">digitales</span>
@@ -52,16 +37,11 @@ export function Hero() {
                             className="absolute left-0 -bottom-1  w-full h-0.5 rounded-md bg-gradient-to-r from-yellow-400 to-yellow-600 opacity-90"
                         />
                     </span>{" "}
-                    sitios web y menús interactivos para restaurantes, bares ,cafeterías y más.
-                </motion.h1>
+                    sitios web y menús interactivos para restaurantes, bares, cafeterías y más.
+                </h1>
 
                 {/* Botones */}
-                <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4, duration: 0.7 }}
-                    className="flex flex-col md:flex-row items-center gap-4 mt-4"
-                >
+                <div className="flex flex-col md:flex-row items-center gap-4 mt-4">
                     <ActionButton href="/elysrestobar" variant="primary">
                         <svg
                             className="w-6 h-6 animate-bounce"
@@ -90,8 +70,8 @@ export function Hero() {
                             <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                         </svg>
                     </Link>
-                </motion.div>
-            </motion.div>
+                </div>
+            </div>
         </header>
     );
 }

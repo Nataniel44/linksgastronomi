@@ -30,7 +30,7 @@ const ProductCardBase: React.FC<Props> = ({ product, onClick, getImageSrc }) => 
     return (
         <div
             onClick={() => onClick(product)}
-            className="group relative rounded-2xl bg-white dark:bg-zinc-900/40 border border-gray-100 dark:border-zinc-800/50 overflow-hidden scroll-smooth cursor-pointer transition-all duration-300 hover:shadow-xl hover:border-gray-200 dark:hover:border-zinc-700 hover:-translate-y-1"
+            className="group relative rounded-2xl bg-white dark:bg-zinc-900/40 border border-gray-100 dark:border-zinc-800/50 overflow-hidden scroll-smooth cursor-pointer transition-all duration-300  hover:border-gray-200 dark:hover:border-zinc-700 "
         >
             {/* Imagen */}
             <div className="relative w-full aspect-[4/3] overflow-hidden bg-gray-100 dark:bg-zinc-800/50">
@@ -39,9 +39,9 @@ const ProductCardBase: React.FC<Props> = ({ product, onClick, getImageSrc }) => 
                         src={getImageSrc(product.image)}
                         alt={product.name}
                         fill
-                        sizes="(max-width: 768px) 100vw, 300px"
+                        sizes="(max-width: 500px) 100vw, 300px"
                         loading="lazy"
-                        className="object-cover transition-transform duration-500 group-hover:scale-110"
+                        className="object-cover transition-transform duration-500 "
                     />
                 ) : (
                     <div className="w-full h-full flex items-center justify-center">

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import React, { useEffect, useState } from "react";
 
 interface Service {
     title: string;
@@ -12,56 +12,52 @@ interface ServiceClientProps {
     service: Service;
 }
 
-const containerVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: { staggerChildren: 0.15, duration: 0.5, ease: "easeOut" },
-    },
-};
-
-const itemVariants = {
-    hidden: { opacity: 0, y: 10 },
-    visible: { opacity: 1, y: 0 },
-};
-
 export default function ServiceClient({ service }: ServiceClientProps) {
+    const [visible, setVisible] = useState(false);
+
+    useEffect(() => {
+        // Simula aparición suave después del montaje
+        const timer = setTimeout(() => setVisible(true), 100);
+        return () => clearTimeout(timer);
+    }, []);
+
     return (
-        <motion.div
-            className="max-w-3xl mx-auto p-8 md:p-12 bg-white dark:bg-gray-800 rounded-3xl shadow-xl border border-gray-200 dark:border-gray-700"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
+        <div
+            className={`max-w-3xl mx-auto p-8 md:p-12 bg-white dark:bg-gray-800 rounded-3xl shadow-xl border border-gray-200 dark:border-gray-700
+            transform transition-all duration-700 ease-out
+            ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}
         >
             {/* Título */}
-            <motion.h1
-                className="text-4xl md:text-5xl font-extrabold mb-6 text-gray-900 dark:text-white"
-                variants={itemVariants}
+            <h1
+                className={`text-4xl md:text-5xl font-extrabold mb-6 text-gray-900 dark:text-white
+                transition-all duration-700 delay-100
+                ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"}`}
             >
                 {service.title}
-            </motion.h1>
+            </h1>
 
             {/* Descripción */}
-            <motion.p
-                className="text-lg md:text-xl text-gray-700 dark:text-gray-300 leading-relaxed"
-                variants={itemVariants}
+            <p
+                className={`text-lg md:text-xl text-gray-700 dark:text-gray-300 leading-relaxed
+                transition-all duration-700 delay-200
+                ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"}`}
             >
                 {service.description}
-            </motion.p>
+            </p>
 
             {/* CTA */}
             {service.cta && (
-                <motion.a
+                <a
                     href={service.cta.href}
-                    className="inline-block mt-8 px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-transform transform hover:-translate-y-1"
-                    variants={itemVariants}
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
+                    className={`inline-block mt-8 px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-semibold rounded-xl shadow-lg
+                    hover:shadow-xl transform transition-all duration-300
+                    ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"}
+                    hover:-translate-y-1 active:scale-95`}
+                    style={{ transitionDelay: "300ms" }}
                 >
                     {service.cta.label}
-                </motion.a>
+                </a>
             )}
-        </motion.div>
+        </div>
     );
 }

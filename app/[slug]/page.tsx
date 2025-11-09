@@ -1,8 +1,7 @@
 import { RestaurantMenu } from "@/components/RestaurantMenu";
-import type { Metadata, ResolvingMetadata } from "next";
 
 type Props = {
-    params: Promise<{ slug: string }>; // ✅ ahora concuerda con Next.js 15
+    params: { slug: string };
 };
 
 async function getMenuData(slug: string) {
@@ -19,7 +18,7 @@ async function getMenuData(slug: string) {
 }
 
 export default async function RestaurantPage({ params }: Props) {
-    const { slug } = await params; // ✅ se espera como promesa
+    const { slug } = params;
     const data = await getMenuData(slug);
 
     return <RestaurantMenu slug={slug} initialData={data} />;

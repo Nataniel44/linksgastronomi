@@ -1,11 +1,9 @@
 import PricingSection from "@/components/PricingSection";
-import BentoGrid from "../components/BentoGrid";
 
 import { Features } from "../components/Features";
 import { Hero } from "../components/Hero";
 import { HeroBlob } from "../components/HeroBlob";
 import { Services } from "../components/Services";
-import SectionWrapper from "../components/ui/SectionWrapper";
 import { WhatsAppContact } from "../components/WhatsAppContact";
 
 export default function Home() {

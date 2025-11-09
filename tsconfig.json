@@ -39,7 +39,7 @@
     "next-env.d.ts",
     "out/types/**/*.ts",
     ".next/types/**/*.ts",
-    "components/Services.jsx",
+    "components/Services.tsx",
     "index.ts",
     "lib/prisma.js",
     "prisma/elys.js"

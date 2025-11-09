@@ -9,6 +9,7 @@ import { Banner } from "./Banner";
 import { CartSidebar } from "./CartSidebar";
 import { CategorySelector } from "./CategorySelector";
 import LoadingScreen from "./LoadingScreen";
+import ClickcitoIntro from "./ClickcitoIntro";
 import { MessageCircle, ShoppingCart } from "lucide-react";
 import OrderHistory from "./OrderHistory";
 import { Product, Extra, Size } from "@/types/product";
@@ -153,7 +154,9 @@ export const RestaurantMenu = ({ slug, initialData }: { slug: string; initialDat
                     onSelectCategory={setActiveCategory}
                     onSelectSubcategory={setActiveSubcategory}
                 />
-
+                {!activeCategory && (
+                    <ClickcitoIntro></ClickcitoIntro>
+                )}
 
                 {/* Productos */}
                 <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6 md:p-12">
@@ -176,7 +179,26 @@ export const RestaurantMenu = ({ slug, initialData }: { slug: string; initialDat
                     />)}
 
             </div>
+            <div className="fixed z-40 bottom-6 right-6   gap-6 flex flex-col items-end">
+                <OrderHistory restaurantId={restaurant.id} />
+                {/* Botón flotante para abrir carrito */}
+                {cart.length > 0 && (
+                    <button
+                        className="group flex items-center gap-2 bg-green-500/20 hover:bg-green-500/30 backdrop-blur-md px-7 h-14 rounded-full shadow-lg hover:shadow-xl text-white transition-all duration-200 border border-green-400/20 hover:scale-105 active:scale-95"
+                        onClick={() => setShowCart(true)}
+                    >
+                        <div className="relative">
+                            <ShoppingCart className="w-6 h-6" />
+                            {/* Badge con cantidad */}
+                            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center border border-white/20">
+                                {cart.length}
+                            </span>
+                        </div>
+                        <span className="text-sm font-medium">Ver carrito</span>
+                    </button>
+                )}
 
+            </div>
         </div>
     );
 };

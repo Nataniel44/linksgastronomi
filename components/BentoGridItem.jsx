@@ -1,21 +1,14 @@
 "use client";
 import Link from "next/link";
-import { motion } from "framer-motion";
 
-const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
-};
 
 export function BentoGridItem({ title, description, icon: Icon, className = "" }) {
     const slug = title.toLowerCase().replace(/\s+/g, "-");
 
     return (
         <Link href={`/services/${slug}`} className="block">
-            <motion.div
-                variants={itemVariants}
-                whileHover={{ scale: 1.02, y: -4 }}
-                transition={{ duration: 0.2 }}
+            <div
+
                 className={`relative group rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow overflow-hidden cursor-pointer ${className}`}
             >
                 {/* Efecto de brillo */}
@@ -45,7 +38,7 @@ export function BentoGridItem({ title, description, icon: Icon, className = "" }
                 </div>
 
                 <div className="absolute top-0 right-0 w-20 h-20 bg-yellow-400/5 rounded-bl-[100px] -z-0" />
-            </motion.div>
+            </div>
         </Link>
     );
 }

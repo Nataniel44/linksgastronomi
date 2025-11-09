@@ -12,6 +12,10 @@ type Props = {
     getImageSrc: (src?: string) => string;
     onAddToCart: (product: Product, quantity: number, selectedExtras: Extra[]) => void;
 };
+type SaborSeleccionado = {
+    sabor: string;
+    cantidad: number;
+};
 
 const ModalProductoComponent: React.FC<Props> = ({
     product,
@@ -28,6 +32,8 @@ const ModalProductoComponent: React.FC<Props> = ({
     const [selectedSalsa, setSelectedSalsa] = useState<string | null>(null);
     const [selectedSizePrice, setSelectedSizePrice] = useState<number>(0);
     const [selectedSalsaPrice, setSelectedSalsaPrice] = useState<number>(0);
+    const [empanadasQty, setEmpanadasQty] = useState(0);
+    const [saboresSeleccionados, setSaboresSeleccionados] = useState<SaborSeleccionado[]>([]);
 
     const [extrasQty, setExtrasQty] = useState<number[]>(
         product.options?.extras?.map(() => 0) || []
@@ -39,9 +45,6 @@ const ModalProductoComponent: React.FC<Props> = ({
             0
         )
         : 0;
-
-    const totalFinal =
-        (product.price + selectedSizePrice + selectedSalsaPrice + extrasTotal) * quantity;
 
     // actualiza total base con extras manuales
     useEffect(() => {
@@ -59,36 +62,54 @@ const ModalProductoComponent: React.FC<Props> = ({
 
     const handleAddToCart = useCallback(() => {
         if ((product.options?.sizes?.length ?? 0) > 0 && !selectedSize) {
-
             alert("Por favor, elegí una porción antes de continuar.");
             return;
         }
 
-        if ((product.options?.sizes?.length ?? 0) > 0 && !selectedSize) {
+        if ((product.options?.salsas?.length ?? 0) > 0 && !selectedSalsa) {
             alert("Por favor, elegí una salsa antes de continuar.");
             return;
         }
 
-        const selectedExtrasFinal = [
-            ...selectedExtras,
+        // 🔸 Si es empanada, usamos la cantidad seleccionada
+        const totalQty =
+            product.name.toLowerCase().includes("empanada") && empanadasQty > 0
+                ? empanadasQty
+                : quantity;
+
+        // 🔸 Armamos los extras finales
+        const selectedExtrasFinal: Extra[] = [
+            ...(saboresSeleccionados.length > 0
+                ? saboresSeleccionados
+                    .filter((s) => s.cantidad > 0)
+                    .map((s) => ({
+                        name: `${s.sabor} x${s.cantidad}`,
+                        price: 0,
+                    }))
+                : []),
             ...(selectedSalsa ? [{ name: selectedSalsa, price: selectedSalsaPrice }] : []),
             ...(selectedSize ? [{ name: selectedSize, price: selectedSizePrice }] : []),
             ...(product.options?.extras || [])
                 .map((extra, idx) =>
-                    extrasQty[idx] > 0 ? { name: extra.name, price: extra.price * extrasQty[idx] } : null
+                    extrasQty[idx] > 0
+                        ? { name: extra.name, price: extra.price * extrasQty[idx] }
+                        : null
                 )
                 .filter(Boolean) as Extra[],
         ];
 
-        onAddToCart(product, quantity, selectedExtrasFinal);
+        // 🔸 Enviamos el producto con todo lo necesario al carrito
+        onAddToCart(product, totalQty, selectedExtrasFinal);
         onClose();
     }, [
         product,
+        selectedSize,
+        selectedSalsa,
+        empanadasQty,
         quantity,
         selectedExtras,
-        selectedSalsa,
+        saboresSeleccionados,
         selectedSalsaPrice,
-        selectedSize,
         selectedSizePrice,
         extrasQty,
         onAddToCart,
@@ -99,6 +120,14 @@ const ModalProductoComponent: React.FC<Props> = ({
         (name: string) => selectedExtras.some((e) => e.name === name),
         [selectedExtras]
     );
+
+    const baseQty =
+        product.name.toLowerCase().includes("empanada") && empanadasQty > 0
+            ? empanadasQty
+            : quantity;
+
+    const totalFinal =
+        (product.price + selectedSizePrice + selectedSalsaPrice + extrasTotal) * baseQty;
 
     return (
         <div
@@ -151,7 +180,9 @@ const ModalProductoComponent: React.FC<Props> = ({
                             ${product.price}
                         </span>
                         {product.comparePrice && (
-                            <span className="text-gray-400 line-through">${product.comparePrice}</span>
+                            <span className="text-gray-400 line-through">
+                                ${product.comparePrice}
+                            </span>
                         )}
                     </div>
 
@@ -227,28 +258,28 @@ const ModalProductoComponent: React.FC<Props> = ({
                                     ))}
                                 </div>
                             )}
+
                             {/* 🔸 Selector de Empanadas */}
-                            {product.options?.sabores && product.name.toLowerCase().includes("empanada") && (
-                                <div>
-                                    <div className="font-semibold mb-2">Sabores</div>
-                                    <SelectorEmpanadas
-                                        sabores={product.options.sabores}
-                                        onSelect={(saboresSeleccionados) => {
-                                            // Convertir selección a formato de extras
-                                            const seleccionExtras = saboresSeleccionados
-                                                .filter((s) => s.cantidad > 0)
-                                                .map((s) => ({
-                                                    name: `${s.sabor} x${s.cantidad}`,
-                                                    price: 0, // sin costo adicional
-                                                }));
+                            {product.options?.sabores &&
+                                product.name.toLowerCase().includes("empanada") && (
+                                    <div>
+                                        <div className="font-semibold mb-2">Sabores</div>
 
-                                            setSelectedExtras(seleccionExtras);
-                                        }}
-                                    />
-                                </div>
-                            )}
+                                        <SelectorEmpanadas
+                                            sabores={product.options.sabores}
+                                            onSelect={(saboresSeleccionados) => {
+                                                setSaboresSeleccionados(saboresSeleccionados);
+                                                const totalEmpanadas = saboresSeleccionados.reduce(
+                                                    (acc, s) => acc + s.cantidad,
+                                                    0
+                                                );
+                                                setEmpanadasQty(totalEmpanadas);
+                                            }}
+                                        />
+                                    </div>
+                                )}
 
-                            {/* 🔸 Salsas (solo una) */}
+                            {/* 🔸 Salsas */}
                             {product.options?.salsas && product.options.salsas.length > 0 && (
                                 <div>
                                     <div className="font-semibold mb-2">
@@ -329,7 +360,6 @@ const ModalProductoComponent: React.FC<Props> = ({
                             ? "bg-gray-600 cursor-not-allowed text-gray-300"
                             : "bg-green-600 hover:bg-green-700 text-white"
                             }`}
-
                         onClick={handleAddToCart}
                     >
                         Agregar al carrito
@@ -363,7 +393,7 @@ const ModalProductoComponent: React.FC<Props> = ({
           }
         }
       `}</style>
-        </div >
+        </div>
     );
 };
 

@@ -1,5 +1,5 @@
 "use client";
-import { motion, useInView } from "framer-motion";
+
 import { BentoGridItem } from "./BentoGridItem";
 import { useRef } from "react";
 import { Smartphone, ShoppingCart, Sparkles, Palette, Instagram, Camera, Truck } from "lucide-react";
@@ -48,7 +48,7 @@ const containerVariants = {
 
 export default function BentoGrid() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.15 });
+
 
   return (
     <section className="relative py-20 overflow-hidden">
@@ -56,10 +56,8 @@ export default function BentoGrid() {
       <div className="absolute inset-0  bg-gradient-to-b from-transparent via-yellow-50/30 to-transparent pointer-events-none" />
 
       {/* Título de sección */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
-        transition={{ duration: 0.6 }}
+      <div
+
         className="text-center mb-12 px-4"
       >
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
@@ -69,19 +67,17 @@ export default function BentoGrid() {
         <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
           Todo lo que necesitas para digitalizar tu negocio gastronómico
         </p>
-      </motion.div>
+      </div>
 
-      <motion.div
+      <div
         ref={ref}
-        variants={containerVariants}
-        initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
+
         className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full max-w-full mx-auto px-6 md:px-12 auto-rows-fr'
       >
         {items.map((item, index) => (
           <BentoGridItem key={index} {...item} />
         ))}
-      </motion.div>
+      </div>
     </section>
   );
 }
