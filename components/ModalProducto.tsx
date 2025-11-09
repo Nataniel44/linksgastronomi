@@ -12,6 +12,7 @@ type Props = {
     getImageSrc: (src?: string) => string;
     onAddToCart: (product: Product, quantity: number, selectedExtras: Extra[]) => void;
 };
+
 type SaborSeleccionado = {
     sabor: string;
     cantidad: number;
@@ -24,8 +25,6 @@ const ModalProductoComponent: React.FC<Props> = ({
     onAddToCart,
 }) => {
     const [quantity, setQuantity] = useState(1);
-    const [selectedExtras, setSelectedExtras] = useState<Extra[]>([]);
-    const [total, setTotal] = useState(product.price);
     const [imageLoaded, setImageLoaded] = useState(false);
 
     const [selectedSize, setSelectedSize] = useState<string | null>(null);
@@ -46,11 +45,13 @@ const ModalProductoComponent: React.FC<Props> = ({
         )
         : 0;
 
-    // actualiza total base con extras manuales
+    // 🔒 Bloquear scroll del body cuando el modal está abierto
     useEffect(() => {
-        const extrasTotal = selectedExtras.reduce((acc, e) => acc + (e.price || 0), 0);
-        setTotal((product.price + extrasTotal) * quantity);
-    }, [quantity, selectedExtras, product.price]);
+        document.body.style.overflow = "hidden";
+        return () => {
+            document.body.style.overflow = "unset";
+        };
+    }, []);
 
     const handleQuantityDecrease = useCallback(() => {
         setQuantity((q) => Math.max(1, q - 1));
@@ -98,7 +99,7 @@ const ModalProductoComponent: React.FC<Props> = ({
             ...(product.options?.extras || [])
                 .map((extra, idx) =>
                     extrasQty[idx] > 0
-                        ? { name: extra.name, price: extra.price * extrasQty[idx] }
+                        ? { name: `${extra.name} x${extrasQty[idx]}`, price: extra.price * extrasQty[idx] }
                         : null
                 )
                 .filter(Boolean) as Extra[],
@@ -113,7 +114,6 @@ const ModalProductoComponent: React.FC<Props> = ({
         selectedSalsa,
         empanadasQty,
         quantity,
-        selectedExtras,
         saboresSeleccionados,
         selectedSalsaPrice,
         selectedSizePrice,
@@ -121,11 +121,6 @@ const ModalProductoComponent: React.FC<Props> = ({
         onAddToCart,
         onClose,
     ]);
-
-    const isSelected = useCallback(
-        (name: string) => selectedExtras.some((e) => e.name === name),
-        [selectedExtras]
-    );
 
     const baseQty =
         product.name.toLowerCase().includes("empanada") && empanadasQty > 0
@@ -135,133 +130,114 @@ const ModalProductoComponent: React.FC<Props> = ({
     const totalFinal =
         (product.price + selectedSizePrice + selectedSalsaPrice + extrasTotal) * baseQty;
 
+    const isEmpanada = product.name.toLowerCase().includes("empanada");
+
     return (
         <div
-            className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-end justify-center z-50  animate-fadeIn"
+            className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-end sm:items-center justify-center z-50 animate-fadeIn p-0 sm:p-4"
             onClick={onClose}
         >
             <div
-                className="relative bg-gradient-to-b from-gray-900 via-zinc-900 to-black rounded-t-2xl overflow-hidden max-w-md w-full shadow-2xl transform transition-all duration-150 animate-slideUp max-h-[100dvh] overflow-y-auto"
+                className="relative bg-gradient-to-b from-gray-900 via-zinc-900 to-black rounded-t-3xl sm:rounded-3xl overflow-hidden w-full max-w-md md:max-w-4xl shadow-2xl transform transition-all duration-150 animate-slideUp max-h-[95vh] sm:max-h-[90vh] overflow-y-auto"
                 onClick={(e) => e.stopPropagation()}
             >
+                {/* Botón cerrar */}
                 <button
                     onClick={onClose}
-                    className="fixed top-3 right-3 z-10 bg-white/10 hover:bg-white/20 text-white rounded-full p-2 transition"
+                    className="absolute top-4 right-4 z-20 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 backdrop-blur-sm transition-all active:scale-90"
                     aria-label="Cerrar modal"
                 >
                     <X className="w-5 h-5" />
                 </button>
-                {product.image && !product.name.toLowerCase().includes("empanada") && (
-                    <div className="relative w-full aspect-[4/3] bg-gray-800">
-                        {!imageLoaded && (
-                            <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-white/5 animate-pulse" />
-                        )}
-                        <Image
-                            src={getImageSrc(product.image)}
-                            alt={product.name}
-                            fill
-                            sizes="(max-width: 768px) 100vw, 448px"
-                            className={`object-cover transition-all duration-700 hover:scale-105 ${imageLoaded ? "opacity-100" : "opacity-0"
-                                }`}
-                            priority
-                            onLoadingComplete={() => setImageLoaded(true)}
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                    </div>
-                )}
 
+                {/* Layout de dos columnas en md+ */}
+                <div className="md:grid md:grid-cols-2 md:gap-0">
+                    {/* Imagen del producto */}
+                    {product.image && !isEmpanada && (
+                        <div className="relative w-full aspect-[4/3] md:aspect-auto md:min-h-full bg-gray-800">
+                            {!imageLoaded && (
+                                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-white/5 animate-pulse" />
+                            )}
+                            <Image
+                                src={getImageSrc(product.image)}
+                                alt={product.name}
+                                fill
+                                sizes="(max-width: 768px) 100vw, 50vw"
+                                className={`object-cover transition-all duration-700 ${imageLoaded ? "opacity-100" : "opacity-0"
+                                    }`}
+                                priority
+                                onLoad={() => setImageLoaded(true)}
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent md:bg-gradient-to-r md:from-transparent md:to-black/30" />
+                        </div>
+                    )}
 
-
-                <div className="p-6 space-y-5">
-                    <div>
-                        <h3 className="text-2xl font-bold text-white">{product.name}</h3>
-                        {product.description && (
-                            <p className="text-gray-300 mt-1 text-sm leading-relaxed">
-                                {product.description}
+                    {/* Contenido del modal */}
+                    <div className="p-6 space-y-5 md:overflow-y-auto md:max-h-[90vh]">
+                        {/* Título y descripción */}
+                        <div>
+                            <h3 className="text-2xl font-bold text-white">{product.name}</h3>
+                            {product.description && (
+                                <p className="text-gray-300 mt-2 text-sm leading-relaxed">
+                                    {product.description}
+                                </p>
+                            )}
+                            <p className="text-green-400 font-bold text-xl mt-2">
+                                ${product.price}
                             </p>
-                        )}
-                    </div>
+                        </div>
 
-
-                    {/* 🔸 Opciones dinámicas */}
-                    {product.options && (
-                        <div className="space-y-4">
-                            {/* Tamaños */}
-                            {product.options?.sizes && product.options.sizes.length > 0 && (
-                                <div>
-                                    <div className="font-semibold mb-2">Porciones</div>
-                                    {product.options.sizes.map((size, idx) => (
-                                        <label key={idx} className="flex items-center gap-2 mb-2 cursor-pointer">
-                                            <input
-                                                type="radio"
-                                                name="size"
-                                                value={size.portion}
-                                                checked={selectedSize === size.portion}
-                                                onChange={() => {
-                                                    setSelectedSize(size.portion ?? "");
-                                                    setSelectedSizePrice(size.price);
-                                                }}
-                                                className="accent-green-500 w-4 h-4"
-                                            />
-                                            <span className="text-sm text-white">
-                                                {size.portion}
-                                                {size.price > 0 && (
-                                                    <span className="text-green-400 font-bold ml-1">
-                                                        +${size.price}
-                                                    </span>
-                                                )}
-                                            </span>
-                                        </label>
-                                    ))}
-                                </div>
-                            )}
-
-                            {/* Extras */}
-                            {product.options?.extras && product.options.extras.length > 0 && (
-                                <div>
-                                    <div className="font-semibold mb-2">
-                                        Extras <span className="text-xs text-gray-400">(opcional)</span>
-                                    </div>
-                                    {product.options.extras.map((extra, idx) => (
-                                        <div key={idx} className="flex items-center gap-2 mb-2 text-white">
-                                            <span className="text-sm">{extra.name}</span>
-                                            {extra.price > 0 && (
-                                                <span className="text-green-400 font-bold text-sm">
-                                                    +${extra.price}
-                                                </span>
-                                            )}
-                                            <button
-                                                onClick={() =>
-                                                    setExtrasQty((qty) =>
-                                                        qty.map((q, i) => (i === idx ? Math.max(0, q - 1) : q))
-                                                    )
-                                                }
-                                                className="text-xl px-2"
-                                            >
-                                                -
-                                            </button>
-                                            <span className="font-bold">{extrasQty[idx]}</span>
-                                            <button
-                                                onClick={() =>
-                                                    setExtrasQty((qty) =>
-                                                        qty.map((q, i) => (i === idx ? q + 1 : q))
-                                                    )
-                                                }
-                                                className="text-xl px-2"
-                                            >
-                                                +
-                                            </button>
+                        {/* Opciones dinámicas */}
+                        {product.options && (
+                            <div className="space-y-5">
+                                {/* Tamaños/Porciones */}
+                                {product.options?.sizes && product.options.sizes.length > 0 && (
+                                    <div className="space-y-2">
+                                        <div className="font-semibold text-white text-base">
+                                            Porciones <span className="text-red-400">*</span>
                                         </div>
-                                    ))}
-                                </div>
-                            )}
+                                        <div className="space-y-2">
+                                            {product.options.sizes.map((size, idx) => (
+                                                <label
+                                                    key={idx}
+                                                    className={`flex items-center justify-between gap-3 p-3 rounded-lg cursor-pointer transition-all border-2 ${selectedSize === size.portion
+                                                            ? "bg-green-500/20 border-green-500"
+                                                            : "bg-white/5 border-white/10 hover:border-white/30"
+                                                        }`}
+                                                >
+                                                    <div className="flex items-center gap-3">
+                                                        <input
+                                                            type="radio"
+                                                            name="size"
+                                                            value={size.portion}
+                                                            checked={selectedSize === size.portion}
+                                                            onChange={() => {
+                                                                setSelectedSize(size.portion ?? "");
+                                                                setSelectedSizePrice(size.price);
+                                                            }}
+                                                            className="accent-green-500 w-4 h-4"
+                                                        />
+                                                        <span className="text-sm text-white font-medium">
+                                                            {size.portion}
+                                                        </span>
+                                                    </div>
+                                                    {size.price > 0 && (
+                                                        <span className="text-green-400 font-bold text-sm">
+                                                            +${size.price}
+                                                        </span>
+                                                    )}
+                                                </label>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
 
-                            {/* 🔸 Selector de Empanadas */}
-                            {product.options?.sabores &&
-                                product.name.toLowerCase().includes("empanada") && (
-                                    <div>
-                                        <div className="font-semibold mb-2">Sabores</div>
-
+                                {/* Selector de Empanadas */}
+                                {product.options?.sabores && isEmpanada && (
+                                    <div className="space-y-2">
+                                        <div className="font-semibold text-white text-base">
+                                            Sabores <span className="text-red-400">*</span>
+                                        </div>
                                         <SelectorEmpanadas
                                             sabores={product.options.sabores}
                                             onSelect={(saboresSeleccionados) => {
@@ -276,131 +252,217 @@ const ModalProductoComponent: React.FC<Props> = ({
                                     </div>
                                 )}
 
-                            {/* 🔸 Salsas */}
-                            {product.options?.salsas && product.options.salsas.length > 0 && (
-                                <div>
-                                    <div className="font-semibold mb-2">
-                                        Salsas <span className="text-xs text-gray-400">(elegí una)</span>
+                                {/* Salsas */}
+                                {product.options?.salsas && product.options.salsas.length > 0 && (
+                                    <div className="space-y-2">
+                                        <div className="font-semibold text-white text-base">
+                                            Salsas <span className="text-red-400">*</span>
+                                        </div>
+                                        <div className="space-y-2">
+                                            {product.options.salsas.map((salsa, idx) => {
+                                                const salsaName = typeof salsa === "string" ? salsa : salsa.name;
+                                                const salsaPrice = typeof salsa === "string" ? 0 : salsa.price || 0;
+
+                                                return (
+                                                    <label
+                                                        key={idx}
+                                                        className={`flex items-center justify-between gap-3 p-3 rounded-lg cursor-pointer transition-all border-2 ${selectedSalsa === salsaName
+                                                                ? "bg-green-500/20 border-green-500"
+                                                                : "bg-white/5 border-white/10 hover:border-white/30"
+                                                            }`}
+                                                    >
+                                                        <div className="flex items-center gap-3">
+                                                            <input
+                                                                type="radio"
+                                                                name="salsa"
+                                                                value={salsaName}
+                                                                checked={selectedSalsa === salsaName}
+                                                                onChange={() => {
+                                                                    setSelectedSalsa(salsaName);
+                                                                    setSelectedSalsaPrice(salsaPrice);
+                                                                }}
+                                                                className="accent-green-500 w-4 h-4"
+                                                            />
+                                                            <span className="text-sm text-white font-medium">
+                                                                {salsaName}
+                                                            </span>
+                                                        </div>
+                                                        {salsaPrice > 0 && (
+                                                            <span className="text-green-400 font-bold text-sm">
+                                                                +${salsaPrice}
+                                                            </span>
+                                                        )}
+                                                    </label>
+                                                );
+                                            })}
+                                        </div>
                                     </div>
-                                    {product.options.salsas.map((salsa, idx) => {
-                                        const salsaName = typeof salsa === "string" ? salsa : salsa.name;
-                                        const salsaPrice =
-                                            typeof salsa === "string" ? 0 : salsa.price || 0;
+                                )}
 
-                                        return (
-                                            <label
-                                                key={idx}
-                                                className="flex items-center gap-2 mb-2 cursor-pointer text-white"
-                                            >
-                                                <input
-                                                    type="radio"
-                                                    name="salsa"
-                                                    value={salsaName}
-                                                    checked={selectedSalsa === salsaName}
-                                                    onChange={() => {
-                                                        setSelectedSalsa(salsaName);
-                                                        setSelectedSalsaPrice(salsaPrice);
-                                                    }}
-                                                    className="accent-green-500 w-4 h-4"
-                                                />
-                                                <span className="text-sm">
-                                                    {salsaName}
-                                                    {salsaPrice > 0 && (
-                                                        <span className="text-green-400 font-bold ml-1">
-                                                            +${salsaPrice}
+                                {/* Extras */}
+                                {product.options?.extras && product.options.extras.length > 0 && (
+                                    <div className="space-y-2">
+                                        <div className="font-semibold text-white text-base">
+                                            Extras{" "}
+                                            <span className="text-xs text-gray-400 font-normal">(opcional)</span>
+                                        </div>
+                                        <div className="space-y-2">
+                                            {product.options.extras.map((extra, idx) => (
+                                                <div
+                                                    key={idx}
+                                                    className="flex items-center justify-between p-3 rounded-lg bg-white/5 border border-white/10"
+                                                >
+                                                    <div className="flex-1">
+                                                        <span className="text-sm text-white font-medium">
+                                                            {extra.name}
                                                         </span>
-                                                    )}
-                                                </span>
-                                            </label>
-                                        );
-                                    })}
-                                </div>
-                            )}
-                        </div>
-                    )}
-
-                    {/* 🔸 Cantidad */}
-                    {!product.name.toLowerCase().includes("empanada") ? (
-                        <div className="flex items-center justify-between mt-4">
-                            <span className="text-white font-semibold text-sm uppercase tracking-wide">
-                                Cantidad
-                            </span>
-                            <div className="flex items-center bg-white/10 rounded-full overflow-hidden">
-                                <button
-                                    className="px-3 py-2 text-white hover:bg-white/20 transition"
-                                    onClick={handleQuantityDecrease}
-                                >
-                                    <Minus className="w-4 h-4" />
-                                </button>
-                                <span className="px-4 text-white font-medium">{quantity}</span>
-                                <button
-                                    className="px-3 py-2 text-white hover:bg-white/20 transition"
-                                    onClick={handleQuantityIncrease}
-                                >
-                                    <Plus className="w-4 h-4" />
-                                </button>
+                                                        {extra.price > 0 && (
+                                                            <span className="text-green-400 font-bold text-sm ml-2">
+                                                                +${extra.price}
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                    <div className="flex items-center gap-3 bg-white/10 rounded-full px-2">
+                                                        <button
+                                                            onClick={() =>
+                                                                setExtrasQty((qty) =>
+                                                                    qty.map((q, i) => (i === idx ? Math.max(0, q - 1) : q))
+                                                                )
+                                                            }
+                                                            className="text-white hover:text-green-400 transition p-1"
+                                                            aria-label="Disminuir cantidad"
+                                                        >
+                                                            <Minus className="w-4 h-4" />
+                                                        </button>
+                                                        <span className="font-bold text-white min-w-[20px] text-center">
+                                                            {extrasQty[idx]}
+                                                        </span>
+                                                        <button
+                                                            onClick={() =>
+                                                                setExtrasQty((qty) =>
+                                                                    qty.map((q, i) => (i === idx ? q + 1 : q))
+                                                                )
+                                                            }
+                                                            className="text-white hover:text-green-400 transition p-1"
+                                                            aria-label="Aumentar cantidad"
+                                                        >
+                                                            <Plus className="w-4 h-4" />
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
                             </div>
-                        </div>
-                    ) : (
-                        <div className="flex items-center justify-between mt-4">
-                            <span className="text-white font-semibold text-sm uppercase tracking-wide">
-                                Cantidad de empanadas
-                            </span>
-                            <span className="px-4 py-2 bg-white/10 rounded-full text-white font-medium">
-                                {empanadasQty}
-                            </span>
-                        </div>
-                    )}
+                        )}
 
-                    {/* Total */}
-                    <div className="flex justify-between items-center border-t border-white/10 pt-4">
-                        <span className="text-lg font-semibold text-gray-300">Total:</span>
-                        <span className="text-2xl font-bold text-green-400">${totalFinal}</span>
+                        {/* Cantidad */}
+                        {!isEmpanada ? (
+                            <div className="flex items-center justify-between pt-2">
+                                <span className="text-white font-semibold text-base">Cantidad</span>
+                                <div className="flex items-center bg-white/10 rounded-full overflow-hidden">
+                                    <button
+                                        className="px-4 py-2 text-white hover:bg-white/20 transition active:scale-95"
+                                        onClick={handleQuantityDecrease}
+                                        aria-label="Disminuir cantidad"
+                                    >
+                                        <Minus className="w-4 h-4" />
+                                    </button>
+                                    <span className="px-6 text-white font-bold">{quantity}</span>
+                                    <button
+                                        className="px-4 py-2 text-white hover:bg-white/20 transition active:scale-95"
+                                        onClick={handleQuantityIncrease}
+                                        aria-label="Aumentar cantidad"
+                                    >
+                                        <Plus className="w-4 h-4" />
+                                    </button>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="flex items-center justify-between pt-2">
+                                <span className="text-white font-semibold text-base">
+                                    Total de empanadas
+                                </span>
+                                <span className="px-6 py-2 bg-green-500/20 rounded-full text-white font-bold border-2 border-green-500">
+                                    {empanadasQty}
+                                </span>
+                            </div>
+                        )}
+
+                        {/* Total */}
+                        <div className="flex justify-between items-center border-t border-white/20 pt-4 mt-4">
+                            <span className="text-lg font-semibold text-gray-300">Total:</span>
+                            <span className="text-3xl font-bold text-green-400">${totalFinal}</span>
+                        </div>
+
+                        {/* Botón agregar */}
+                        <button
+                            disabled={
+                                ((product.options?.sizes?.length ?? 0) > 0 && !selectedSize) ||
+                                ((product.options?.salsas?.length ?? 0) > 0 && !selectedSalsa) ||
+                                (isEmpanada && empanadasQty === 0)
+                            }
+                            className={`w-full py-4 rounded-xl font-bold text-base shadow-lg transition-all active:scale-[0.97] ${((product.options?.sizes?.length ?? 0) > 0 && !selectedSize) ||
+                                    ((product.options?.salsas?.length ?? 0) > 0 && !selectedSalsa) ||
+                                    (isEmpanada && empanadasQty === 0)
+                                    ? "bg-gray-600 cursor-not-allowed text-gray-400"
+                                    : "bg-green-600 hover:bg-green-700 text-white shadow-green-500/50"
+                                }`}
+                            onClick={handleAddToCart}
+                        >
+                            {((product.options?.sizes?.length ?? 0) > 0 && !selectedSize) ||
+                                ((product.options?.salsas?.length ?? 0) > 0 && !selectedSalsa) ||
+                                (isEmpanada && empanadasQty === 0)
+                                ? "Completá las opciones requeridas"
+                                : "Agregar al carrito"}
+                        </button>
                     </div>
-
-                    <button
-                        disabled={
-                            ((product.options?.sizes?.length ?? 0) > 0 && !selectedSize) ||
-                            ((product.options?.salsas?.length ?? 0) > 0 && !selectedSalsa)
-                        }
-                        className={`w-full py-3 rounded-xl font-semibold shadow-lg transition-all active:scale-[0.97] ${((product.options?.sizes?.length ?? 0) > 0 && !selectedSize) ||
-                            ((product.options?.salsas?.length ?? 0) > 0 && !selectedSalsa)
-                            ? "bg-gray-600 cursor-not-allowed text-gray-300"
-                            : "bg-green-600 hover:bg-green-700 text-white"
-                            }`}
-                        onClick={handleAddToCart}
-                    >
-                        Agregar al carrito
-                    </button>
                 </div>
             </div>
 
             <style jsx>{`
-        .animate-fadeIn {
-          animation: fadeIn 0.3s ease forwards;
-        }
-        .animate-slideUp {
-          animation: slideUp 0.35s ease forwards;
-        }
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
-        }
-        @keyframes slideUp {
-          from {
-            transform: translateY(30px);
-            opacity: 0;
-          }
-          to {
-            transform: translateY(0);
-            opacity: 1;
-          }
-        }
-      `}</style>
+                .animate-fadeIn {
+                    animation: fadeIn 0.3s ease forwards;
+                }
+                .animate-slideUp {
+                    animation: slideUp 0.35s ease forwards;
+                }
+                @keyframes fadeIn {
+                    from {
+                        opacity: 0;
+                    }
+                    to {
+                        opacity: 1;
+                    }
+                }
+                @keyframes slideUp {
+                    from {
+                        transform: translateY(100%);
+                        opacity: 0;
+                    }
+                    to {
+                        transform: translateY(0);
+                        opacity: 1;
+                    }
+                }
+                
+                /* Scrollbar personalizado */
+                div::-webkit-scrollbar {
+                    width: 6px;
+                }
+                div::-webkit-scrollbar-track {
+                    background: rgba(255, 255, 255, 0.05);
+                    border-radius: 10px;
+                }
+                div::-webkit-scrollbar-thumb {
+                    background: rgba(34, 197, 94, 0.5);
+                    border-radius: 10px;
+                }
+                div::-webkit-scrollbar-thumb:hover {
+                    background: rgba(34, 197, 94, 0.7);
+                }
+            `}</style>
         </div>
     );
 };
