@@ -164,7 +164,7 @@ export const RestaurantMenu = ({ slug, initialData }: Props) => {
 
                     {cart.length > 0 && (
                         <button
-                            className="group flex items-center gap-2 aspect-square bg-green-500/20 hover:bg-green-500/30 backdrop-blur-md px-5 py-3 rounded-full shadow-lg hover:shadow-xl text-white transition-all duration-200 border border-green-400/20 hover:scale-105 active:scale-95"
+                            className="group flex items-center gap-2 aspect-square md:aspect-video bg-green-500/20 hover:bg-green-500/30 backdrop-blur-md px-5 py-3 rounded-full shadow-lg hover:shadow-xl text-white transition-all duration-200 border border-green-400/20 hover:scale-105 active:scale-95"
                             onClick={() => setShowCart(true)}
                             aria-label={`Ver carrito con ${cartItemCount} ${cartItemCount === 1 ? "producto" : "productos"
                                 }`}
