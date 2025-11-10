@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { OrderTrackerProvider } from "@/components/contexts/OrderTrackerContext";
+import { Toaster } from "react-hot-toast";
 
 
 export default function RootLayout({ children }) {
@@ -17,7 +18,7 @@ export default function RootLayout({ children }) {
 
         <Navbar />
         <OrderTrackerProvider >
-          {children}
+          {children}     <Toaster position="top-center" />
         </OrderTrackerProvider>
         <Footer />
       </body>

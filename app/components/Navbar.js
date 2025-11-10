@@ -92,7 +92,7 @@ export default function Navbar() {
     <>
       {/* Navbar principal */}
       <nav
-        className={`fixed top-3 inset-x-0 z-50 mx-auto transition-all duration-300 ${showNavbar ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
+        className={`fixed top-0 inset-x-0 z-50 mx-auto  bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-800/50 shadow-md transition-all duration-300${showNavbar ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
           }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">

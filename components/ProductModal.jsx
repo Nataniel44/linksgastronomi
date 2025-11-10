@@ -1,22 +1,21 @@
+"use client";
 import { ArrowLeft } from 'lucide-react';
 import { useState } from 'react';
 import Image from 'next/image';
+import toast from 'react-hot-toast';
 
 export default function ProductModal({ product, onClose, onAdd }) {
   const [quantity, setQuantity] = useState(1);
-  // Estado para cada extra: array de cantidades
   const [extrasQty, setExtrasQty] = useState(
     product.extras ? product.extras.map(() => 0) : []
   );
 
-  // Calcula el total de extras
   const extrasTotal = product.extras
     ? product.extras.reduce((sum, extra, idx) => sum + (extrasQty[idx] || 0) * extra.price, 0)
     : 0;
 
   const total = product.price * quantity + extrasTotal;
 
-  // Construye el array de extras seleccionados para el carrito
   const selectedExtras = product.extras
     ? product.extras
       .map((extra, idx) =>
@@ -34,34 +33,38 @@ export default function ProductModal({ product, onClose, onAdd }) {
           className="absolute top-3 right-3 text-2xl text-gray-400 hover:text-gray-700"
           onClick={onClose}
         >×</button>
-        {/* Imagen UX/UI */}
+
         {product.image && (
           <div className="flex justify-center mb-4">
-
             <Image
               src={product.image}
               alt={product.name}
               className="w-32 h-32 object-cover rounded-full shadow"
+              width={128}
+              height={128}
             />
           </div>
-
         )}
+
         <button
           onClick={onClose}
           className="absolute top-6 z-50 right-6 text-white text-2xl hover:scale-110 transition"
         >
           <ArrowLeft className="w-8" />
         </button>
+
         <h2 className="text-xl font-bold text-center">{product.name}</h2>
         <div className="text-[#FF3B00] font-bold text-lg mb-2 text-center">${product.price}</div>
         <div className="text-gray-500 mb-4 text-center">{product.description}</div>
+
         {/* Cantidad */}
         <div className="flex items-center justify-between bg-gray-100 rounded-lg px-4 py-2 mb-4">
           <button onClick={() => setQuantity(q => Math.max(1, q - 1))} className="text-2xl px-2">-</button>
           <span className="font-bold text-lg">{quantity}</span>
           <button onClick={() => setQuantity(q => q + 1)} className="text-2xl px-2">+</button>
         </div>
-        {/* Extras dinámicos */}
+
+        {/* Extras */}
         {product.extras && product.extras.length > 0 && (
           <div className="mb-4">
             <div className="font-semibold mb-2">Extras <span className="text-xs text-gray-400">(opcional)</span></div>
@@ -92,10 +95,15 @@ export default function ProductModal({ product, onClose, onAdd }) {
             ))}
           </div>
         )}
+
         {/* Botón agregar */}
         <button
           className="w-full bg-[#5fb333] text-white rounded-full py-3 font-bold text-lg mt-4"
-          onClick={() => onAdd(product, quantity, selectedExtras)}
+          onClick={() => {
+            onAdd(product, quantity, selectedExtras);
+            toast.success(`${product.name} agregado a tu pedido`);
+            onClose();
+          }}
         >
           Agregar a mi pedido &nbsp; ${total}
         </button>

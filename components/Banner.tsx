@@ -42,7 +42,7 @@ export const Banner: React.FC<BannerProps> = ({
             {/* Logo y Nombre */}
             <div className="mb-4">
                 {logo ? (
-                    <div className="bg-white/25 border h-28 flex justify-center items-center border-black/30 backdrop-blur-sm rounded-xl p-4  shadow-xl ">
+                    <div className="bg-white/25 border h-32 flex justify-center items-center border-black/30 backdrop-blur-sm rounded-xl p-4  shadow-xl ">
                         <Image
 
                             width={150}

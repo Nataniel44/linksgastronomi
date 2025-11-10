@@ -32,7 +32,7 @@ export const CategorySelector: React.FC<Props> = ({
                 .getPropertyValue('--navbar-visible');
 
             // Si el navbar está oculto, ajustar posición
-            setTopPosition(navbarVisible === '0' ? 'top-3' : 'top-20');
+            setTopPosition(navbarVisible === '0' ? 'top-0' : 'top-16');
         };
 
         // Observar cambios en la variable CSS

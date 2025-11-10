@@ -60,7 +60,7 @@ const ProductCardBase: React.FC<Props> = ({ product, onClick, getImageSrc }) => 
             </div>
 
             {/* Contenido */}
-            <div className="p-4 space-y-3">
+            <div className="p-4 space-y-3 flex items-center flex-col text-center">
                 <h3 className="text-base uppercase font-semibold text-gray-900 dark:text-white line-clamp-1 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
                     {product.name}
                 </h3>
@@ -73,7 +73,7 @@ const ProductCardBase: React.FC<Props> = ({ product, onClick, getImageSrc }) => 
 
                 {/* Pills Neon de Opciones */}
                 {hasOptions && (
-                    <div className="flex flex-wrap gap-1.5">
+                    <div className="flex flex-wrap items-center justify-center gap-1.5">
                         {/* Porciones Pills */}
                         {product.options?.sizes?.slice(0, 3).map((size, idx) => (
                             <div

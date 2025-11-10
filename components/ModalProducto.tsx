@@ -182,9 +182,18 @@ const ModalProductoComponent: React.FC<Props> = ({
                                     {product.description}
                                 </p>
                             )}
-                            <p className="text-green-400 font-bold text-xl mt-2">
-                                ${product.price}
-                            </p>
+
+                            <div className="flex items-center gap-3">
+                                <span className="text-2xl font-semibold text-green-400">
+                                    ${product.price}
+                                </span>
+                                {product.comparePrice && (
+                                    <span className="text-gray-400 line-through">
+                                        ${product.comparePrice}
+                                    </span>
+                                )}
+                            </div>
+
                         </div>
 
                         {/* Opciones dinámicas */}
