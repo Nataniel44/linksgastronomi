@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import { ModalProducto } from "./ModalProducto";
 import { ProductCard } from "./ProductCard";
 import { Banner } from "./Banner";
@@ -12,19 +12,8 @@ import OrderHistory from "./OrderHistory";
 import { Product, Extra } from "@/types/product";
 import toast from "react-hot-toast";
 
-type Subcategory = {
-    id: number;
-    name: string;
-    slug: string;
-};
-
-type Category = {
-    id: number;
-    name: string;
-    slug: string;
-    subcategories: Subcategory[];
-    products: Product[];
-};
+type Subcategory = { id: number; name: string; slug: string; };
+type Category = { id: number; name: string; slug: string; subcategories: Subcategory[]; products: Product[]; };
 
 type RestaurantData = {
     restaurant: {
@@ -49,10 +38,7 @@ export type CartItem = {
     image?: string | null;
 };
 
-type Props = {
-    slug: string;
-    initialData: RestaurantData;
-};
+type Props = { slug: string; initialData: RestaurantData };
 
 export const RestaurantMenu = ({ slug, initialData }: Props) => {
     const [activeCategory, setActiveCategory] = useState<string | null>(null);
@@ -75,28 +61,31 @@ export const RestaurantMenu = ({ slug, initialData }: Props) => {
         return { activeCat, filteredProducts };
     }, [categories, activeCategory, activeSubcategory]);
 
-    // ✅ Funciones optimizadas con useCallback implícito
-    const clearCart = () => setCart([]);
-
-    const handleAddToCart = (product: Product, quantity: number, extras: Extra[]) => {
-        setCart(prev => [...prev, { ...product, quantity, extras }]);
-        toast.success(`${product.name} agregado a tu pedido 🛒`);
-
-    };
-
-
-
-    const handleRemoveItem = (index: number) => {
-        setCart(prev => prev.filter((_, i) => i !== index));
-    };
-
-    const getImageSrc = (src?: string) => {
+    // ✅ Memoizar funciones para evitar renders innecesarios
+    const getImageSrc = useCallback((src?: string) => {
         if (!src) return "/placeholder.png";
         return src.startsWith("http") ? src : `${src}`;
-    };
+    }, []);
 
-    // ✅ Calcular total de items en carrito
-    const cartItemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const handleProductClick = useCallback((p: Product) => {
+        setSelectedProduct(p);
+    }, []);
+
+    const handleAddToCart = useCallback((product: Product, quantity: number, extras: Extra[]) => {
+        setCart((prev) => [...prev, { ...product, quantity, extras }]);
+        toast.success(`${product.name} agregado a tu pedido 🛒`);
+    }, []);
+
+    const handleRemoveItem = useCallback((index: number) => {
+        setCart((prev) => prev.filter((_, i) => i !== index));
+    }, []);
+
+    const clearCart = useCallback(() => setCart([]), []);
+
+    const cartItemCount = useMemo(
+        () => cart.reduce((sum, item) => sum + item.quantity, 0),
+        [cart]
+    );
 
     return (
         <>
@@ -126,7 +115,7 @@ export const RestaurantMenu = ({ slug, initialData }: Props) => {
                     getImageSrc={getImageSrc}
                 />
 
-                {/* Selector de categorías */}
+                {/* Categorías */}
                 <CategorySelector
                     categories={categories}
                     activeCategory={activeCategory}
@@ -135,18 +124,17 @@ export const RestaurantMenu = ({ slug, initialData }: Props) => {
                     onSelectSubcategory={setActiveSubcategory}
                 />
 
-                {/* Intro solo cuando NO hay categoría activa */}
                 {!activeCategory && <ClickcitoIntro />}
 
-                {/* Grid de productos */}
+                {/* Productos */}
                 {activeCategory && (
                     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 p-6 md:p-12">
                         {filteredProducts.length > 0 ? (
-                            filteredProducts.map(prod => (
+                            filteredProducts.map((prod) => (
                                 <ProductCard
                                     key={prod.id}
                                     product={prod}
-                                    onClick={setSelectedProduct}
+                                    onClick={handleProductClick}
                                     getImageSrc={getImageSrc}
                                 />
                             ))
@@ -158,10 +146,9 @@ export const RestaurantMenu = ({ slug, initialData }: Props) => {
                     </div>
                 )}
 
-                {/* Intro al final (solo si hay categoría activa) */}
                 {activeCategory && <ClickcitoIntro />}
 
-                {/* Modal de producto */}
+                {/* Modal */}
                 {selectedProduct && (
                     <ModalProducto
                         product={selectedProduct}
@@ -171,16 +158,16 @@ export const RestaurantMenu = ({ slug, initialData }: Props) => {
                     />
                 )}
 
-                {/* Botones flotantes */}
+                {/* Botón carrito */}
                 <div className="fixed z-40 bottom-6 right-6 gap-3 flex flex-col items-end">
                     <OrderHistory restaurantId={restaurant.id} />
 
-                    {/* Botón del carrito */}
                     {cart.length > 0 && (
                         <button
                             className="group flex items-center gap-2 aspect-square bg-green-500/20 hover:bg-green-500/30 backdrop-blur-md px-5 py-3 rounded-full shadow-lg hover:shadow-xl text-white transition-all duration-200 border border-green-400/20 hover:scale-105 active:scale-95"
                             onClick={() => setShowCart(true)}
-                            aria-label={`Ver carrito con ${cartItemCount} ${cartItemCount === 1 ? 'producto' : 'productos'}`}
+                            aria-label={`Ver carrito con ${cartItemCount} ${cartItemCount === 1 ? "producto" : "productos"
+                                }`}
                         >
                             <div className="relative">
                                 <ShoppingCart className="w-5 h-5" />
@@ -188,39 +175,13 @@ export const RestaurantMenu = ({ slug, initialData }: Props) => {
                                     {cartItemCount}
                                 </span>
                             </div>
-                            <span className="text-sm font-medium hidden sm:inline">Ver carrito</span>
+                            <span className="text-sm font-medium hidden sm:inline">
+                                Ver carrito
+                            </span>
                         </button>
                     )}
                 </div>
             </div>
-
-            {/* Estilos globales para scrollbar */}
-            <style jsx global>{`
-                .scrollbar-hide::-webkit-scrollbar {
-                    display: none;
-                }
-                .scrollbar-hide {
-                    -ms-overflow-style: none;
-                    scrollbar-width: none;
-                }
-                
-                /* Scrollbar personalizado para otros elementos */
-                *::-webkit-scrollbar {
-                    width: 6px;
-                    height: 6px;
-                }
-                *::-webkit-scrollbar-track {
-                    background: rgba(255, 255, 255, 0.05);
-                    border-radius: 10px;
-                }
-                *::-webkit-scrollbar-thumb {
-                    background: rgba(34, 197, 94, 0.5);
-                    border-radius: 10px;
-                }
-                *::-webkit-scrollbar-thumb:hover {
-                    background: rgba(34, 197, 94, 0.7);
-                }
-            `}</style>
         </>
     );
 };

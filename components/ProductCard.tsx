@@ -80,7 +80,7 @@ const ProductCardBase: React.FC<Props> = ({ product, onClick, getImageSrc }) => 
                                 key={idx}
                                 className="group/pill flex items-center gap-2 bg-gradient-to-r from-purple-500/20 to-purple-600/20 hover:from-purple-500/30 hover:to-purple-600/30 backdrop-blur-sm px-2 py-0.5 rounded-full text-purple-300 dark:text-purple-200 transition-all duration-300 border border-purple-500/30"
                             >
-                                <div className="w-1 h-1 rounded-full bg-purple-400 animate-pulse" />
+                                <div className="w-1 h-1 rounded-full bg-purple-400 " />
                                 {/* span con truncado: block/inlin-block, max-width y overflow */}
                                 <span
                                     className="text-[10px] font-semibold tracking-wide block max-w-[110px] overflow-hidden whitespace-nowrap text-ellipsis"
@@ -100,7 +100,7 @@ const ProductCardBase: React.FC<Props> = ({ product, onClick, getImageSrc }) => 
                                         key={idx}
                                         className="flex items-center gap-1 bg-gradient-to-r from-orange-500/20 to-orange-600/20 hover:from-orange-500/30 hover:to-orange-600/30 backdrop-blur-sm px-2 py-0.5 rounded-full text-orange-300 dark:text-orange-200 transition-all duration-300 border border-orange-500/30"
                                     >
-                                        <div className="w-1 h-1 rounded-full bg-orange-400 animate-pulse" />
+                                        <div className="w-1 h-1 rounded-full bg-orange-400" />
                                         <span className="text-[10px] font-semibold tracking-wide text-center">
                                             {sabor}
                                         </span>
@@ -124,7 +124,7 @@ const ProductCardBase: React.FC<Props> = ({ product, onClick, getImageSrc }) => 
                                         key={idx}
                                         className="flex items-center gap-1 bg-gradient-to-r from-green-500/20 to-green-600/20 hover:from-green-500/30 hover:to-green-600/30 backdrop-blur-sm px-2 py-0.5 rounded-full text-green-300 dark:text-green-200 transition-all duration-300 border border-green-500/30"
                                     >
-                                        <div className="w-1 h-1 rounded-full bg-green-400 animate-pulse" />
+                                        <div className="w-1 h-1 rounded-full bg-green-400 " />
                                         <span className="text-[10px] font-semibold tracking-wide text-center">
                                             {extra.name}
                                         </span>
@@ -150,7 +150,7 @@ const ProductCardBase: React.FC<Props> = ({ product, onClick, getImageSrc }) => 
                                             key={idx}
                                             className="flex items-center gap-1 bg-gradient-to-r from-pink-500/20 to-pink-600/20 hover:from-pink-500/30 hover:to-pink-600/30 backdrop-blur-sm px-2 py-0.5 rounded-full text-pink-300 dark:text-pink-200 transition-all duration-300 border border-pink-500/30"
                                         >
-                                            <div className="w-1 h-1 rounded-full bg-pink-400 animate-pulse" />
+                                            <div className="w-1 h-1 rounded-full bg-pink-400 " />
                                             <span className="text-[10px] font-semibold tracking-wide text-center">
                                                 {salsaName}
                                             </span>
