@@ -126,6 +126,7 @@ export const RestaurantMenu = ({ slug, initialData }: Props) => {
 
                 {!activeCategory && <ClickcitoIntro />}
 
+
                 {/* Productos */}
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 p-6 md:p-12">
                     {filteredProducts.map(prod => (
@@ -147,7 +148,7 @@ export const RestaurantMenu = ({ slug, initialData }: Props) => {
                     />
                 )}
             </div>
-            <ClickcitoIntro />
+            {activeCategory && <ClickcitoIntro />}
             <div className="fixed z-40 bottom-6 right-6 gap-6 flex flex-col items-end">
                 <OrderHistory restaurantId={restaurant.id} />
 
@@ -168,5 +169,25 @@ export const RestaurantMenu = ({ slug, initialData }: Props) => {
                 )}
             </div>
         </div>
+
     );
+    <style jsx>{`
+                
+                
+                /* Scrollbar personalizado */
+                div::-webkit-scrollbar {
+                    width: 6px;
+                }
+                div::-webkit-scrollbar-track {
+                    background: rgba(255, 255, 255, 0.05);
+                    border-radius: 10px;
+                }
+                div::-webkit-scrollbar-thumb {
+                    background: rgba(34, 197, 94, 0.5);
+                    border-radius: 10px;
+                }
+                div::-webkit-scrollbar-thumb:hover {
+                    background: rgba(34, 197, 94, 0.7);
+                }
+            `}</style>
 };

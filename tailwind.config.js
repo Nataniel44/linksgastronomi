@@ -26,5 +26,6 @@ module.exports = {
     "from-emerald-50 to-teal-50",
     "from-pink-500 to-rose-500",
   ],
-  plugins: [],
+  plugins: [require('tailwind-scrollbar')({ nocompatible: true })],
+
 };
