@@ -27,12 +27,13 @@ export default function ClickcitoIntro() {
     ];
 
     return (
-        <section className="max-w-5xl mx-auto px-6 py-16">
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <section className="w-full px-6 py-5 pb-20">
+            {/* Scroll horizontal con snap */}
+            <div className="flex gap-6 overflow-x-auto overflow-y-hidden scrollbar-hide snap-x snap-mandatory p-6 -mx-6 ">
                 {steps.map(({ icon: Icon, title, desc }, i) => (
                     <div
                         key={i}
-                        className="bg-gradient-to-br from-green-500/10 to-green-900/20 border border-green-500/20 rounded-3xl p-6 shadow-lg hover:shadow-green-500/20 transition-all hover:scale-[1.03] backdrop-blur-sm"
+                        className="flex-shrink-0 w-[280px] sm:w-[320px] snap-center bg-gradient-to-br from-green-500/10 to-green-900/20 border border-green-500/20 rounded-3xl p-6 shadow-lg hover:shadow-green-500/20 transition-all hover:scale-[1.03] backdrop-blur-sm"
                     >
                         <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-green-500/20 text-green-400 mb-4">
                             <Icon size={26} />
@@ -43,11 +44,21 @@ export default function ClickcitoIntro() {
                 ))}
             </div>
 
-            <div className="text-center mt-12">
+            {/* Indicador de scroll (opcional) */}
+            <div className="flex justify-center gap-2 mt-6 sm:hidden">
+                {steps.map((_, i) => (
+                    <div
+                        key={i}
+                        className="w-2 h-2 rounded-full bg-green-500/30"
+                    />
+                ))}
+            </div>
+
+            <div className="text-center mt-12 max-w-2xl mx-auto">
                 <h2 className="text-3xl font-bold text-white mb-3">
                     Bienvenido a <span className="text-green-400">Clickcito</span> 👋
                 </h2>
-                <p className="text-gray-300 max-w-2xl mx-auto">
+                <p className="text-gray-300">
                     Pedir nunca fue tan fácil — seleccioná, completá y enviá. ¡Tu pedido llega directo al comercio sin apps ni demoras!
                 </p>
             </div>

@@ -23,7 +23,7 @@ export const Banner: React.FC<BannerProps> = ({
     address,
     getImageSrc
 }) => (
-    <div className="relative w-full h-[300px] md:h-[220px] overflow-hidden rounded-b-lg shadow-2xl ">
+    <div className="relative w-full h-[380px] md:h-[320px] overflow-hidden rounded-b-lg shadow-2xl ">
         {/* Imagen de fondo */}
         {banner ? (
             <div
@@ -38,17 +38,20 @@ export const Banner: React.FC<BannerProps> = ({
         <div className="absolute inset-0" />
 
         {/* Contenido */}
-        <div className="absolute inset-0 flex flex-col justify-center items-center p-6 md:p-10">
+        <div className="absolute inset-0 flex flex-col justify-center items-center p-6 md:p-58 ">
             {/* Logo y Nombre */}
             <div className="mb-4">
                 {logo ? (
-                    <div className="bg-white/25 border border-black/30 backdrop-blur-sm rounded-xl p-4 inline-block shadow-xl ">
+                    <div className="bg-white/25 border h-28 flex justify-center items-center border-black/30 backdrop-blur-sm rounded-xl p-4  shadow-xl ">
                         <Image
-                            width={250}
-                            height={250}
+
+                            width={150}
+                            height={150}
                             src={getImageSrc(logo)}
                             alt={name}
-                            className="h-16 md:h-16 w-auto object-contain"
+                            priority // ✅ fuerza carga temprana
+
+                            className="object-cover w-auto h-auto" // ✅ mantiene proporción
                         />
                     </div>
                 ) : (

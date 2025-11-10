@@ -1,22 +1,15 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-
-
+import React, { useState } from "react";
 import { ModalProducto } from "./ModalProducto";
 import { ProductCard } from "./ProductCard";
 import { Banner } from "./Banner";
 import { CartSidebar } from "./CartSidebar";
 import { CategorySelector } from "./CategorySelector";
-import LoadingScreen from "./LoadingScreen";
 import ClickcitoIntro from "./ClickcitoIntro";
-import { MessageCircle, ShoppingCart } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 import OrderHistory from "./OrderHistory";
-import { Product, Extra, Size } from "@/types/product";
-
-
-
-
+import { Product, Extra } from "@/types/product";
 
 type Subcategory = {
     id: number;
@@ -45,71 +38,48 @@ type RestaurantData = {
     };
     categories: Category[];
 };
+
 export type CartItem = {
-    id: number;            // id del producto
-    name: string;          // nombre del producto
-    price: number;         // precio base del producto
-    quantity: number;      // cantidad seleccionada
-    extras: Extra[];       // lista de extras seleccionados
-    image?: string | null; // imagen del producto
+    id: number;
+    name: string;
+    price: number;
+    quantity: number;
+    extras: Extra[];
+    image?: string | null;
 };
+
 type Props = {
     slug: string;
-
+    initialData: RestaurantData;
 };
 
-
-export const RestaurantMenu = ({ slug, initialData }: { slug: string; initialData: any }) => {
-    const [data, setData] = useState(initialData);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-
+export const RestaurantMenu = ({ slug, initialData }: Props) => {
+    // ✅ Ya no necesitas estados de loading/error porque vienen del server
     const [activeCategory, setActiveCategory] = useState<string | null>(null);
     const [activeSubcategory, setActiveSubcategory] = useState<number | null>(null);
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
     const [cart, setCart] = useState<CartItem[]>([]);
     const [showCart, setShowCart] = useState(false);
 
-
-
+    // ✅ Usar directamente initialData (sin fetch adicional)
+    const { restaurant, categories } = initialData;
 
     const clearCart = () => setCart([]);
 
-
     const handleAddToCart = (product: Product, quantity: number, extras: Extra[]) => {
         setCart(prev => [...prev, { ...product, quantity, extras }]);
-        setShowCart(true); // abrir carrito automáticamente
+        setShowCart(true);
     };
+
     const handleRemoveItem = (index: number) => {
         setCart(prev => prev.filter((_, i) => i !== index));
     };
+
     const getImageSrc = (src?: string) => {
         if (!src) return "/placeholder.png";
         return src.startsWith("http") ? src : `${src}`;
     };
-    useEffect(() => {
-        if (!slug) return;
-        const fetchData = async () => {
-            setLoading(true);
-            try {
-                const res = await fetch(`/api/menu/${slug}`);
-                const json = await res.json();
-                setData(json);
-            } catch (err: any) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchData();
-    }, [slug]);
 
-
-    if (loading) return <LoadingScreen />;
-    if (error) return <p className="text-red-500 text-center mt-20">{error}</p>;
-    if (!data) return null;
-
-    const { restaurant, categories } = data;
     const activeCat = categories.find((c) => c.slug === activeCategory);
     const subcategories = activeCat?.subcategories || [];
     const filteredProducts = activeCat
@@ -119,9 +89,7 @@ export const RestaurantMenu = ({ slug, initialData }: { slug: string; initialDat
         : [];
 
     return (
-        <div className="relative w-full bg-gray-900 rounded-b-lg min-h-screen ">
-
-
+        <div className="relative w-full bg-gray-900 rounded-b-lg min-h-screen">
             {/* Carrito flotante */}
             {showCart && (
                 <CartSidebar
@@ -131,22 +99,23 @@ export const RestaurantMenu = ({ slug, initialData }: { slug: string; initialDat
                     whatsapp={restaurant.whatsapp as string}
                     restaurantId={restaurant.id}
                     getImageSrc={getImageSrc}
-                    clearCart={clearCart} // 🔥 NUEVO
+                    clearCart={clearCart}
                 />
             )}
-            {/* Banner */}
 
+            {/* Banner */}
             <div className="relative w-full">
                 <Banner
                     name={restaurant.name}
                     logo={restaurant.logo}
-                    banner={restaurant.banner ?? null} // si no hay banner, solo se muestra el fondo
+                    banner={restaurant.banner ?? null}
                     description={restaurant.description}
                     phone={restaurant.phone}
                     whatsapp={restaurant.whatsapp}
                     address={restaurant.address}
                     getImageSrc={getImageSrc}
                 />
+
                 <CategorySelector
                     categories={categories}
                     activeCategory={activeCategory}
@@ -155,10 +124,7 @@ export const RestaurantMenu = ({ slug, initialData }: { slug: string; initialDat
                     onSelectSubcategory={setActiveSubcategory}
                 />
 
-                {!activeCategory && (
-                    <ClickcitoIntro></ClickcitoIntro>
-                )}
-
+                {!activeCategory && <ClickcitoIntro />}
 
                 {/* Productos */}
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 p-6 md:p-12">
@@ -178,11 +144,13 @@ export const RestaurantMenu = ({ slug, initialData }: { slug: string; initialDat
                         onClose={() => setSelectedProduct(null)}
                         getImageSrc={getImageSrc}
                         onAddToCart={handleAddToCart}
-                    />)}
-
+                    />
+                )}
             </div>
-            <div className="fixed z-40 bottom-6 right-6   gap-6 flex flex-col items-end">
+            <ClickcitoIntro />
+            <div className="fixed z-40 bottom-6 right-6 gap-6 flex flex-col items-end">
                 <OrderHistory restaurantId={restaurant.id} />
+
                 {/* Botón flotante para abrir carrito */}
                 {cart.length > 0 && (
                     <button
@@ -191,7 +159,6 @@ export const RestaurantMenu = ({ slug, initialData }: { slug: string; initialDat
                     >
                         <div className="relative">
                             <ShoppingCart className="w-6 h-6" />
-                            {/* Badge con cantidad */}
                             <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center border border-white/20">
                                 {cart.length}
                             </span>
@@ -199,7 +166,6 @@ export const RestaurantMenu = ({ slug, initialData }: { slug: string; initialDat
                         <span className="text-sm font-medium">Ver carrito</span>
                     </button>
                 )}
-
             </div>
         </div>
     );

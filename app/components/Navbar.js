@@ -105,13 +105,15 @@ export default function Navbar() {
                 alt="Logo"
                 width={32}
                 height={32}
-                className="relative z-10"
+                priority
+                className="relative z-10 object-contain w-auto h-auto" // ✅ mantiene proporción
               />
             </div>
             <span className="text-xl font-bold bg-gradient-to-r from-yellow-500 to-yellow-600 bg-clip-text text-transparent hidden sm:block">
               Clickcito
             </span>
           </Link>
+
 
           {/* Menú desktop */}
           <div className="hidden md:flex items-center space-x-2">

@@ -70,7 +70,7 @@ export const CategorySelector: React.FC<Props> = ({
 
     return (
         <div className={`sticky ${topPosition} z-10 bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-800/50 shadow-md transition-all duration-300`}>
-            <div className="max-w-7xl mx-auto px-4 py-3">
+            <div className="max-w-7xl mx-auto px-3 py-3">
                 {/* 🔹 Título UX/UI */}
                 <div className="flex items-center gap-2 mb-2">
                     <Grid className="w-4 h-4 text-green-500 animate-pulse-slow" />

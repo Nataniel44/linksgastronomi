@@ -61,7 +61,7 @@ const ProductCardBase: React.FC<Props> = ({ product, onClick, getImageSrc }) => 
 
             {/* Contenido */}
             <div className="p-4 space-y-3">
-                <h3 className="text-base font-semibold text-gray-900 dark:text-white line-clamp-1 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
+                <h3 className="text-base uppercase font-semibold text-gray-900 dark:text-white line-clamp-1 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
                     {product.name}
                 </h3>
 
