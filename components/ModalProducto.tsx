@@ -138,7 +138,7 @@ const ModalProductoComponent: React.FC<Props> = ({
             onClick={onClose}
         >
             <div
-                className="relative bg-gradient-to-b from-gray-900 via-zinc-900 to-black rounded-t-3xl sm:rounded-3xl overflow-hidden w-full max-w-md md:max-w-4xl shadow-2xl transform transition-all duration-150 animate-slideUp max-h-[95vh] sm:max-h-[90vh] overflow-y-auto"
+                className="relative bg-gradient-to-b from-gray-900 via-zinc-900 to-black rounded-t-3xl sm:rounded-3xl overflow-hidden w-full max-w-md md:max-w-4xl shadow-2xl transform transition-all duration-150 animate-slideUp max-h-[95svh] sm:max-h-[90svh] overflow-y-auto"
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Botón cerrar */}
