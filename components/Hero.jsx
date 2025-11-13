@@ -7,7 +7,7 @@ import { ActionButton } from "./ui/ActionButton";
 
 export function Hero() {
     return (
-        <header className="relative w-full flex flex-col items-center justify-center pt-20 pb-14">
+        <header className="relative w-full flex flex-col items-center justify-center pt-28 pb-14">
             {/* Fondo dinámico */}
             <BackgroundBlobs
                 colors={["#fde047", "#facc15", "#fbbf24"]}
@@ -20,7 +20,7 @@ export function Hero() {
                     <Image
                         src="/log.png"
                         alt="Logo de la empresa"
-                        width={384}
+                        width={320}
                         height={150}
                         priority
                         className="drop-shadow-lg select-none"
@@ -30,14 +30,14 @@ export function Hero() {
                 {/* Título principal */}
                 <h1 className="text-2xl md:text-4xl lg:text-4xl font-regular text-balance leading-tight max-w-3xl text-yellow-400 tracking-tight">
                     <span className="font-bold">Soluciones</span>{" "}
-                    <span className="relative inline-block">
-                        <span className="font-bold">digitales</span>
-                        <span
-                            aria-hidden="true"
-                            className="absolute left-0 -bottom-1  w-full h-0.5 rounded-md bg-gradient-to-r from-yellow-400 to-yellow-600 opacity-90"
-                        />
-                    </span>{" "}
-                    sitios web y menús interactivos para restaurantes, bares, cafeterías y más.
+                    <span className="relative ">
+                        <span className="font-bold">digitales
+
+                        </span>           sitios web y menús interactivos para restaurantes.
+                    </span>
+
+
+
                 </h1>
 
                 {/* Botones */}

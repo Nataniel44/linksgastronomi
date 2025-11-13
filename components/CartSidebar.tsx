@@ -284,8 +284,8 @@ ${cart
                                                 onClick={() => setPickupType(type as "delivery" | "pickup")}
                                                 disabled={isSubmitting}
                                                 className={`flex-1 p-3 rounded-lg font-semibold transition ${pickupType === type
-                                                        ? "bg-green-500"
-                                                        : "bg-white/10 hover:bg-white/20"
+                                                    ? "bg-green-500"
+                                                    : "bg-white/10 hover:bg-white/20"
                                                     } ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""
                                                     }`}
                                             >

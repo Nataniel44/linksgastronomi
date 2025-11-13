@@ -92,7 +92,7 @@ export default function Navbar() {
     <>
       {/* Navbar principal */}
       <nav
-        className={`fixed top-0 inset-x-0 z-50 mx-auto  bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-800/50 shadow-md transition-all duration-300${showNavbar ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
+        className={`fixed top-0 inset-x-0 z-50 mx-auto  bg-white/90  backdrop-blur-lg border-b border-gray-200/50  shadow-md transition-all duration-300${showNavbar ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
           }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
@@ -121,12 +121,12 @@ export default function Navbar() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="relative px-4 py-2 text-gray-700 dark:text-gray-300 font-medium group rounded-lg overflow-hidden transition"
+                className="relative px-4 py-2 text-gray-700 font-medium group rounded-lg overflow-hidden transition"
               >
                 <span className="relative z-10 group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors">
                   {item.label}
                 </span>
-                <span className="absolute inset-0 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300" />
+                <span className="absolute inset-0 bg-yellow-500 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300" />
               </Link>
             ))}
 
@@ -152,18 +152,18 @@ export default function Navbar() {
             <div className="w-6 h-5 flex flex-col justify-between">
               <span
                 className={`h-0.5 rounded-full transition-all duration-300 ${isOpen
-                  ? "rotate-45 translate-y-2.5 bg-white"
-                  : "bg-gray-800 dark:bg-white"
+                  ? "rotate-45 translate-y-2.5 bg-black"
+                  : "bg-gray-800 "
                   }`}
               />
               <span
-                className={`h-0.5 rounded-full transition-all duration-200 ${isOpen ? "opacity-0" : "opacity-100 bg-gray-800 dark:bg-white"
+                className={`h-0.5 rounded-full transition-all duration-200 ${isOpen ? "opacity-0" : "opacity-100 bg-gray-800"
                   }`}
               />
               <span
                 className={`h-0.5 rounded-full transition-all duration-300 ${isOpen
-                  ? "-rotate-45 -translate-y-2.5 bg-white"
-                  : "bg-gray-800 dark:bg-white"
+                  ? "-rotate-45 -translate-y-2.5 bg-black"
+                  : "bg-gray-800 "
                   }`}
               />
             </div>

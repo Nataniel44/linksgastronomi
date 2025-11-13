@@ -15,10 +15,10 @@ export default function Home() {
 
 
       <Features />
-      <PricingSection />
 
 
-      < HeroBlob />
+
+
       <Services />
       <WhatsAppContact />
     </main>

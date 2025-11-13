@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import { ModalProducto } from "./ModalProducto";
 import { ProductCard } from "./ProductCard";
+import { ProductCardSkeleton } from "./ProductCardSkeletonBase";
 import { Banner } from "./Banner";
 import { CartSidebar } from "./CartSidebar";
 import { CategorySelector } from "./CategorySelector";
@@ -46,8 +47,21 @@ export const RestaurantMenu = ({ slug, initialData }: Props) => {
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
     const [cart, setCart] = useState<CartItem[]>([]);
     const [showCart, setShowCart] = useState(false);
+    const [isLoadingProducts, setIsLoadingProducts] = useState(false);
 
     const { restaurant, categories } = initialData;
+
+    // ✅ Simular carga cuando cambia la categoría
+    useEffect(() => {
+        if (activeCategory) {
+            setIsLoadingProducts(true);
+            // Simular tiempo de carga (puedes quitar esto si no necesitas delay)
+            const timer = setTimeout(() => {
+                setIsLoadingProducts(false);
+            }, 300);
+            return () => clearTimeout(timer);
+        }
+    }, [activeCategory, activeSubcategory]);
 
     // ✅ Memoizar cálculos pesados
     const { activeCat, filteredProducts } = useMemo(() => {
@@ -129,7 +143,11 @@ export const RestaurantMenu = ({ slug, initialData }: Props) => {
                 {/* Productos */}
                 {activeCategory && (
                     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 p-6 md:p-12">
-                        {filteredProducts.length > 0 ? (
+                        {isLoadingProducts ? (
+                            // 🔥 Mostrar skeletons mientras carga
+                            <ProductCardSkeleton count={10} />
+                        ) : filteredProducts.length > 0 ? (
+                            // Mostrar productos reales
                             filteredProducts.map((prod) => (
                                 <ProductCard
                                     key={prod.id}
@@ -139,6 +157,7 @@ export const RestaurantMenu = ({ slug, initialData }: Props) => {
                                 />
                             ))
                         ) : (
+                            // Mensaje cuando no hay productos
                             <div className="col-span-full text-center py-12 text-gray-400">
                                 No hay productos en esta categoría
                             </div>
@@ -166,8 +185,7 @@ export const RestaurantMenu = ({ slug, initialData }: Props) => {
                         <button
                             className="group flex items-center gap-2 aspect-square md:aspect-video bg-green-500/20 hover:bg-green-500/30 backdrop-blur-md px-5 py-3 rounded-full shadow-lg hover:shadow-xl text-white transition-all duration-200 border border-green-400/20 hover:scale-105 active:scale-95"
                             onClick={() => setShowCart(true)}
-                            aria-label={`Ver carrito con ${cartItemCount} ${cartItemCount === 1 ? "producto" : "productos"
-                                }`}
+                            aria-label={`Ver carrito con ${cartItemCount} ${cartItemCount === 1 ? "producto" : "productos"}`}
                         >
                             <div className="relative">
                                 <ShoppingCart className="w-5 h-5" />

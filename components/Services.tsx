@@ -71,7 +71,7 @@ export function Services() {
     return (
         <SectionWrapper id="servicios" className="relative overflow-hidden pb-10">
             {/* Fondo decorativo */}
-            <div className="absolute inset-0 bg-gradient-to-b from-yellow-50/50 via-transparent to-yellow-50/50 pointer-events-none" />
+            <div className="absolute inset-0  pointer-events-none" />
 
             {/* Título */}
             <div
