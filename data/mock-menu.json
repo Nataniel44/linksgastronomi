@@ -1,0 +1,74 @@
+{
+    "restaurant": {
+        "id": 1,
+        "name": "Top one Burgers",
+        "slug": "top-one-burgers",
+        "description": "Las mejores hamburguesas de la ciudad",
+        "logo": null,
+        "banner": "/argen.jpeg",
+        "phone": "+54 9 11 1234-5678",
+        "whatsapp": "5491112345678",
+        "address": "Av. Principal 123, Buenos Aires",
+        "currency": "ARS",
+        "colors": {
+            "primary": "#FF6B35",
+            "secondary": "#004E89"
+        },
+        "deliveryCost": 500,
+        "minOrderAmount": 2000,
+        "deliveryTime": "30-45 min"
+    },
+    "categories": [
+        {
+            "id": 1,
+            "name": "Pizzas",
+            "slug": "pizzas",
+            "description": "Pizzas artesanales",
+            "image": "",
+            "subcategories": [],
+            "products": [
+                {
+                    "id": 1,
+                    "name": "Pizza Muzzarella",
+                    "slug": "pizza-muzzarella",
+                    "description": "Clásica pizza con muzzarella y salsa de tomate",
+                    "price": 3500,
+                    "comparePrice": null,
+                    "image": "/argen.jpeg",
+                    "categoryId": 1
+                },
+                {
+                    "id": 2,
+                    "name": "Pizza Napolitana",
+                    "slug": "pizza-napolitana",
+                    "description": "Muzzarella, tomate, ajo y albahaca",
+                    "price": 4000,
+                    "comparePrice": null,
+                    "image": "/argen.jpeg",
+                    "categoryId": 1
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Hamburguesas",
+            "slug": "hamburguesas",
+            "description": "Hamburguesas gourmet",
+            "image": null,
+            "subcategories": [],
+            "products": [
+                {
+                    "id": 3,
+                    "name": "Hamburguesa Clásica",
+                    "slug": "hamburguesa-clasica",
+                    "description": "Carne, lechuga, tomate, cebolla y queso",
+                    "price": 3000,
+                    "comparePrice": null,
+                    "image": null,
+                    "categoryId": 2
+                }
+            ]
+        }
+    ],
+    "promotions": []
+}

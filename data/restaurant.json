@@ -1,0 +1,21 @@
+{
+    "id": 1,
+    "slug": "elysrestobar",
+    "name": "Elys Restobar",
+    "description": "El mejor restobar de la ciudad",
+    "logo": null,
+    "banner": null,
+    "phone": "+54 9 11 1234-5678",
+    "whatsapp": "5491112345678",
+    "email": "contacto@elysrestobar.com",
+    "address": "Av. Principal 123, Buenos Aires",
+    "isActive": true,
+    "currency": "ARS",
+    "colors": {
+        "primary": "#FF6B35",
+        "secondary": "#004E89"
+    },
+    "deliveryCost": 500,
+    "minOrderAmount": 2000,
+    "deliveryTime": "30-45 min"
+}

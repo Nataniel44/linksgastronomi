@@ -1,4 +1,5 @@
 import { RestaurantMenu } from "@/components/RestaurantMenu";
+import { notFound } from "next/navigation";
 
 export default async function RestaurantPage({
     params,
@@ -7,18 +8,20 @@ export default async function RestaurantPage({
 }) {
     const { slug } = await params;
 
-    const baseUrl =
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
-        process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+    try {
+        const res = await fetch(`${baseUrl}/api/menu/${slug}`, {
+            cache: "no-store",
+        });
 
+        if (!res.ok) {
+            notFound();
+        }
 
-    const res = await fetch(`${baseUrl}/api/menu/${slug}`, {
-        cache: "no-store",
-    });
-
-    if (!res.ok) throw new Error("No se pudo cargar el menú");
-
-    const data = await res.json();
-
-    return <RestaurantMenu slug={slug} initialData={data} />;
+        const data = await res.json();
+        return <RestaurantMenu slug={slug} initialData={data} />;
+    } catch (error) {
+        notFound();
+    }
 }

@@ -1,42 +1,54 @@
 export const services = [
     {
         slug: "cartas-digitales",
-        title: "Cartas Digitales",
-        className: "md:col-span-2 bg-gradient-to-br from-yellow-50 via-white to-yellow-100 border-2 border-yellow-200/50 hover:border-yellow-300 transition-colors",
-
-        description: "Menús QR y web dinámicos para tu local.",
-        gradient: " from-blue-500 to-cyan-500 ",
-        bgGradient: "from-blue-50 to-cyan-50",
+        title: "Menú Digital",
+        className: "md:col-span-2",
+        description: "Tus clientes ven la carta y te piden directo por WhatsApp. Sin comisiones, sin intermediarios. Ideal para restobares y deliverys.",
+        gradient: "from-emerald-500 to-green-500",
+        bgGradient: "from-neutral-900 to-neutral-800",
         icon: "Smartphone",
         cta: {
-            label: "Ver Cartas Digitales",
-            href: "https://wa.me/543755246464?text=Hola,+quiero+información+sobre+Cartas+Digitales",
+            label: "Ver modelo",
+            href: "https://wa.me/543755246464?text=Hola!%20Me%20interesa%20el%20Men%C3%BA%20Digital",
         },
     },
     {
-        slug: "apps-personalizadas",
-        title: "Apps Personalizadas",
-        description:
-            "Desarrollo de apps para pedidos, reservas y promociones a medida.",
-        gradient: "from-yellow-500 to-orange-500",
-        bgGradient: "from-yellow-50 to-orange-50",
-        icon: "ShoppingBag",
+        slug: "sitios-web",
+        title: "Sitios Web Simples",
+        className: "",
+        description: "Tu negocio en internet con una página rápida y clara. Mostrá quién sos, qué vendés y dónde estás.",
+        gradient: "from-blue-500 to-cyan-500",
+        bgGradient: "from-neutral-900 to-neutral-800",
+        icon: "Globe", // Changed to Globe
         cta: {
-            label: "Ver Apps Personalizadas",
-            href: "https://wa.me/543755246464?text=Hola,+quiero+información+sobre+Apps+Personalizadas",
+            label: "Quiero mi web",
+            href: "https://wa.me/543755246464?text=Hola!%20Quiero%20info%20sobre%20Sitios%20Web",
         },
     },
     {
         slug: "diseno-publicitario",
-        title: "Diseño Publicitario y Flyers",
-        description:
-            "Diseños impactantes para redes sociales, eventos y campañas. Flyers, banners y contenido visual que atrae y vende.",
+        title: "Diseño Publicitario",
+        className: "",
+        description: "Flyers para redes, estados de WhatsApp y promos que llamen la atención. Hacemos que tu marca se vea profesional.",
         gradient: "from-pink-500 to-rose-500",
-        bgGradient: "from-pink-50 to-rose-50",
+        bgGradient: "from-neutral-900 to-neutral-800",
         icon: "Palette",
         cta: {
-            label: "Ver Diseños Publicitarios",
-            href: "https://wa.me/543755246464?text=Hola,+quiero+información+sobre+Diseño+Publicitario+y+Flyers",
+            label: "Ver diseños",
+            href: "https://wa.me/543755246464?text=Hola!%20Necesito%20dise%C3%B1os%20para%20redes",
+        },
+    },
+    {
+        slug: "soluciones-a-medida",
+        title: "Soluciones a Medida",
+        className: "",
+        description: "¿Necesitás algo específico? Turneros, catálogos, sistemas simples. Lo charlamos y lo armamos.",
+        gradient: "from-yellow-400 to-orange-500",
+        bgGradient: "from-neutral-900 to-neutral-800",
+        icon: "Layers", // Changed to Layers
+        cta: {
+            label: "Consultar",
+            href: "https://wa.me/543755246464?text=Hola!%20Tengo%20una%20idea%20para%20un%20proyecto",
         },
     },
 

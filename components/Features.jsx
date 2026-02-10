@@ -1,114 +1,94 @@
 "use client";
-import { useState, useEffect } from "react";
 import Image from "next/image";
 import SectionWrapper from "./ui/SectionWrapper";
 import { BackgroundBlobs } from "./ui/BackgroundBlobs";
 import { ActionButton } from "./ui/ActionButton";
-import { CheckCircle2 } from "lucide-react";
+import { MapPin, Smile, DollarSign, Smartphone } from "lucide-react";
 
 export function Features() {
-    const [isMobile, setIsMobile] = useState(false);
 
-    useEffect(() => {
-        const checkMobile = () => setIsMobile(window.innerWidth < 768);
-        checkMobile();
-        window.addEventListener("resize", checkMobile);
-        return () => window.removeEventListener("resize", checkMobile);
-    }, []);
+    const features = [
+        { icon: MapPin, text: "Acá en San Vicente", sub: "Nos ves la cara y hablamos en persona si hace falta." },
+        { icon: DollarSign, text: "Sin comisiones", sub: "Lo que vendés es 100% tuyo. No te sacamos porcentaje." },
+        { icon: Smartphone, text: "Todo por WhatsApp", sub: "Directo a tu celular. Sin apps raras ni usuarios." },
+        { icon: Smile, text: "Trato humano", sub: "Te explicamos todo paso a paso, sin palabras difíciles." },
+    ];
 
     return (
-        <SectionWrapper className="relative min-h-screen w-full flex items-center justify-center overflow-visible py-28 ">
-            <BackgroundBlobs
-                colors={["#34d399", "#10b981", "#059669"]}
-                className="opacity-40 z-0"
-            />
+        <SectionWrapper className="relative min-h-[80vh] w-full flex items-center justify-center overflow-hidden py-24 relative bg-neutral-900 border-y border-white/5">
+            {/* Background elements */}
+            <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10 pointer-events-none"></div>
 
-            <div className="relative z-10 w-full mx-auto px-4">
-                <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="relative z-10 container mx-auto px-4 lg:px-8">
+                <div className="grid lg:grid-cols-2 gap-16 items-center">
+
                     {/* Columna de texto */}
-                    <div className="flex flex-col items-center md:items-start text-start transition-all duration-700">
-                        <div className="w-full">
-                            <h2 className="text-black text-nowrap md:text-start text-center text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight">
-                                <div className="w-full font-semibold">DESTACA ENTRE</div>
-                                <div className="text-emerald-600 w-full">LOS DEMÁS</div>
-                            </h2>
+                    <div className="flex flex-col items-center lg:items-start text-center lg:text-left animate-fade-in-up">
+                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-yellow-500/10 rounded-full border border-yellow-500/20 mb-6">
+                            <span className="w-2 h-2 rounded-full bg-yellow-500 animate-pulse"></span>
+                            <span className="text-yellow-400 text-sm font-bold uppercase tracking-wider">¿Por qué elegirnos?</span>
                         </div>
 
-                        <p className="text-lg md:text-xl text-center md:text-start text-gray-700 mt-6 w-full text-pretty leading-relaxed">
-                            Convertí tu menú en una experiencia visual atractiva y fácil de usar.
-                            Diferenciate de la competencia con tecnología de vanguardia.
+                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight mb-8">
+                            No somos una <br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500">
+                                agencia gigante
+                            </span>
+                        </h2>
+
+                        <p className="text-xl text-gray-300 mb-10 max-w-lg leading-relaxed font-light">
+                            Somos vecinos de San Vicente que entienden lo que necesita un comercio local: soluciones que funcionen, sin gastar una fortuna.
                         </p>
 
-                        <div className="flex justify-center items-center gap-5 mt-12">
-                            <ActionButton
-                                href="#contacto"
-                                variant="secondary"
-                                className="text-lg transition-transform duration-300 hover:scale-105"
-                            >
-                                <Image
-                                    src="/c.png"
-                                    alt="Decorative underline"
-                                    width={50}
-                                    height={50}
-                                    className="w-6"
-                                />{" "}
-                                OBTENELO GRATIS
-                            </ActionButton>
-                        </div>
-
-                        <ul className="flex flex-col gap-4 mt-12 w-full">
+                        <div className="grid sm:grid-cols-2 gap-6 w-full mb-12">
                             {features.map((feature, idx) => (
-                                <li
+                                <div
                                     key={idx}
-                                    className={`flex items-center gap-3 bg-gradient-to-r from-black to-gray-900 backdrop-blur-sm px-5 py-3 rounded-full shadow-lg border border-emerald-500/20 transition-transform duration-300 ${!isMobile ? "hover:scale-105 hover:translate-x-2" : ""
-                                        }`}
+                                    className="flex flex-col items-start gap-3 p-5 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 transition-colors"
                                 >
-                                    <CheckCircle2 className="w-6 h-6 text-emerald-400 flex-shrink-0" />
-                                    <span className="text-white font-semibold text-base md:text-lg">
-                                        {feature}
-                                    </span>
-                                </li>
+                                    <div className="p-2 bg-neutral-800 rounded-lg text-yellow-500">
+                                        <feature.icon className="w-6 h-6" />
+                                    </div>
+                                    <div className="text-left">
+                                        <h3 className="text-white font-bold text-lg mb-1">{feature.text}</h3>
+                                        <p className="text-gray-400 text-sm leading-snug">{feature.sub}</p>
+                                    </div>
+                                </div>
                             ))}
-                        </ul>
+                        </div>
                     </div>
 
-                    {/* Columna de imagen */}
-                    <div className="relative flex items-start justify-center h-full">
-                        <div className="relative w-full max-w-md mx-auto">
-                            {/* Efecto rotatorio decorativo */}
-                            {!isMobile && (
-                                <div className="absolute inset-0 bg-gradient-to-br w-16 from-emerald-400/50 to-green-600/85 rounded-full blur-3xl animate-spin-slow" />
-                            )}
+                    {/* Columna de imagen / Representación Local */}
+                    <div className="relative flex items-center justify-center h-full mt-12 lg:mt-0">
+                        {/* Circle Background */}
+                        <div className="absolute inset-0 bg-gradient-to-tr from-yellow-500/20 to-orange-500/20 rounded-full blur-[100px]"></div>
 
-                            {/* Imagen flotante */}
-                            <div
-                                className={`relative z-10 ${!isMobile ? "animate-float" : ""
-                                    }`}
-                            >
-                                <Image
-                                    src="/promo5.png"
-                                    alt="Vista previa de menú digital en una pantalla de móvil"
-                                    width={800}
-                                    height={800}
-                                    className="w-full scale-150 h-auto drop-shadow-2xl"
-                                    priority
-                                    loading="eager"
-                                />
+                        <div className="relative z-10 grid grid-cols-2 gap-4 rotate-3 hover:rotate-0 transition-transform duration-500 ease-out">
+                            {/* Card 1: Comerciante Hablando */}
+                            <div className="col-span-2 bg-neutral-800 p-6 rounded-3xl border border-white/10 shadow-xl flex items-center gap-4 animate-float">
+                                <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white text-2xl shadow-lg">👋</div>
+                                <div>
+                                    <p className="text-white font-bold text-lg">"Me facilitaron todo"</p>
+                                    <p className="text-gray-400 text-sm">Claudio, Dueño de Hamburguesería</p>
+                                </div>
                             </div>
 
-                            {/* Partículas flotantes */}
-                            {!isMobile &&
-                                [...Array(3)].map((_, i) => (
-                                    <div
-                                        key={i}
-                                        className="absolute w-3 h-3 bg-emerald-400 rounded-full blur-sm animate-pulse"
-                                        style={{
-                                            top: `${20 + i * 25}%`,
-                                            right: `${10 + i * 15}%`,
-                                            animationDelay: `${i * 0.5}s`,
-                                        }}
-                                    />
-                                ))}
+                            {/* Card 2: Ventas */}
+                            <div className="bg-neutral-800 p-6 rounded-3xl border border-white/10 shadow-xl flex flex-col justify-between animate-float-delay h-48">
+                                <span className="text-4xl">📈</span>
+                                <div>
+                                    <p className="text-3xl font-bold text-white mb-1">+30%</p>
+                                    <p className="text-gray-400 text-sm">Más consultas por WhatsApp</p>
+                                </div>
+                            </div>
+
+                            {/* Card 3: Local */}
+                            <div className="bg-gradient-to-br from-yellow-500 to-orange-600 p-6 rounded-3xl shadow-xl flex flex-col justify-between text-black animate-float-reverse h-48">
+                                <MapPin className="w-10 h-10" />
+                                <div>
+                                    <p className="font-black text-xl leading-tight">Negocios <br />de San Vicente</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -116,28 +96,3 @@ export function Features() {
         </SectionWrapper>
     );
 }
-
-const features = [
-    "100% seguro y confiable",
-    "Rápido y optimizado",
-    "Compatible con todos los dispositivos",
-    "Diseño moderno y personalizable",
-];
-
-// Agregá estas animaciones personalizadas en tu tailwind.config.js
-// para reemplazar las de framer-motion:
-//
-// theme: {
-//   extend: {
-//     animation: {
-//       'float': 'float 3s ease-in-out infinite',
-//       'spin-slow': 'spin 20s linear infinite',
-//     },
-//     keyframes: {
-//       float: {
-//         '0%, 100%': { transform: 'translateY(0)' },
-//         '50%': { transform: 'translateY(-20px)' },
-//       },
-//     },
-//   },
-// },

@@ -1,5 +1,6 @@
-import { prisma } from '@/lib/prisma'
 import { NextResponse } from 'next/server'
+import fs from 'fs/promises'
+import path from 'path'
 
 export async function GET(
     request: Request,
@@ -8,167 +9,24 @@ export async function GET(
     const { slug } = await context.params
 
     try {
-        // Obtener restaurante con todas sus relaciones
-        const restaurant = await prisma.restaurant.findFirst({
-            where: {
-                slug: slug,
-                isActive: true,
-            },
-            include: {
-                categories: {
-                    where: {
-                        isActive: true,
-                    },
-                    include: {
-                        subcategories: {
-                            where: {
-                                isActive: true,
-                            },
-                            include: {
-                                products: {
-                                    where: {
-                                        isActive: true,
-                                        isAvailable: true,
-                                    },
-                                    orderBy: {
-                                        order: "asc",
-                                    },
-                                },
-                            },
-                            orderBy: {
-                                order: "asc",
-                            },
-                        },
-                        products: {
-                            where: {
-                                isActive: true,
-                                isAvailable: true,
-                            },
-                            orderBy: {
-                                order: "asc",
-                            },
-                        },
-                    },
-                    orderBy: {
-                        order: "asc",
-                    },
-                },
-            },
-        });
+        // Leer el archivo JSON de datos locales
+        const filePath = path.join(process.cwd(), 'data', 'mock-menu.json')
+        const fileData = await fs.readFile(filePath, 'utf8')
+        const data = JSON.parse(fileData)
 
-        if (!restaurant) {
+        // Verificar si el slug coincide (simulación de búsqueda)
+        if (data.restaurant.slug !== slug) {
             return NextResponse.json(
                 { error: 'Restaurante no encontrado' },
                 { status: 404 }
             )
         }
 
-        if (!restaurant.isActive) {
-            return NextResponse.json(
-                { error: 'Restaurante no disponible' },
-                { status: 403 }
-            )
-        }
-
-        // 🔥 OBTENER PROMOCIONES ACTIVAS
-        const now = new Date()
-        const promotions = await prisma.promotion.findMany({
-            where: {
-                restaurantId: restaurant.id,
-                isActive: true,
-                OR: [
-                    { startDate: null },
-                    { startDate: { lte: now } }
-                ],
-                AND: [
-                    {
-                        OR: [
-                            { endDate: null },
-                            { endDate: { gte: now } }
-                        ]
-                    }
-                ]
-            },
-            orderBy: {
-                createdAt: 'desc'
-            },
-            select: {
-                id: true,
-                name: true,
-                description: true,
-                code: true,
-                discountType: true,
-                discountValue: true,
-                minAmount: true,
-                maxDiscount: true,
-                isActive: true // ✅ necesario para el filtro del frontend
-            }
-
-        })
-
-        const response = {
-            restaurant: {
-                id: restaurant.id,
-                name: restaurant.name,
-                slug: restaurant.slug,
-                description: restaurant.description,
-                logo: restaurant.logo,
-                banner: restaurant.banner,
-                phone: restaurant.phone,
-                whatsapp: restaurant.whatsapp,
-                address: restaurant.address,
-                currency: restaurant.currency,
-                colors: restaurant.colors,
-                deliveryCost: restaurant.deliveryCost,
-                minOrderAmount: restaurant.minOrderAmount,
-                deliveryTime: restaurant.deliveryTime
-            },
-            categories: restaurant.categories.map(category => ({
-                id: category.id,
-                name: category.name,
-                slug: category.slug,
-                description: category.description,
-                image: category.image,
-                subcategories: category.subcategories.map(sub => ({
-                    id: sub.id,
-                    name: sub.name,
-                    slug: sub.slug,
-                    products: sub.products.map(p => ({
-                        id: p.id,
-                        name: p.name,
-                        slug: p.slug,
-                        description: p.description,
-                        image: p.image,
-                        price: p.price,
-                        comparePrice: p.comparePrice,
-                        options: p.options,
-                        categoryId: p.categoryId,
-                        subcategoryId: p.subcategoryId,
-                    })),
-                })),
-
-                products: category.products.map(product => ({
-                    id: product.id,
-                    name: product.name,
-                    slug: product.slug,
-                    description: product.description,
-                    image: product.image,
-                    price: product.price,
-                    comparePrice: product.comparePrice,
-                    options: product.options,
-                    categoryId: product.categoryId,
-                    subcategoryId: product.subcategoryId
-                }))
-            })),
-            // 🔥 AGREGAR PROMOCIONES A LA RESPUESTA
-            promotions: promotions
-        }
-
-        return NextResponse.json(response)
+        return NextResponse.json(data)
     } catch (error) {
-        console.error('Error al obtener menú:', error)
+        console.error('Error al obtener menú desde JSON:', error)
         return NextResponse.json(
-            { error: 'Error al cargar el menú' },
+            { error: 'Error al cargar el menú local' },
             { status: 500 }
         )
     }
