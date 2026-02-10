@@ -68,7 +68,7 @@ export function Features() {
                             <div className="col-span-2 bg-neutral-800 p-6 rounded-3xl border border-white/10 shadow-xl flex items-center gap-4 animate-float">
                                 <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white text-2xl shadow-lg">👋</div>
                                 <div>
-                                    <p className="text-white font-bold text-lg">"Me facilitaron todo"</p>
+                                    <p className="text-white font-bold text-lg">&quot;Me facilitaron todo&quot;</p>
                                     <p className="text-gray-400 text-sm">Claudio, Dueño de Hamburguesería</p>
                                 </div>
                             </div>

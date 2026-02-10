@@ -138,7 +138,6 @@ export const RestaurantMenu = ({ slug, initialData }: Props) => {
                     onSelectSubcategory={setActiveSubcategory}
                 />
 
-                {!activeCategory && <ClickcitoIntro />}
 
                 {/* Productos */}
                 {activeCategory && (
@@ -165,7 +164,6 @@ export const RestaurantMenu = ({ slug, initialData }: Props) => {
                     </div>
                 )}
 
-                {activeCategory && <ClickcitoIntro />}
 
                 {/* Modal */}
                 {selectedProduct && (
